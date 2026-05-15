@@ -21,12 +21,12 @@ export function SiteNav() {
       >
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-12">
           <Link to="/" className="flex items-center gap-2 text-foreground">
-            <span className="font-display text-2xl leading-none tracking-tight">atelier</span>
+            <span className="font-display text-2xl leading-none tracking-tight">fieldcraft</span>
             <span className="eyebrow text-muted-foreground">/ studio</span>
           </Link>
 
           <nav className="hidden items-center gap-10 md:flex">
-            <NavLink to="/approach">Approach</NavLink>
+            <NavLink to="/approach">Studio</NavLink>
             <NavLink to="/projects">Projects</NavLink>
             <NavLink to="/journal">Journal</NavLink>
             <NavLink to="/contact">Contact</NavLink>
@@ -54,7 +54,7 @@ export function SiteNav() {
       >
         <div className="mx-auto flex h-full max-w-[1600px] flex-col px-6 py-5 md:px-12">
           <div className="flex items-center justify-between">
-            <span className="font-display text-2xl">atelier</span>
+            <span className="font-display text-2xl">fieldcraft</span>
             <button onClick={() => setOpen(false)} className="eyebrow">
               Close ✕
             </button>
@@ -62,7 +62,7 @@ export function SiteNav() {
           <nav className="my-auto flex flex-col gap-2">
             {[
               ["/", "Index"],
-              ["/approach", "Approach"],
+              ["/approach", "Studio"],
               ["/projects", "Projects"],
               ["/journal", "Journal"],
               ["/contact", "Contact"],
@@ -78,8 +78,8 @@ export function SiteNav() {
             ))}
           </nav>
           <div className="flex flex-col gap-2 pb-2 text-sm opacity-80 md:flex-row md:justify-between">
-            <a href="mailto:hello@atelier.studio">hello@atelier.studio</a>
-            <a href="tel:7864332500">786.433.2500</a>
+            <a href="mailto:studio@fieldcraft.co">studio@fieldcraft.co</a>
+            <a href="tel:0291234567">+61 2 9123 4567</a>
           </div>
         </div>
       </div>

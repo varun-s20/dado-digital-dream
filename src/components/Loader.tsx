@@ -14,10 +14,8 @@ export function Loader() {
       style={{ background: "var(--surface-deep)" }}
     >
       <div className="grid grid-cols-2 gap-1 text-[var(--surface-deep-foreground)]">
-        <span className="font-display text-3xl leading-none">at</span>
-        <span className="font-display text-3xl leading-none">el</span>
-        <span className="font-display text-3xl leading-none">i</span>
-        <span className="font-display text-3xl leading-none">er</span>
+        <span className="font-display text-3xl leading-none">field</span>
+        <span className="font-display text-3xl leading-none">craft</span>
       </div>
     </div>
   );

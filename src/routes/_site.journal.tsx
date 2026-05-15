@@ -1,25 +1,25 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import p1 from "@/assets/project-1.jpg";
-import p3 from "@/assets/project-3.jpg";
+import p2 from "@/assets/project-2.jpg";
 import p4 from "@/assets/project-4.jpg";
 import { Reveal } from "@/components/Reveal";
 
 export const Route = createFileRoute("/_site/journal")({
   head: () => ({
     meta: [
-      { title: "Journal — Atelier" },
-      { name: "description", content: "Ideas, culture and perspective from Atelier." },
-      { property: "og:title", content: "Journal — Atelier" },
-      { property: "og:description", content: "Writing on hospitality, craft and design." },
+      { title: "Journal — Fieldcraft" },
+      { name: "description", content: "Notes from the workshop and the field." },
+      { property: "og:title", content: "Journal — Fieldcraft" },
+      { property: "og:description", content: "Writing on plants, timber and the craft of building outdoors." },
     ],
   }),
   component: JournalPage,
 });
 
 const posts = [
-  { date: "Apr 27, 2026", title: "The Return of Authenticity", excerpt: "Why guests are craving spaces that feel honestly made.", img: p1 },
-  { date: "Feb 26, 2026", title: "What Luxury Trains Can Teach Hospitality", excerpt: "Lessons from the slow romance of long-distance travel.", img: p4 },
-  { date: "Nov 12, 2025", title: "More Is More: Maximalism Returns", excerpt: "A bold new chapter for layered, generous interiors.", img: p3 },
+  { date: "Apr 27, 2026", title: "Choosing Hardwoods for the Coast", excerpt: "Spotted gum, blackbutt, silvertop ash — what we reach for, and why.", img: p1 },
+  { date: "Feb 26, 2026", title: "A Field Guide to Native Grasses", excerpt: "The unsung backbone of a garden that ages well.", img: p2 },
+  { date: "Nov 12, 2025", title: "Why We Build Pools in Timber", excerpt: "On warmth, weathering, and pools that feel like furniture.", img: p4 },
 ];
 
 function JournalPage() {
@@ -29,7 +29,7 @@ function JournalPage() {
         <Reveal>
           <p className="eyebrow text-muted-foreground">Journal</p>
           <h1 className="mt-6 font-display text-6xl leading-[0.9] md:text-[8rem]">
-            Ideas, in <em className="font-light">progress.</em>
+            Notes from the <em className="font-light">field.</em>
           </h1>
         </Reveal>
       </section>

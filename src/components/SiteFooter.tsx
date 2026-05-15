@@ -8,13 +8,13 @@ export function SiteFooter() {
           <div className="md:col-span-7">
             <p className="eyebrow opacity-70">Let’s begin</p>
             <h2 className="mt-6 font-display text-5xl leading-[0.95] md:text-7xl">
-              Designing places<br />that feel like<br /><em className="font-light">somewhere.</em>
+              Gardens that<br />belong to<br /><em className="font-light">their place.</em>
             </h2>
             <a
-              href="mailto:hello@atelier.studio"
+              href="mailto:studio@fieldcraft.co"
               className="mt-10 inline-flex items-center gap-3 border-b border-current pb-1 text-base"
             >
-              hello@atelier.studio
+              studio@fieldcraft.co
               <span aria-hidden>→</span>
             </a>
           </div>
@@ -22,7 +22,7 @@ export function SiteFooter() {
             <div>
               <p className="eyebrow opacity-70">Studio</p>
               <ul className="mt-4 space-y-2 font-display text-2xl">
-                <li><Link to="/approach">Approach</Link></li>
+                <li><Link to="/approach">Studio</Link></li>
                 <li><Link to="/projects">Projects</Link></li>
                 <li><Link to="/journal">Journal</Link></li>
                 <li><Link to="/contact">Contact</Link></li>
@@ -31,15 +31,15 @@ export function SiteFooter() {
             <div>
               <p className="eyebrow opacity-70">Find us</p>
               <address className="mt-4 not-italic text-sm leading-relaxed opacity-80">
-                3015 Grand Ave, Suite 200<br />
-                Coconut Grove, FL 33133<br />
-                <a href="tel:7864332500">786.433.2500</a>
+                14 Wharf Road<br />
+                Mosman, NSW 2088<br />
+                <a href="tel:0291234567">+61 2 9123 4567</a>
               </address>
             </div>
           </div>
         </div>
         <div className="mt-20 flex flex-col items-start justify-between gap-6 border-t border-current/20 pt-8 text-xs opacity-70 md:flex-row md:items-center">
-          <span>© {new Date().getFullYear()} Atelier Studio — Interior design for hospitality.</span>
+          <span>© {new Date().getFullYear()} Fieldcraft Studio — Carpentry & landscape design.</span>
           <span className="flex gap-6">
             <a href="#" className="hover:opacity-100">Instagram</a>
             <a href="#" className="hover:opacity-100">LinkedIn</a>

@@ -8,22 +8,22 @@ import { Reveal } from "@/components/Reveal";
 export const Route = createFileRoute("/_site/projects")({
   head: () => ({
     meta: [
-      { title: "Projects — Atelier" },
-      { name: "description", content: "A selection of recent hospitality interiors by Atelier." },
-      { property: "og:title", content: "Projects — Atelier" },
-      { property: "og:description", content: "Recent hotels, spas, restaurants and public spaces." },
+      { title: "Projects — Fieldcraft" },
+      { name: "description", content: "Recent gardens, pools and carpentry projects across Sydney and the NSW South Coast." },
+      { property: "og:title", content: "Projects — Fieldcraft" },
+      { property: "og:description", content: "Selected landscape and carpentry work." },
     ],
   }),
   component: ProjectsPage,
 });
 
 const all = [
-  { img: p1, title: "Vista House", tag: "Guestrooms & Suites", year: "2026" },
-  { img: p3, title: "Grand Atrium", tag: "Public Spaces", year: "2025" },
-  { img: p2, title: "Serene Spa", tag: "Spa & Wellness", year: "2025" },
-  { img: p4, title: "Casa Lucenta", tag: "Restaurant & Bar", year: "2024" },
-  { img: p3, title: "Atrium Pavilion", tag: "Public Spaces", year: "2024" },
-  { img: p1, title: "Solène Suites", tag: "Guestrooms & Suites", year: "2023" },
+  { img: p1, title: "Mosman Deck", tag: "Carpentry & Decking", year: "2026" },
+  { img: p3, title: "Fairlight Pergola", tag: "Bespoke Timberwork", year: "2025" },
+  { img: p2, title: "Bundeena Steps", tag: "Coastal Garden", year: "2025" },
+  { img: p4, title: "Bowral Pool", tag: "Pool & Landscape", year: "2024" },
+  { img: p3, title: "Avalon Pavilion", tag: "Outdoor Structure", year: "2024" },
+  { img: p1, title: "Hunters Hill Courtyard", tag: "Garden & Joinery", year: "2023" },
 ];
 
 function ProjectsPage() {
@@ -33,7 +33,7 @@ function ProjectsPage() {
         <Reveal>
           <p className="eyebrow text-muted-foreground">Projects</p>
           <h1 className="mt-6 font-display text-6xl leading-[0.9] md:text-[8rem]">
-            A library of <em className="font-light">feeling.</em>
+            Built into <em className="font-light">place.</em>
           </h1>
         </Reveal>
       </section>

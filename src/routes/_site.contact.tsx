@@ -4,10 +4,10 @@ import { Reveal } from "@/components/Reveal";
 export const Route = createFileRoute("/_site/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Atelier" },
-      { name: "description", content: "Start a project with Atelier." },
-      { property: "og:title", content: "Contact — Atelier" },
-      { property: "og:description", content: "Get in touch about your next hospitality project." },
+      { title: "Contact — Fieldcraft" },
+      { name: "description", content: "Start a garden, pool or carpentry project with Fieldcraft." },
+      { property: "og:title", content: "Contact — Fieldcraft" },
+      { property: "og:description", content: "Get in touch about your next outdoor project." },
     ],
   }),
   component: ContactPage,
@@ -19,7 +19,7 @@ function ContactPage() {
       <Reveal>
         <p className="eyebrow text-muted-foreground">Contact</p>
         <h1 className="mt-6 font-display text-6xl leading-[0.9] md:text-[9rem]">
-          Tell us about<br /><em className="font-light">your place.</em>
+          Tell us about<br /><em className="font-light">your site.</em>
         </h1>
       </Reveal>
       <div className="mt-20 grid gap-16 md:grid-cols-12">
@@ -27,17 +27,17 @@ function ContactPage() {
           <div>
             <p className="eyebrow text-muted-foreground">Studio</p>
             <p className="mt-3 font-display text-2xl leading-snug">
-              3015 Grand Ave, Suite 200<br />
-              Coconut Grove, FL 33133
+              14 Wharf Road<br />
+              Mosman, NSW 2088
             </p>
           </div>
           <div>
             <p className="eyebrow text-muted-foreground">Email</p>
-            <a href="mailto:hello@atelier.studio" className="mt-3 block font-display text-2xl">hello@atelier.studio</a>
+            <a href="mailto:studio@fieldcraft.co" className="mt-3 block font-display text-2xl">studio@fieldcraft.co</a>
           </div>
           <div>
             <p className="eyebrow text-muted-foreground">Phone</p>
-            <a href="tel:7864332500" className="mt-3 block font-display text-2xl">786.433.2500</a>
+            <a href="tel:0291234567" className="mt-3 block font-display text-2xl">+61 2 9123 4567</a>
           </div>
         </Reveal>
         <Reveal delay={200} className="md:col-span-6 md:col-start-7">

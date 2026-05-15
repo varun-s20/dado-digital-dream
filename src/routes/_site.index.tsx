@@ -10,16 +10,16 @@ import { Reveal } from "@/components/Reveal";
 export const Route = createFileRoute("/_site/")({
   head: () => ({
     meta: [
-      { title: "Atelier — Interior design for hospitality" },
+      { title: "Fieldcraft — Carpentry & landscape design" },
       {
         name: "description",
         content:
-          "An independent studio crafting hospitality interiors that feel intuitive, personal and alive.",
+          "An independent studio designing and building gardens, pools and bespoke timber structures across Sydney and the NSW South Coast.",
       },
-      { property: "og:title", content: "Atelier — Interior design for hospitality" },
+      { property: "og:title", content: "Fieldcraft — Carpentry & landscape design" },
       {
         property: "og:description",
-        content: "Form follows feeling. Hospitality interiors built around human experience.",
+        content: "Outdoor spaces that respond to architecture and nature.",
       },
     ],
   }),
@@ -27,10 +27,10 @@ export const Route = createFileRoute("/_site/")({
 });
 
 const projects = [
-  { img: p1, title: "Vista House", tag: "Guestrooms & Suites", to: "/projects" },
-  { img: p2, title: "Serene Spa", tag: "Spa & Wellness", to: "/projects" },
-  { img: p3, title: "Grand Atrium", tag: "Public Spaces", to: "/projects" },
-  { img: p4, title: "Casa Lucenta", tag: "Restaurant & Bar", to: "/projects" },
+  { img: p1, title: "Mosman Deck", tag: "Carpentry & Decking", to: "/projects" },
+  { img: p2, title: "Bundeena Steps", tag: "Coastal Garden", to: "/projects" },
+  { img: p3, title: "Fairlight Pergola", tag: "Bespoke Timberwork", to: "/projects" },
+  { img: p4, title: "Bowral Pool", tag: "Pool & Landscape", to: "/projects" },
 ];
 
 function HomePage() {
@@ -40,7 +40,7 @@ function HomePage() {
       <section className="relative h-[100svh] w-full overflow-hidden">
         <img
           src={hero}
-          alt="Sunlit lounge interior with sculptural olive velvet chair and travertine floor"
+          alt="Contemporary landscaped garden with timber-clad pool and sandstone steps"
           className="absolute inset-0 h-full w-full object-cover"
           width={1600}
           height={1024}
@@ -48,21 +48,21 @@ function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/40" />
         <div className="relative z-10 mx-auto flex h-full max-w-[1600px] flex-col justify-between px-6 pb-10 pt-32 md:px-12 md:pb-16">
           <div className="text-[var(--surface-deep-foreground)]">
-            <p className="eyebrow opacity-80">Interior design</p>
-            <p className="eyebrow opacity-80">for hospitality</p>
+            <p className="eyebrow opacity-80">Carpentry &amp; landscape</p>
+            <p className="eyebrow opacity-80">design and build</p>
           </div>
 
           <div className="text-[var(--surface-deep-foreground)]">
             <h1 className="word-rise font-display text-[18vw] leading-[0.85] tracking-tight md:text-[12vw]">
-              <span style={{ animationDelay: "0.6s" }}>Form&nbsp;&nbsp;&nbsp;</span>
-              <span style={{ animationDelay: "0.85s" }} className="italic">Follows</span>
+              <span style={{ animationDelay: "0.6s" }}>Gardens&nbsp;&nbsp;&nbsp;</span>
+              <span style={{ animationDelay: "0.85s" }} className="italic">that</span>
               <br />
-              <span style={{ animationDelay: "1.1s" }} className="pl-[20%] md:pl-[30%]">Feeling</span>
+              <span style={{ animationDelay: "1.1s" }} className="pl-[20%] md:pl-[30%]">belong.</span>
             </h1>
             <div className="mt-10 grid gap-8 md:grid-cols-12">
               <p className="md:col-span-5 md:col-start-7 max-w-md text-base leading-relaxed opacity-90">
-                Empathy shapes everything we create — from the first impression
-                to the final detail.
+                Outdoor spaces that respond to architecture and nature —
+                designed and crafted in timber, stone and living planting.
               </p>
             </div>
           </div>
@@ -73,30 +73,29 @@ function HomePage() {
       <section className="mx-auto max-w-[1600px] px-6 py-28 md:px-12 md:py-44">
         <div className="grid gap-16 md:grid-cols-12">
           <Reveal className="md:col-span-3">
-            <p className="eyebrow text-muted-foreground">About</p>
+            <p className="eyebrow text-muted-foreground">Who we are</p>
             <p className="mt-6 font-display text-3xl leading-tight">
-              We design innovative, thought-provoking environments that foster
-              deeper human experiences.
+              We design and build personalised outdoor spaces across Sydney
+              and the NSW South Coast.
             </p>
             <Link
               to="/approach"
               className="mt-8 inline-flex items-center gap-2 border-b border-foreground pb-1 text-sm"
             >
-              Approach <span aria-hidden>→</span>
+              The studio <span aria-hidden>→</span>
             </Link>
           </Reveal>
           <Reveal delay={150} className="md:col-span-7 md:col-start-6 space-y-6 text-lg leading-relaxed">
             <p>
-              Atelier is a small team of designers working to deepen the human
-              experience of hospitality. We build worlds where empathy is
-              embedded in every interaction — spaces that feel intuitive,
-              personal, and alive.
+              Fieldcraft is a small studio of designers and carpenters working
+              to resolve gardens, pools and bespoke timberwork into the places
+              they belong. We start with the site — its light, slope, soil and
+              outlook — and let the solution emerge from there.
             </p>
             <p className="text-muted-foreground">
-              Each project begins with how a space should feel. From there, the
-              client’s vision, the energy they want to create, and the moments
-              they hope to inspire combine into something original and
-              unforgettable.
+              Successful gardens combine functionality, aesthetics and
+              sustainability. Ours stay structured but retain that sense of
+              wildness that nature does best, and that we aspire to recreate.
             </p>
           </Reveal>
         </div>
@@ -108,7 +107,7 @@ function HomePage() {
           <div className="marquee font-display text-5xl md:text-7xl">
             <div className="marquee-track">
               {Array.from({ length: 2 }).flatMap((_, i) =>
-                ["Hospitality", "·", "Wellness", "·", "Restaurants", "·", "Residences", "·", "Resorts", "·"].map(
+                ["Landscape", "·", "Carpentry", "·", "Pools", "·", "Decking", "·", "Pergolas", "·", "Stonework", "·"].map(
                   (w, j) => (
                     <span key={`${i}-${j}`} className="opacity-90">
                       {w}
@@ -125,7 +124,7 @@ function HomePage() {
       <section className="mx-auto max-w-[1600px] px-6 py-28 md:px-12 md:py-40">
         <Reveal className="flex items-end justify-between">
           <h2 className="font-display text-6xl leading-[0.9] md:text-[7rem]">
-            Featured&nbsp;&nbsp;&nbsp;<em className="font-light">Projects</em>
+            Selected&nbsp;&nbsp;&nbsp;<em className="font-light">Work</em>
           </h2>
           <Link to="/projects" className="eyebrow hidden border-b border-foreground pb-1 md:inline-block">
             All projects →
@@ -169,7 +168,7 @@ function HomePage() {
           <Reveal className="md:col-span-7 img-zoom">
             <img
               src={studio}
-              alt="Designer arranging material samples on a studio table"
+              alt="Carpenter shaping a hardwood timber joint at the workbench"
               loading="lazy"
               width={1600}
               height={1100}
@@ -177,20 +176,20 @@ function HomePage() {
             />
           </Reveal>
           <Reveal delay={150} className="md:col-span-4 md:col-start-9 flex flex-col justify-end">
-            <p className="eyebrow text-muted-foreground">The Studio</p>
+            <p className="eyebrow text-muted-foreground">The Workshop</p>
             <h2 className="mt-4 font-display text-5xl leading-[0.95] md:text-6xl">
-              A true creative<br /><em className="font-light">partnership.</em>
+              Designed and<br /><em className="font-light">built in-house.</em>
             </h2>
             <p className="mt-6 leading-relaxed text-muted-foreground">
-              Our clients understand what their spaces need to feel like — and
-              to uncover that, we take the time to truly understand them. We
-              stay close, from early visioning to the last material decision.
+              Our designers work alongside our carpenters and landscape team
+              from first sketch to final planting. Detailing happens in the
+              workshop, on the site, and in close conversation with you.
             </p>
             <Link
               to="/approach"
               className="mt-8 inline-flex items-center gap-2 self-start border-b border-foreground pb-1 text-sm"
             >
-              Read our approach <span aria-hidden>→</span>
+              How we work <span aria-hidden>→</span>
             </Link>
           </Reveal>
         </div>
@@ -200,15 +199,15 @@ function HomePage() {
       <section className="mx-auto max-w-[1600px] px-6 pb-32 md:px-12">
         <Reveal>
           <h2 className="max-w-4xl font-display text-4xl leading-tight md:text-6xl">
-            Our journal is a bright, ever-evolving platform where ideas, culture
-            and perspective live and breathe.
+            Notes from the workshop and the field — on plants, timber and the
+            slow craft of building outdoors.
           </h2>
         </Reveal>
         <div className="mt-16 grid gap-10 md:grid-cols-3">
           {[
-            { date: "Apr 27, 2026", title: "The Return of Authenticity", img: p1 },
-            { date: "Feb 26, 2026", title: "What Luxury Trains Can Teach Hospitality", img: p4 },
-            { date: "Nov 12, 2025", title: "More Is More: Maximalism Returns", img: p3 },
+            { date: "Apr 27, 2026", title: "Choosing Hardwoods for the Coast", img: p1 },
+            { date: "Feb 26, 2026", title: "A Field Guide to Native Grasses", img: p2 },
+            { date: "Nov 12, 2025", title: "Why We Build Pools in Timber", img: p4 },
           ].map((post, i) => (
             <Reveal key={post.title} delay={i * 80} className="img-zoom">
               <Link to="/journal">
