@@ -42,30 +42,30 @@
 }
 
 :root {
-  /* Warm taupe / olive editorial palette */
-  --background: oklch(0.93 0.012 80);          /* warm cream */
-  --foreground: oklch(0.32 0.018 70);          /* deep taupe ink */
-  --muted: oklch(0.88 0.012 80);
-  --muted-foreground: oklch(0.48 0.018 70);
-  --primary: oklch(0.42 0.025 90);             /* olive-taupe */
-  --primary-foreground: oklch(0.95 0.01 80);
-  --secondary: oklch(0.86 0.018 80);
-  --secondary-foreground: oklch(0.32 0.018 70);
-  --accent: oklch(0.55 0.07 60);               /* clay accent */
-  --accent-foreground: oklch(0.95 0.01 80);
-  --border: oklch(0.78 0.018 80 / 0.6);
-  --card: oklch(0.91 0.012 80);
-  --card-foreground: oklch(0.32 0.018 70);
-  --popover: oklch(0.93 0.012 80);
-  --popover-foreground: oklch(0.32 0.018 70);
-  --input: oklch(0.78 0.018 80);
-  --ring: oklch(0.42 0.025 90);
+  /* Natural garden / timber palette */
+  --background: oklch(0.96 0.006 95);          /* paper white */
+  --foreground: oklch(0.24 0.02 145);          /* deep forest ink */
+  --muted: oklch(0.92 0.008 110);
+  --muted-foreground: oklch(0.45 0.02 130);
+  --primary: oklch(0.34 0.045 145);            /* forest green */
+  --primary-foreground: oklch(0.97 0.006 95);
+  --secondary: oklch(0.88 0.012 110);
+  --secondary-foreground: oklch(0.24 0.02 145);
+  --accent: oklch(0.48 0.08 60);               /* timber tan */
+  --accent-foreground: oklch(0.97 0.006 95);
+  --border: oklch(0.78 0.012 110 / 0.6);
+  --card: oklch(0.94 0.008 95);
+  --card-foreground: oklch(0.24 0.02 145);
+  --popover: oklch(0.96 0.006 95);
+  --popover-foreground: oklch(0.24 0.02 145);
+  --input: oklch(0.78 0.012 110);
+  --ring: oklch(0.34 0.045 145);
   --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: oklch(0.98 0 0);
 
   /* Surfaces */
-  --surface-deep: oklch(0.38 0.022 85);        /* deep olive section bg */
-  --surface-deep-foreground: oklch(0.92 0.012 80);
+  --surface-deep: oklch(0.28 0.035 145);       /* deep forest section bg */
+  --surface-deep-foreground: oklch(0.94 0.008 95);
   --radius: 0.25rem;
 }
 
