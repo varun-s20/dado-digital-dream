@@ -1,4 +1,11 @@
-import { Link } from "@tanstack/react-router";
+import Link from "next/link";
+
+const studioLinks = [
+  { href: "/approach", label: "Studio" },
+  { href: "/projects", label: "Projects" },
+  { href: "/journal", label: "Journal" },
+  { href: "/contact", label: "Contact" },
+];
 
 export function SiteFooter() {
   return (
@@ -6,7 +13,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-32">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-7">
-            <p className="eyebrow opacity-70">Let’s begin</p>
+            <p className="eyebrow opacity-70">Let&rsquo;s begin</p>
             <h2 className="mt-6 font-display text-5xl leading-[0.95] md:text-7xl">
               Gardens that<br />belong to<br /><em className="font-light">their place.</em>
             </h2>
@@ -22,10 +29,11 @@ export function SiteFooter() {
             <div>
               <p className="eyebrow opacity-70">Studio</p>
               <ul className="mt-4 space-y-2 font-display text-2xl">
-                <li><Link to="/approach">Studio</Link></li>
-                <li><Link to="/projects">Projects</Link></li>
-                <li><Link to="/journal">Journal</Link></li>
-                <li><Link to="/contact">Contact</Link></li>
+                {studioLinks.map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href}>{item.label}</Link>
+                  </li>
+                ))}
               </ul>
             </div>
             <div>

@@ -1,19 +1,22 @@
-import { createFileRoute } from "@tanstack/react-router";
+import type { Metadata } from "next";
 import { Reveal } from "@/components/Reveal";
 
-export const Route = createFileRoute("/_site/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact — Fieldcraft" },
-      { name: "description", content: "Start a garden, pool or carpentry project with Fieldcraft." },
-      { property: "og:title", content: "Contact — Fieldcraft" },
-      { property: "og:description", content: "Get in touch about your next outdoor project." },
-    ],
-  }),
-  component: ContactPage,
-});
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "Start a garden, pool or carpentry project with Fieldcraft.",
+  openGraph: {
+    title: "Contact — Fieldcraft",
+    description: "Get in touch about your next outdoor project.",
+  },
+};
 
-function ContactPage() {
+const fields = [
+  { l: "Name", t: "text" },
+  { l: "Email", t: "email" },
+  { l: "Company", t: "text" },
+];
+
+export default function ContactPage() {
   return (
     <section className="mx-auto max-w-[1600px] px-6 pb-32 pt-44 md:px-12 md:pt-56">
       <Reveal>
@@ -42,11 +45,7 @@ function ContactPage() {
         </Reveal>
         <Reveal delay={200} className="md:col-span-6 md:col-start-7">
           <form className="space-y-8">
-            {[
-              { l: "Name", t: "text" },
-              { l: "Email", t: "email" },
-              { l: "Company", t: "text" },
-            ].map((f) => (
+            {fields.map((f) => (
               <label key={f.l} className="block border-b border-border pb-3">
                 <span className="eyebrow text-muted-foreground">{f.l}</span>
                 <input type={f.t} className="mt-2 w-full bg-transparent text-lg outline-none" />

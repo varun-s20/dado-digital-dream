@@ -1,28 +1,23 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import p1 from "@/assets/project-1.jpg";
-import p2 from "@/assets/project-2.jpg";
-import p4 from "@/assets/project-4.jpg";
+import type { Metadata } from "next";
+import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 
-export const Route = createFileRoute("/_site/journal")({
-  head: () => ({
-    meta: [
-      { title: "Journal — Fieldcraft" },
-      { name: "description", content: "Notes from the workshop and the field." },
-      { property: "og:title", content: "Journal — Fieldcraft" },
-      { property: "og:description", content: "Writing on plants, timber and the craft of building outdoors." },
-    ],
-  }),
-  component: JournalPage,
-});
+export const metadata: Metadata = {
+  title: "Journal",
+  description: "Notes from the workshop and the field.",
+  openGraph: {
+    title: "Journal — Fieldcraft",
+    description: "Writing on plants, timber and the craft of building outdoors.",
+  },
+};
 
 const posts = [
-  { date: "Apr 27, 2026", title: "Choosing Hardwoods for the Coast", excerpt: "Spotted gum, blackbutt, silvertop ash — what we reach for, and why.", img: p1 },
-  { date: "Feb 26, 2026", title: "A Field Guide to Native Grasses", excerpt: "The unsung backbone of a garden that ages well.", img: p2 },
-  { date: "Nov 12, 2025", title: "Why We Build Pools in Timber", excerpt: "On warmth, weathering, and pools that feel like furniture.", img: p4 },
+  { date: "Apr 27, 2026", title: "Choosing Hardwoods for the Coast", excerpt: "Spotted gum, blackbutt, silvertop ash — what we reach for, and why.", img: "/images/project-1.jpg" },
+  { date: "Feb 26, 2026", title: "A Field Guide to Native Grasses", excerpt: "The unsung backbone of a garden that ages well.", img: "/images/project-2.jpg" },
+  { date: "Nov 12, 2025", title: "Why We Build Pools in Timber", excerpt: "On warmth, weathering, and pools that feel like furniture.", img: "/images/project-4.jpg" },
 ];
 
-function JournalPage() {
+export default function JournalPage() {
   return (
     <>
       <section className="mx-auto max-w-[1600px] px-6 pb-16 pt-44 md:px-12 md:pb-24 md:pt-56">
@@ -37,7 +32,7 @@ function JournalPage() {
         <div className="space-y-20">
           {posts.map((post, i) => (
             <Reveal key={post.title} delay={i * 80}>
-              <Link to="/journal" className="grid items-center gap-10 md:grid-cols-12">
+              <Link href="/journal" className="grid items-center gap-10 md:grid-cols-12">
                 <div className="img-zoom md:col-span-5">
                   <img src={post.img} alt={post.title} loading="lazy" className="aspect-[4/3] w-full object-cover" />
                 </div>

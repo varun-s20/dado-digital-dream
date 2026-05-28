@@ -1,5 +1,20 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+
+const navItems = [
+  { href: "/approach", label: "Studio" },
+  { href: "/projects", label: "Projects" },
+  { href: "/journal", label: "Journal" },
+  { href: "/contact", label: "Contact" },
+];
+
+const overlayItems = [
+  { href: "/", label: "Index" },
+  ...navItems,
+];
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);
@@ -20,16 +35,17 @@ export function SiteNav() {
         }`}
       >
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-12">
-          <Link to="/" className="flex items-center gap-2 text-foreground">
+          <Link href="/" className="flex items-center gap-2 text-foreground">
             <span className="font-display text-2xl leading-none tracking-tight">fieldcraft</span>
             <span className="eyebrow text-muted-foreground">/ studio</span>
           </Link>
 
           <nav className="hidden items-center gap-10 md:flex">
-            <NavLink to="/approach">Studio</NavLink>
-            <NavLink to="/projects">Projects</NavLink>
-            <NavLink to="/journal">Journal</NavLink>
-            <NavLink to="/contact">Contact</NavLink>
+            {navItems.map((item) => (
+              <NavLink key={item.href} href={item.href}>
+                {item.label}
+              </NavLink>
+            ))}
           </nav>
 
           <button
@@ -60,20 +76,14 @@ export function SiteNav() {
             </button>
           </div>
           <nav className="my-auto flex flex-col gap-2">
-            {[
-              ["/", "Index"],
-              ["/approach", "Studio"],
-              ["/projects", "Projects"],
-              ["/journal", "Journal"],
-              ["/contact", "Contact"],
-            ].map(([to, label]) => (
+            {overlayItems.map((item) => (
               <Link
-                key={to}
-                to={to}
+                key={item.href}
+                href={item.href}
                 onClick={() => setOpen(false)}
                 className="font-display text-6xl leading-[1] transition-opacity hover:opacity-60 md:text-[8rem]"
               >
-                {label}
+                {item.label}
               </Link>
             ))}
           </nav>
@@ -87,12 +97,15 @@ export function SiteNav() {
   );
 }
 
-function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const pathname = usePathname();
+  const active = pathname === href;
   return (
     <Link
-      to={to}
-      className="eyebrow text-foreground/80 transition-colors hover:text-foreground"
-      activeProps={{ className: "eyebrow text-foreground" }}
+      href={href}
+      className={`eyebrow transition-colors ${
+        active ? "text-foreground" : "text-foreground/80 hover:text-foreground"
+      }`}
     >
       {children}
     </Link>

@@ -1,4 +1,14 @@
-import { useEffect, useRef, useState, type ReactNode, type ElementType } from "react";
+"use client";
+
+import {
+  createElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ElementType,
+  type ReactNode,
+} from "react";
 
 export function Reveal({
   children,
@@ -11,34 +21,41 @@ export function Reveal({
   className?: string;
   as?: ElementType;
 }) {
-  const ref = useRef<HTMLElement | null>(null);
+  const [node, setNode] = useState<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
+  const delayRef = useRef(delay);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    delayRef.current = delay;
+  }, [delay]);
+
+  const setRef = useCallback((el: HTMLElement | null) => {
+    setNode(el);
+  }, []);
+
+  useEffect(() => {
+    if (!node) return;
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
-            setTimeout(() => setVisible(true), delay);
+            window.setTimeout(() => setVisible(true), delayRef.current);
             io.disconnect();
           }
         });
       },
       { threshold: 0.15 },
     );
-    io.observe(el);
+    io.observe(node);
     return () => io.disconnect();
-  }, [delay]);
+  }, [node]);
 
-  const Component = Tag as any;
-  return (
-    <Component
-      ref={ref as any}
-      className={`reveal ${visible ? "is-visible" : ""} ${className}`}
-    >
-      {children}
-    </Component>
+  return createElement(
+    Tag,
+    {
+      ref: setRef,
+      className: `reveal ${visible ? "is-visible" : ""} ${className}`,
+    },
+    children,
   );
 }

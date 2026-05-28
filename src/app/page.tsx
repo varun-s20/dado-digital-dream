@@ -1,45 +1,26 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import hero from "@/assets/hero.jpg";
-import p1 from "@/assets/project-1.jpg";
-import p2 from "@/assets/project-2.jpg";
-import p3 from "@/assets/project-3.jpg";
-import p4 from "@/assets/project-4.jpg";
-import studio from "@/assets/studio.jpg";
+import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 
-export const Route = createFileRoute("/_site/")({
-  head: () => ({
-    meta: [
-      { title: "Fieldcraft — Carpentry & landscape design" },
-      {
-        name: "description",
-        content:
-          "An independent studio designing and building gardens, pools and bespoke timber structures across Sydney and the NSW South Coast.",
-      },
-      { property: "og:title", content: "Fieldcraft — Carpentry & landscape design" },
-      {
-        property: "og:description",
-        content: "Outdoor spaces that respond to architecture and nature.",
-      },
-    ],
-  }),
-  component: HomePage,
-});
-
 const projects = [
-  { img: p1, title: "Mosman Deck", tag: "Carpentry & Decking", to: "/projects" },
-  { img: p2, title: "Bundeena Steps", tag: "Coastal Garden", to: "/projects" },
-  { img: p3, title: "Fairlight Pergola", tag: "Bespoke Timberwork", to: "/projects" },
-  { img: p4, title: "Bowral Pool", tag: "Pool & Landscape", to: "/projects" },
+  { img: "/images/project-1.jpg", title: "Mosman Deck", tag: "Carpentry & Decking", to: "/projects" },
+  { img: "/images/project-2.jpg", title: "Bundeena Steps", tag: "Coastal Garden", to: "/projects" },
+  { img: "/images/project-3.jpg", title: "Fairlight Pergola", tag: "Bespoke Timberwork", to: "/projects" },
+  { img: "/images/project-4.jpg", title: "Bowral Pool", tag: "Pool & Landscape", to: "/projects" },
 ];
 
-function HomePage() {
+const journalPosts = [
+  { date: "Apr 27, 2026", title: "Choosing Hardwoods for the Coast", img: "/images/project-1.jpg" },
+  { date: "Feb 26, 2026", title: "A Field Guide to Native Grasses", img: "/images/project-2.jpg" },
+  { date: "Nov 12, 2025", title: "Why We Build Pools in Timber", img: "/images/project-4.jpg" },
+];
+
+export default function HomePage() {
   return (
     <>
       {/* HERO */}
       <section className="relative h-[100svh] w-full overflow-hidden">
         <img
-          src={hero}
+          src="/images/hero.jpg"
           alt="Contemporary landscaped garden with timber-clad pool and sandstone steps"
           className="absolute inset-0 h-full w-full object-cover"
           width={1600}
@@ -79,7 +60,7 @@ function HomePage() {
               and the NSW South Coast.
             </p>
             <Link
-              to="/approach"
+              href="/approach"
               className="mt-8 inline-flex items-center gap-2 border-b border-foreground pb-1 text-sm"
             >
               The studio <span aria-hidden>→</span>
@@ -126,7 +107,7 @@ function HomePage() {
           <h2 className="font-display text-6xl leading-[0.9] md:text-[7rem]">
             Selected&nbsp;&nbsp;&nbsp;<em className="font-light">Work</em>
           </h2>
-          <Link to="/projects" className="eyebrow hidden border-b border-foreground pb-1 md:inline-block">
+          <Link href="/projects" className="eyebrow hidden border-b border-foreground pb-1 md:inline-block">
             All projects →
           </Link>
         </Reveal>
@@ -140,7 +121,7 @@ function HomePage() {
                 i % 2 === 0 ? "md:col-span-7" : "md:col-span-5 md:mt-32"
               }`}
             >
-              <Link to={p.to} className="block img-zoom">
+              <Link href={p.to} className="block img-zoom">
                 <img
                   src={p.img}
                   alt={p.title}
@@ -167,7 +148,7 @@ function HomePage() {
         <div className="grid gap-12 md:grid-cols-12">
           <Reveal className="md:col-span-7 img-zoom">
             <img
-              src={studio}
+              src="/images/studio.jpg"
               alt="Carpenter shaping a hardwood timber joint at the workbench"
               loading="lazy"
               width={1600}
@@ -186,7 +167,7 @@ function HomePage() {
               workshop, on the site, and in close conversation with you.
             </p>
             <Link
-              to="/approach"
+              href="/approach"
               className="mt-8 inline-flex items-center gap-2 self-start border-b border-foreground pb-1 text-sm"
             >
               How we work <span aria-hidden>→</span>
@@ -204,13 +185,9 @@ function HomePage() {
           </h2>
         </Reveal>
         <div className="mt-16 grid gap-10 md:grid-cols-3">
-          {[
-            { date: "Apr 27, 2026", title: "Choosing Hardwoods for the Coast", img: p1 },
-            { date: "Feb 26, 2026", title: "A Field Guide to Native Grasses", img: p2 },
-            { date: "Nov 12, 2025", title: "Why We Build Pools in Timber", img: p4 },
-          ].map((post, i) => (
+          {journalPosts.map((post, i) => (
             <Reveal key={post.title} delay={i * 80} className="img-zoom">
-              <Link to="/journal">
+              <Link href="/journal">
                 <img
                   src={post.img}
                   alt={post.title}

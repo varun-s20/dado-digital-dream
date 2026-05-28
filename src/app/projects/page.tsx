@@ -1,32 +1,26 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import p1 from "@/assets/project-1.jpg";
-import p2 from "@/assets/project-2.jpg";
-import p3 from "@/assets/project-3.jpg";
-import p4 from "@/assets/project-4.jpg";
+import type { Metadata } from "next";
+import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 
-export const Route = createFileRoute("/_site/projects")({
-  head: () => ({
-    meta: [
-      { title: "Projects — Fieldcraft" },
-      { name: "description", content: "Recent gardens, pools and carpentry projects across Sydney and the NSW South Coast." },
-      { property: "og:title", content: "Projects — Fieldcraft" },
-      { property: "og:description", content: "Selected landscape and carpentry work." },
-    ],
-  }),
-  component: ProjectsPage,
-});
+export const metadata: Metadata = {
+  title: "Projects",
+  description: "Recent gardens, pools and carpentry projects across Sydney and the NSW South Coast.",
+  openGraph: {
+    title: "Projects — Fieldcraft",
+    description: "Selected landscape and carpentry work.",
+  },
+};
 
 const all = [
-  { img: p1, title: "Mosman Deck", tag: "Carpentry & Decking", year: "2026" },
-  { img: p3, title: "Fairlight Pergola", tag: "Bespoke Timberwork", year: "2025" },
-  { img: p2, title: "Bundeena Steps", tag: "Coastal Garden", year: "2025" },
-  { img: p4, title: "Bowral Pool", tag: "Pool & Landscape", year: "2024" },
-  { img: p3, title: "Avalon Pavilion", tag: "Outdoor Structure", year: "2024" },
-  { img: p1, title: "Hunters Hill Courtyard", tag: "Garden & Joinery", year: "2023" },
+  { img: "/images/project-1.jpg", title: "Mosman Deck", tag: "Carpentry & Decking", year: "2026" },
+  { img: "/images/project-3.jpg", title: "Fairlight Pergola", tag: "Bespoke Timberwork", year: "2025" },
+  { img: "/images/project-2.jpg", title: "Bundeena Steps", tag: "Coastal Garden", year: "2025" },
+  { img: "/images/project-4.jpg", title: "Bowral Pool", tag: "Pool & Landscape", year: "2024" },
+  { img: "/images/project-3.jpg", title: "Avalon Pavilion", tag: "Outdoor Structure", year: "2024" },
+  { img: "/images/project-1.jpg", title: "Hunters Hill Courtyard", tag: "Garden & Joinery", year: "2023" },
 ];
 
-function ProjectsPage() {
+export default function ProjectsPage() {
   return (
     <>
       <section className="mx-auto max-w-[1600px] px-6 pb-16 pt-44 md:px-12 md:pb-24 md:pt-56">
@@ -45,7 +39,7 @@ function ProjectsPage() {
               delay={(i % 2) * 100}
               className={`group ${i % 2 === 1 ? "md:mt-24" : ""}`}
             >
-              <Link to="/projects" className="img-zoom block">
+              <Link href="/projects" className="img-zoom block">
                 <img src={p.img} alt={p.title} loading="lazy" className="aspect-[4/5] w-full object-cover" />
               </Link>
               <div className="mt-5 flex items-end justify-between">
