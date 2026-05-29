@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { brand } from "@/lib/brand";
 
 export function Loader() {
   const [gone, setGone] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setGone(true), 1900);
+    const t = setTimeout(() => setGone(true), 2750);
     return () => clearTimeout(t);
   }, []);
 
@@ -15,13 +16,26 @@ export function Loader() {
   return (
     <div
       aria-hidden
-      className="loader-overlay fixed inset-0 z-[100] flex items-center justify-center"
-      style={{ background: "var(--surface-deep)" }}
+      className="loader-curtain fixed inset-0 z-[100] flex flex-col items-center justify-center"
+      style={{ background: "var(--surface-deep)", color: "var(--surface-deep-foreground)" }}
     >
-      <div className="grid grid-cols-2 gap-1 text-[var(--surface-deep-foreground)]">
-        <span className="font-display text-3xl leading-none">field</span>
-        <span className="font-display text-3xl leading-none">craft</span>
+      <div className="flex items-baseline font-display text-6xl leading-none md:text-7xl">
+        <span className="loader-mask">
+          <span>B</span>
+        </span>
+        <span className="loader-mask is-down">
+          <span>M</span>
+        </span>
+        <span className="loader-mask" style={{ marginLeft: "-0.05em" }}>
+          <span>.</span>
+        </span>
       </div>
+      <span
+        className="eyebrow mt-6 opacity-70 loader-mask"
+        style={{ display: "block" }}
+      >
+        <span>{brand.tagline}</span>
+      </span>
     </div>
   );
 }

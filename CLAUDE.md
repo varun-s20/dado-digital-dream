@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - `npm install` — install dependencies
 - `npm run dev` — start Next.js dev server (Turbopack)
-- `npm run build` — production build (Turbopack)
+- `npm run build` — production build (Turbopack, generates static pages for `/projects/[slug]`)
 - `npm run start` — serve the production build
 - `npm run lint` — ESLint (flat config, native to Next.js 16)
 - `npm run format` — Prettier write
@@ -15,39 +15,72 @@ No test suite.
 
 ## Stack
 
-- **Next.js 16** App Router on **React 19** with **Turbopack** as the bundler.
-- **Tailwind v4** via `@tailwindcss/postcss` — config is in `src/app/globals.css` (`@theme inline`); no `tailwind.config.*`.
-- **shadcn/ui** (style: `new-york`, base color: `slate`, lucide icons) — components vendored in `src/components/ui/`. `components.json` is set up with the `@/*` alias.
-- `@/*` path alias → `src/*` (`tsconfig.json`).
+- **Next.js 16** App Router on **React 19** with **Turbopack**.
+- **Tailwind v4** via `@tailwindcss/postcss` — config in `src/app/globals.css` (`@theme inline`).
+- **Lenis** for inertial smooth scroll + **GSAP** (with `ScrollTrigger`) for scrub-tied/pinned scroll choreography. Lenis's RAF is delegated to `gsap.ticker` so ScrollTrigger stays in sync.
+- **shadcn/ui** (style: `new-york`) vendored in `src/components/ui/` — not used by the site pages currently.
+- `@/*` path alias → `src/*`.
+
+## Brand
+
+The site is for **BM Carpentry & Landscaping** (Sydney). Brand display rules: short mark `BM.` (with the period animated on hover), tagline `carpentry & landscape`, full company name only in metadata/contact/footer copyright. All brand strings live in `src/lib/brand.ts` — change them there.
 
 ## Architecture
 
 ### Routing (App Router)
-- `src/app/layout.tsx` — root layout: HTML shell, `<Loader>`, `<SiteNav>`, `<main>`, `<SiteFooter>`. Sets default `metadata` and `viewport`. Per-page metadata uses Next.js's `metadata` export with the template `"%s — Fieldcraft"`.
-- One folder per route: `approach/`, `projects/`, `journal/`, `contact/`. Index is `src/app/page.tsx`.
-- `not-found.tsx` and `error.tsx` provide branded fallbacks (the error file is a Client Component, as Next requires).
+- `src/app/layout.tsx` — HTML shell, mounts `<SmoothScroll>`, `<Cursor>`, `<Loader>`, `<SiteNav>`, `<main>`, `<SiteFooter>`. Sets root metadata (template: `"%s — BM."`) and `metadataBase`.
+- Static routes: `/`, `/approach`, `/projects`, `/journal`, `/contact`. Plus `not-found.tsx` and `error.tsx`.
+- **Dynamic case studies**: `/projects/[slug]` driven by `generateStaticParams()` over `src/lib/projects.ts`. Each page renders `<PinnedHero>` → narrative → mixed-aspect gallery (each gallery image is a `<ParallaxImage>`) → next-project peek → back link.
 
-### Components
-- `SiteNav` — `"use client"`; sticky header with scroll-state, mobile overlay; active-link state via `usePathname()`.
-- `SiteFooter` — Server Component; pure markup.
-- `Loader` — `"use client"`; brand splash that unmounts after 1.9s.
-- `Reveal` — `"use client"`; IntersectionObserver-driven fade/translate. Uses a callback ref (`setNode`) instead of `useRef().current` so it complies with React 19's `react-hooks/refs` rule.
+### Data
+- `src/lib/brand.ts` — single source of truth for brand/contact strings.
+- `src/lib/projects.ts` — case study data (slug, title, location, year, services, body paragraphs, gallery with mixed aspects). Exports `getProject(slug)` and `getNextProject(slug)` (with wrap-around).
+
+### Motion components (every interactive piece is `"use client"`)
+
+**System primitives** — used everywhere
+- `SmoothScroll` — Lenis init; honors `prefers-reduced-motion` by skipping; delegates RAF to `gsap.ticker`.
+- `Cursor` — 8px dot tracking real-time + 36px lerped trailing ring with `mix-blend-mode: difference`. Ring scales 1.8× over anchors / buttons / any `[data-cursor="hover"]`. Hidden on touch + reduced-motion.
+- `Loader` — masked-text reveal of `BM.` (each letter rises through its own clip), then a `clip-path` curtain wipes upward at ~1.8s, component unmounts at 2.75s.
+
+**Entrance / reveal**
+- `Reveal` — IntersectionObserver fade-up; callback-ref so it complies with React 19's `react-hooks/refs` rule.
+- `SplitText` — splits children into `.split-word` → `.split-char` spans; per-char `translateY(110%)` → 0 with CSS-var stagger.
+- `MaskHeading` — line-by-line mask reveal where each line slides up through its own `overflow:hidden` clip with delay stagger.
+
+**Pointer-driven**
+- `MagneticLink` — Next `<Link>` with cursor-magnetic inner span (default strength 0.18); pointer position written to CSS vars via `requestAnimationFrame` (no React re-render).
+- `ProjectTile` — image link with 96px circular `cursor-pill` that follows the pointer inside the tile; `cursor: none` while hovering; falls back to default on `(hover: none)`.
+- `HoverFillButton` — directional hover-fill; bg slides in from whichever edge the pointer crossed and exits the opposite way.
+
+**Scroll choreography (GSAP)**
+- `ParallaxImage` — scrub-tied translateY + scale-to-1 on the image; uses `gsap.context()` for clean unmount.
+- `PinnedHero` — pinned full-bleed image + scaling on scrolldown; content fades / translates as the hero exits.
+- `StickyStack` — N panels each `position: sticky` with stepped `top` offsets; lower panels scale down + fade as the next one slides over.
+- `HorizontalGallery` — pins a section and translates an inner rail by its overflow width on scroll; gracefully falls back to native horizontal scroll on touch / reduced-motion.
+- `MarqueeBand` — continuous translateX loop driven by RAF; scroll velocity feeds extra speed + a small skewX for kinetic feel; auto-decays via lerp.
+
+**Layout/structural**
+- `BrandMark` — renders `BM.` with the period in its own span for the hover-lift animation.
+- `SiteNav` — sliding underline indicator (measures link rects in `useLayoutEffect`, animates a single absolute span via CSS vars), morph hamburger, masked overlay menu, body-scroll lock, ESC to close, auto-close on route change.
+- `SiteFooter` — Server Component; pure markup; footer-list links translate-right on hover; `<BrandMark>` next to copyright.
 
 ### Styling
-- Tailwind v4 utilities + design tokens (oklch palette) defined in `globals.css` `:root`.
-- Custom utilities live under `@layer utilities`: `.surface-deep`, `.eyebrow`, `.img-zoom`, `.reveal`, `.word-rise`, `.marquee`, `.loader-overlay`.
-- The Google Fonts `@import url(...)` **must remain the first statement** in `globals.css` (before `@import "tailwindcss"`), or PostCSS warns and may drop the @import.
+- Tailwind v4 utilities + design tokens (oklch palette) in `globals.css` `:root`.
+- Motion tokens alongside the palette: `--ease-out-expo`, `--ease-out-quart`, `--ease-spring`, `--ease-vercel`, `--dur-fast/med/slow`. Never use linear easing; pick a token.
+- Motion-system classes under `@layer utilities`: `.loader-mask/.loader-curtain`, `.split-text/.split-word/.split-char`, `.mask-line`, `.magnetic/.magnetic-inner`, `.fill-btn/.fill-bg/.fill-label`, `.nav-track/.nav-indicator/.nav-link`, `.hamburger`, `.menu-mask`, `.cursor-stage/.cursor-pill`, `.cursor-dot/.cursor-ring`, `.field-line`, `.arrow-link`, `.parallax-stage/.parallax-target`, `.stack-card`, `.h-rail/.h-tile`, `.kinetic-track`, `.brand-mark`, `.service-row` (zig-zag), `.divider-line`, `.marquee` (legacy CSS marquee — still used by the old marquee section).
+- `prefers-reduced-motion` honored globally in `@layer base` (collapses all motion to ~0).
+- The Google Fonts `@import url(...)` **must remain the first statement** in `globals.css` (before `@import "tailwindcss"`).
 
-### Static assets
-Images live in `public/images/` and are referenced as absolute URLs (`/images/hero.jpg`). The site uses plain `<img>` tags (the `@next/next/no-img-element` rule is disabled in `eslint.config.mjs`) to preserve the exact aspect-ratio-driven layout — swap to `next/image` only if you also accept layout changes.
-
-### ESLint
-Flat config in `eslint.config.mjs` consumes `eslint-config-next/core-web-vitals` and `eslint-config-next/typescript` directly (do **not** wrap with `FlatCompat` — `eslint-config-next@16` ships flat configs natively and `FlatCompat` triggers a circular-JSON crash). Vendored shadcn/ui files and `use-mobile.tsx` have the new `react-hooks/{set-state-in-effect,refs,purity}` rules disabled — upstream shadcn templates trip them under React 19.
+### Motion philosophy
+Subtle, physical, never linear. All animations target `transform` and `opacity` only. High-frequency pointer interactions (magnetic, cursor pill, custom cursor) write to CSS custom properties from `requestAnimationFrame` so React never re-renders during motion. Long-form entrance reveals are driven by `IntersectionObserver` + class toggles; complex scroll choreography (pinning, scrub, parallax) is delegated to GSAP through `gsap.context()` with `revert()` cleanup. Lenis drives the document's smooth-scroll and feeds ScrollTrigger via `gsap.ticker`.
 
 ### Next 16 specifics
-- `next lint` was removed in Next 16 — `package.json` runs `eslint .` directly.
-- `next.config.ts` sets `turbopack.root` to silence the multi-lockfile workspace-root warning (a stray lockfile in `C:\Users\varun\` was being picked up).
+- `next lint` removed — `package.json` runs `eslint .` directly.
+- `eslint-config-next@16` ships flat configs natively; don't wrap with `FlatCompat`.
+- `next.config.ts` sets `turbopack.root` to silence the multi-lockfile workspace-root warning.
+- Vendored shadcn/ui files + `use-mobile.tsx` have the new React 19 `react-hooks/{set-state-in-effect,refs,purity}` rules disabled in `eslint.config.mjs` — upstream shadcn templates trip them.
 
 ## Project origin
 
-Migrated from a TanStack Start + Vite + Cloudflare Workers + Lovable scaffold to Next.js 16. The design language ("Fieldcraft" — landscape/carpentry studio) was preserved verbatim during the migration.
+Migrated from a TanStack Start + Vite + Cloudflare Workers + Lovable scaffold to Next.js 16, then rebuilt for BM Carpentry & Landscaping with an Awwwards-targeted motion architecture (Lenis + GSAP). Design language inspiration: studiodado.com — warm naturalistic oklch palette, large Cormorant Garamond display type, editorial layout, image-led storytelling.

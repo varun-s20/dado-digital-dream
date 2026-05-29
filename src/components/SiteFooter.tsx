@@ -1,7 +1,10 @@
 import Link from "next/link";
+import { BrandMark } from "@/components/BrandMark";
+import { brand } from "@/lib/brand";
 
 const studioLinks = [
   { href: "/approach", label: "Studio" },
+  { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
   { href: "/journal", label: "Journal" },
   { href: "/contact", label: "Contact" },
@@ -18,10 +21,10 @@ export function SiteFooter() {
               Gardens that<br />belong to<br /><em className="font-light">their place.</em>
             </h2>
             <a
-              href="mailto:studio@fieldcraft.co"
-              className="mt-10 inline-flex items-center gap-3 border-b border-current pb-1 text-base"
+              href={`mailto:${brand.email}`}
+              className="arrow-link mt-10 inline-flex items-center gap-3 border-b border-current pb-1 text-base"
             >
-              studio@fieldcraft.co
+              {brand.email}
               <span aria-hidden>→</span>
             </a>
           </div>
@@ -31,7 +34,12 @@ export function SiteFooter() {
               <ul className="mt-4 space-y-2 font-display text-2xl">
                 {studioLinks.map((item) => (
                   <li key={item.href}>
-                    <Link href={item.href}>{item.label}</Link>
+                    <Link
+                      href={item.href}
+                      className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:translate-x-1"
+                    >
+                      {item.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -39,19 +47,25 @@ export function SiteFooter() {
             <div>
               <p className="eyebrow opacity-70">Find us</p>
               <address className="mt-4 not-italic text-sm leading-relaxed opacity-80">
-                14 Wharf Road<br />
-                Mosman, NSW 2088<br />
-                <a href="tel:0291234567">+61 2 9123 4567</a>
+                {brand.address.line1}<br />
+                {brand.address.line2}<br />
+                <a href={brand.phoneHref}>{brand.phone}</a>
               </address>
             </div>
           </div>
         </div>
         <div className="mt-20 flex flex-col items-start justify-between gap-6 border-t border-current/20 pt-8 text-xs opacity-70 md:flex-row md:items-center">
-          <span>© {new Date().getFullYear()} Fieldcraft Studio — Carpentry & landscape design.</span>
+          <span className="flex items-baseline gap-3">
+            <BrandMark size="sm" />
+            <span>© {new Date().getFullYear()} {brand.fullName}.</span>
+          </span>
           <span className="flex gap-6">
-            <a href="#" className="hover:opacity-100">Instagram</a>
-            <a href="#" className="hover:opacity-100">LinkedIn</a>
-            <a href="#" className="hover:opacity-100">Privacy</a>
+            {brand.social.map((s) => (
+              <a key={s.label} href={s.href} className="transition-opacity duration-300 hover:opacity-100">
+                {s.label}
+              </a>
+            ))}
+            <a href="#" className="transition-opacity duration-300 hover:opacity-100">Privacy</a>
           </span>
         </div>
       </div>

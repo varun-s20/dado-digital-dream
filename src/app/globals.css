@@ -33,15 +33,15 @@
 
 :root {
   /* Natural garden / timber palette */
-  --background: oklch(0.96 0.006 95);          /* paper white */
-  --foreground: oklch(0.24 0.02 145);          /* deep forest ink */
+  --background: oklch(0.96 0.006 95);
+  --foreground: oklch(0.24 0.02 145);
   --muted: oklch(0.92 0.008 110);
   --muted-foreground: oklch(0.45 0.02 130);
-  --primary: oklch(0.34 0.045 145);            /* forest green */
+  --primary: oklch(0.34 0.045 145);
   --primary-foreground: oklch(0.97 0.006 95);
   --secondary: oklch(0.88 0.012 110);
   --secondary-foreground: oklch(0.24 0.02 145);
-  --accent: oklch(0.48 0.08 60);               /* timber tan */
+  --accent: oklch(0.48 0.08 60);
   --accent-foreground: oklch(0.97 0.006 95);
   --border: oklch(0.78 0.012 110 / 0.6);
   --card: oklch(0.94 0.008 95);
@@ -53,15 +53,27 @@
   --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: oklch(0.98 0 0);
 
-  /* Surfaces */
-  --surface-deep: oklch(0.28 0.035 145);       /* deep forest section bg */
+  --surface-deep: oklch(0.28 0.035 145);
   --surface-deep-foreground: oklch(0.94 0.008 95);
   --radius: 0.25rem;
+
+  /* Motion tokens — physical, weighted, never linear */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-vercel: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-fast: 240ms;
+  --dur-med: 600ms;
+  --dur-slow: 1100ms;
 }
 
 @layer base {
   * { border-color: var(--color-border); }
   html { scroll-behavior: smooth; }
+  /* Belt-and-braces guard against accidental horizontal scroll on any
+     page. `clip` (not `hidden`) avoids creating a scroll container, so
+     position: sticky keeps working. */
+  html, body { overflow-x: clip; max-width: 100%; }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -75,6 +87,16 @@
     font-weight: 400;
     letter-spacing: -0.01em;
     line-height: 0.95;
+  }
+
+  /* Honor reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -98,27 +120,49 @@
   .reveal {
     opacity: 0;
     transform: translateY(24px);
-    transition: opacity 1.1s cubic-bezier(.2,.7,.2,1), transform 1.1s cubic-bezier(.2,.7,.2,1);
+    transition: opacity var(--dur-slow) var(--ease-out-expo),
+                transform var(--dur-slow) var(--ease-out-expo);
   }
   .reveal.is-visible { opacity: 1; transform: none; }
 
+  /* Img zoom with subtle filter calm-down at rest */
   .img-zoom { overflow: hidden; }
   .img-zoom img {
-    transition: transform 1.6s cubic-bezier(.2,.7,.2,1), filter 0.6s ease;
+    transition: transform 1.6s var(--ease-out-expo), filter var(--dur-med) var(--ease-out-expo);
     will-change: transform;
   }
-  .img-zoom:hover img { transform: scale(1.04); }
+  .img-zoom:hover img { transform: scale(1.05); }
 
-  @keyframes loader-fade {
-    0% { opacity: 1; }
-    70% { opacity: 1; }
-    100% { opacity: 0; visibility: hidden; }
+  /* ─── Loader: cinematic curtain ─────────────────────────── */
+  .loader-mask {
+    overflow: hidden;
+    display: inline-flex;
   }
-  .loader-overlay {
-    animation: loader-fade 1.6s ease forwards;
-    animation-delay: 0.2s;
+  .loader-mask > span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: loader-rise 0.9s var(--ease-out-expo) 0.1s forwards;
+  }
+  .loader-mask.is-down > span {
+    animation-name: loader-drop;
+    transform: translateY(-110%);
+  }
+  @keyframes loader-rise {
+    to { transform: translateY(0); }
+  }
+  @keyframes loader-drop {
+    to { transform: translateY(0); }
+  }
+  .loader-curtain {
+    animation: loader-curtain 0.9s var(--ease-vercel) 1.8s forwards;
+    transform-origin: top;
+  }
+  @keyframes loader-curtain {
+    0%   { clip-path: inset(0 0 0 0); }
+    100% { clip-path: inset(0 0 100% 0); }
   }
 
+  /* Legacy entry tokens — still used by the homepage word-rise */
   @keyframes word-rise {
     from { opacity: 0; transform: translateY(40%); }
     to   { opacity: 1; transform: translateY(0); }
@@ -126,9 +170,30 @@
   .word-rise > span {
     display: inline-block;
     opacity: 0;
-    animation: word-rise 1s cubic-bezier(.2,.7,.2,1) forwards;
+    animation: word-rise 1s var(--ease-out-expo) forwards;
   }
 
+  /* ─── Split text: char-by-char reveal on scroll ─────────── */
+  .split-text { display: block; }
+  .split-word {
+    display: inline-block;
+    white-space: nowrap;
+    margin-right: 0.25em;
+  }
+  .split-word:last-child { margin-right: 0; }
+  .split-char {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+    transition: transform 0.9s var(--ease-out-expo), opacity 0.9s var(--ease-out-expo);
+    transition-delay: calc(var(--i, 0) * 18ms);
+  }
+  .split-text.is-visible .split-char {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* ─── Marquee ───────────────────────────────────────────── */
   .marquee {
     display: flex;
     overflow: hidden;
@@ -141,8 +206,297 @@
     gap: 3rem;
     animation: marquee 40s linear infinite;
   }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
   @keyframes marquee {
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
+  }
+
+  /* ─── Magnetic link / button ────────────────────────────── */
+  .magnetic {
+    display: inline-block;
+    position: relative;
+    will-change: transform;
+  }
+  .magnetic-inner {
+    display: inline-block;
+    transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+    transition: transform 0.65s var(--ease-out-expo);
+    will-change: transform;
+  }
+
+  /* ─── Directional hover-fill button ─────────────────────── */
+  .fill-btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .fill-btn > .fill-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--foreground);
+    transform: translate(var(--fx, 0%), var(--fy, 100%));
+    transition: transform 0.45s var(--ease-out-expo);
+    z-index: -1;
+  }
+  .fill-btn:hover > .fill-bg { transform: translate(0, 0); }
+  .fill-btn > .fill-label,
+  .fill-btn > .fill-label * {
+    transition: color 0.35s var(--ease-out-expo);
+  }
+  .fill-btn:hover > .fill-label {
+    color: var(--background);
+  }
+
+  /* Subtle arrow translate on inline "→" links */
+  .arrow-link [aria-hidden="true"],
+  .arrow-link .arrow {
+    display: inline-block;
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+  .arrow-link:hover [aria-hidden="true"],
+  .arrow-link:hover .arrow {
+    transform: translateX(6px);
+  }
+
+  /* ─── Sliding nav underline ─────────────────────────────── */
+  .nav-track { position: relative; }
+  .nav-indicator {
+    position: absolute;
+    bottom: -8px;
+    height: 1px;
+    background: currentColor;
+    transform: translate3d(var(--nav-x, 0), 0, 0) scaleX(var(--nav-scale, 0));
+    transform-origin: left center;
+    width: var(--nav-w, 0px);
+    opacity: var(--nav-op, 0);
+    transition: transform 0.55s var(--ease-out-expo),
+                width 0.55s var(--ease-out-expo),
+                opacity 0.35s var(--ease-out-expo);
+    pointer-events: none;
+  }
+  .nav-link {
+    position: relative;
+    transition: color 0.35s var(--ease-out-expo);
+  }
+
+  /* ─── Hamburger morph ───────────────────────────────────── */
+  .hamburger {
+    --hb-w: 24px;
+    width: var(--hb-w);
+    height: 8px;
+    position: relative;
+    display: inline-block;
+  }
+  .hamburger span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transition: transform 0.45s var(--ease-out-expo), top 0.25s var(--ease-out-expo) 0.2s;
+  }
+  .hamburger span:nth-child(1) { top: 0; }
+  .hamburger span:nth-child(2) { top: 7px; }
+  .hamburger.is-open span {
+    transition: top 0.25s var(--ease-out-expo), transform 0.45s var(--ease-out-expo) 0.2s;
+    top: 3.5px;
+  }
+  .hamburger.is-open span:nth-child(1) { transform: rotate(45deg); }
+  .hamburger.is-open span:nth-child(2) { transform: rotate(-45deg); }
+
+  /* ─── Overlay menu masked text reveal ───────────────────── */
+  .menu-mask { overflow: hidden; display: block; line-height: 1; }
+  .menu-mask > span {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 0.85s var(--ease-out-expo);
+    transition-delay: calc(var(--i, 0) * 60ms);
+  }
+  .menu-open .menu-mask > span { transform: translateY(0); }
+
+  /* ─── Cursor pill (for project images) ──────────────────── */
+  .cursor-stage { position: relative; cursor: none; }
+  .cursor-stage img { cursor: none; }
+  .cursor-pill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 96px;
+    height: 96px;
+    border-radius: 9999px;
+    background: var(--surface-deep);
+    color: var(--surface-deep-foreground);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    pointer-events: none;
+    transform: translate3d(var(--cx, 0px), var(--cy, 0px), 0) translate(-50%, -50%) scale(var(--cs, 0));
+    transition: transform 0.45s var(--ease-out-expo);
+    will-change: transform;
+    z-index: 5;
+  }
+  @media (hover: none) {
+    .cursor-stage { cursor: auto; }
+    .cursor-stage img { cursor: auto; }
+    .cursor-pill { display: none; }
+  }
+
+  /* ─── Form input focus underline ───────────────────────── */
+  .field-line {
+    position: relative;
+    overflow: hidden;
+  }
+  .field-line::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background: var(--foreground);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  .field-line:focus-within::after { transform: scaleX(1); }
+
+  /* ─── Custom cursor ────────────────────────────────────── */
+  .cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: var(--foreground);
+    pointer-events: none;
+    z-index: 200;
+    transform: translate3d(-50%, -50%, 0);
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--foreground);
+    border-radius: 9999px;
+    pointer-events: none;
+    z-index: 200;
+    transform: translate3d(-50%, -50%, 0) scale(var(--ring-scale, 1));
+    transition: transform 0.45s var(--ease-out-expo), opacity 0.3s var(--ease-out-expo);
+    mix-blend-mode: difference;
+    opacity: 0.6;
+  }
+  @media (hover: none) {
+    .cursor-dot, .cursor-ring { display: none; }
+  }
+
+  /* ─── Kinetic marquee (scroll-velocity skew) ──────────── */
+  .kinetic-track {
+    display: inline-flex;
+    gap: 4rem;
+    white-space: nowrap;
+    will-change: transform;
+    transform: translate3d(var(--kx, 0px), 0, 0) skewX(var(--ksk, 0deg));
+    transition: transform 0.45s var(--ease-out-expo);
+  }
+
+  /* ─── Sticky stacked principle cards ──────────────────── */
+  .stack-card {
+    will-change: transform;
+    transform-origin: top center;
+  }
+
+  /* ─── Horizontal scroll hijack rail ──────────────────── */
+  .h-rail {
+    display: flex;
+    gap: 5vw;
+    padding-inline: 6vw;
+    will-change: transform;
+  }
+  .h-tile {
+    flex: 0 0 38vw;
+    min-width: 380px;
+  }
+  @media (max-width: 768px) {
+    .h-tile { flex: 0 0 78vw; min-width: 0; }
+  }
+
+  /* ─── Brand "BM." mark with hover period ─────────────── */
+  .brand-mark {
+    display: inline-flex;
+    align-items: baseline;
+    line-height: 1;
+  }
+  .brand-mark .dot {
+    display: inline-block;
+    transition: transform 0.5s var(--ease-spring);
+    transform-origin: center bottom;
+  }
+  .brand-mark:hover .dot { transform: translateY(-15%) scale(1.4); }
+
+  /* ─── Section dividers — drawn line ──────────────────── */
+  .divider-line {
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1.2s var(--ease-out-expo);
+  }
+  .divider-line.is-visible { transform: scaleX(1); }
+
+  /* ─── Mask reveal heading ─────────────────────────────── */
+  .mask-line {
+    display: block;
+    overflow: hidden;
+    line-height: 1.05;
+  }
+  .mask-line > span {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 1.1s var(--ease-out-expo);
+    transition-delay: calc(var(--i, 0) * 90ms);
+  }
+  .mask-line.is-visible > span { transform: translateY(0); }
+
+  /* ─── Pinned/parallax stage ──────────────────────────── */
+  .parallax-stage { overflow: hidden; }
+  .parallax-target {
+    will-change: transform;
+    transform: translate3d(0, var(--py, 0px), 0) scale(var(--ps, 1));
+  }
+
+  /* ─── Long-form article prose ─────────────────────────── */
+  .drop-cap::first-letter {
+    font-family: var(--font-display);
+    float: left;
+    font-size: 4.6em;
+    line-height: 0.74;
+    font-weight: 500;
+    padding-right: 0.08em;
+    margin-top: 0.06em;
+    color: var(--foreground);
+  }
+  .article-body p + p { margin-top: 1.5rem; }
+
+  /* ─── Service tile (zig-zag) ────────────────────────── */
+  .service-row {
+    display: grid;
+    align-items: end;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  @media (min-width: 768px) {
+    .service-row { grid-template-columns: 1.2fr 1fr; }
+    .service-row.flip { grid-template-columns: 1fr 1.2fr; direction: rtl; }
+    .service-row.flip > * { direction: ltr; }
   }
 }
