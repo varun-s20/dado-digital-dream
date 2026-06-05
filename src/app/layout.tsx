@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Cursor />
         <Loader />
         <SiteNav />
-        <main className="min-h-screen">{children}</main>
+        <main className="min-h-dvh">{children}</main>
         <SiteFooter />
       </body>
     </html>

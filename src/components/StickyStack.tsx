@@ -21,6 +21,10 @@ type Props = {
  * next one slides up over it, and each lower card gets very subtly
  * scaled down + faded as it disappears underneath. A classic
  * scrolltelling pattern: think Apple keynote chapter cards.
+ *
+ * Desktop-only (md+): on phones the panels are taller than the
+ * viewport, so pinning would bury each card's lower content under the
+ * next one — mobile gets plain document flow instead.
  */
 export function StickyStack({ cards, offset = 6 }: Props) {
   const root = useRef<HTMLDivElement | null>(null);
@@ -30,7 +34,8 @@ export function StickyStack({ cards, offset = 6 }: Props) {
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia(root);
+    mm.add("(min-width: 768px)", () => {
       const items = el.querySelectorAll<HTMLElement>("[data-stack-card]");
       items.forEach((card, i) => {
         if (i === items.length - 1) return;
@@ -47,9 +52,9 @@ export function StickyStack({ cards, offset = 6 }: Props) {
           },
         });
       });
-    }, root);
+    });
 
-    return () => ctx.revert();
+    return () => mm.revert();
   }, [cards]);
 
   return (
@@ -58,7 +63,7 @@ export function StickyStack({ cards, offset = 6 }: Props) {
         <div
           key={card.id}
           data-stack-card
-          className="stack-card sticky"
+          className="stack-card md:sticky"
           style={{ top: `${i * offset}vh` }}
         >
           {card.content}

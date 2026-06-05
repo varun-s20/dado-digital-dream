@@ -1,43 +1,17 @@
 import Link from "next/link";
 import { MagneticLink } from "@/components/MagneticLink";
-import { MarqueeBand } from "@/components/MarqueeBand";
 import { MaskHeading } from "@/components/MaskHeading";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { ProjectTile } from "@/components/ProjectTile";
+import { GetInTouch } from "@/components/GetInTouch";
 import { Reveal } from "@/components/Reveal";
 import { SplitText } from "@/components/SplitText";
+import { WhatWeDo } from "@/components/WhatWeDo";
 import { brand } from "@/lib/brand";
 import { posts } from "@/lib/journal";
 import { projects } from "@/lib/projects";
 
-const services = [
-  {
-    n: "01",
-    title: "Landscape",
-    body: "Site-led garden design from first sketch to mature planting — for harbour-front terraces, coastal slopes, courtyards and country properties.",
-    img: "/images/project-2.jpg",
-  },
-  {
-    n: "02",
-    title: "Carpentry",
-    body: "Decks, pergolas, screens, joinery and bespoke timber structures — designed for the elevation they sit against and built in-house in spotted gum, blackbutt and silvertop.",
-    img: "/images/project-3.jpg",
-  },
-  {
-    n: "03",
-    title: "Pools",
-    body: "Concrete pools detailed as still water — mineral-rendered, stone-coped, wrapped in carpentry that integrates with the surrounding garden.",
-    img: "/images/project-4.jpg",
-  },
-  {
-    n: "04",
-    title: "Stone & build",
-    body: "Sandstone steps, retaining, paving and dry-laid walls — set off datum, drained properly, planted dense enough to bind the slope within the first season.",
-    img: "/images/project-1.jpg",
-  },
-];
-
-const featured = projects.slice(0, 4);
+const [feature, ...secondary] = projects.slice(0, 4);
 const journalPosts = posts.slice(0, 3);
 
 export default function HomePage() {
@@ -45,39 +19,41 @@ export default function HomePage() {
     <>
       {/* HERO */}
       <section className="relative min-h-[100dvh] w-full overflow-hidden">
-        <ParallaxImage
-          src="/images/hero.jpg"
-          alt="Contemporary landscaped garden with timber-clad pool and sandstone steps"
-          className="absolute inset-0 h-full w-full"
-          imgClassName="h-full w-full object-cover"
-          strength={150}
-          zoomFrom={1.1}
+        <video
+          src="/videos/hero-garden.mp4"
+          poster="/images/hero-garden-poster.jpg"
+          autoPlay
+          loop
+          muted
+          playsInline
+          aria-label="A terraced garden of clipped hedges, stone steps and timber structures"
+          className="absolute inset-0 h-full w-full scale-105 object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-black/55" />
+        <div className="hero-veil absolute inset-0" />
         <div
-          className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1600px] flex-col justify-between px-6 pb-12 pt-32 md:px-12 md:pb-16"
+          className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1600px] flex-col justify-between px-6 pb-14 pt-32 md:px-12 md:pb-20"
           style={{ color: "var(--surface-deep-foreground)" }}
         >
-          <div>
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
             <p className="eyebrow opacity-80">{brand.tagline}</p>
-            <p className="eyebrow opacity-80">design and build · est. since 2009</p>
+            <p className="eyebrow opacity-70">Design &amp; build · est. 2009</p>
           </div>
 
           <div>
-            <h1 className="word-rise font-display text-[18vw] leading-[0.85] tracking-tight md:text-[12vw]">
-              <span style={{ animationDelay: "1.9s" }}>Gardens&nbsp;&nbsp;&nbsp;</span>
-              <span style={{ animationDelay: "2.15s" }} className="italic">that</span>
+            <h1 className="hero-headline word-rise font-display text-[17vw] leading-[0.86] tracking-[-0.02em] md:text-[11.5vw]">
+              <span style={{ animationDelay: "1.9s" }}>Gardens</span>{" "}
+              <span style={{ animationDelay: "2.15s" }} className="italic font-[300]">that</span>
               <br />
-              <span style={{ animationDelay: "2.4s" }} className="pl-[20%] md:pl-[30%]">belong.</span>
+              <span style={{ animationDelay: "2.4s" }} className="pl-[14%] md:pl-[24%]">belong.</span>
             </h1>
             <div className="mt-10 grid items-end gap-8 md:grid-cols-12">
-              <p className="md:col-span-5 md:col-start-7 max-w-md text-base leading-relaxed opacity-90">
-                {brand.fullName.split(" ").slice(0, 2).join(" ")} — an independent studio designing and building gardens, pools and bespoke
-                timber structures across Sydney and the NSW South Coast.
+              <p className="max-w-md text-base leading-relaxed opacity-90 md:col-span-5 md:col-start-7">
+                An independent Sydney studio designing and building gardens, pools and
+                bespoke timber structures across Sydney and the NSW South Coast.
               </p>
               <MagneticLink
                 href="/projects"
-                className="eyebrow md:col-span-3 md:col-start-10 inline-flex items-center gap-2 self-end border-b border-current pb-1"
+                className="eyebrow inline-flex items-center gap-2 self-end border-b border-current pb-1 md:col-span-3 md:col-start-10"
               >
                 Selected work <span aria-hidden>→</span>
               </MagneticLink>
@@ -87,21 +63,21 @@ export default function HomePage() {
       </section>
 
       {/* INTRO */}
-      <section className="mx-auto max-w-[1600px] px-6 py-28 md:px-12 md:py-44">
-        <div className="grid gap-16 md:grid-cols-12">
+      <section className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-28">
+        <div className="grid gap-12 md:grid-cols-12">
           <Reveal className="md:col-span-3">
             <p className="eyebrow text-muted-foreground">Studio</p>
             <p className="mt-6 font-display text-3xl leading-tight">
               Design and build, in-house, from a single workshop in Mosman.
             </p>
             <MagneticLink
-              href="/approach"
+              href="/services"
               className="mt-8 inline-flex items-center gap-2 border-b border-foreground pb-1 text-sm"
             >
-              How we work <span aria-hidden>→</span>
+              What we do <span aria-hidden>→</span>
             </MagneticLink>
           </Reveal>
-          <div className="md:col-span-7 md:col-start-6 space-y-6 text-lg leading-relaxed">
+          <div className="space-y-6 text-lg leading-relaxed md:col-span-7 md:col-start-6">
             <MaskHeading
               as="p"
               lines={[
@@ -124,145 +100,156 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* KINETIC MARQUEE BAND */}
-      <section className="surface-deep relative overflow-hidden py-8 md:py-10">
-        <MarqueeBand
-          words={["Landscape", "Carpentry", "Pools", "Decking", "Pergolas", "Stonework", "Planting", "Joinery"]}
-          className="font-display text-[14vw] leading-none md:text-[9rem]"
-        />
-      </section>
-
-      {/* SERVICES — zig-zag */}
-      <section className="mx-auto max-w-[1600px] px-6 py-28 md:px-12 md:py-40">
-        <div className="mb-20 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-          <SplitText as="h2" className="max-w-3xl font-display text-5xl leading-[0.9] md:text-7xl">
-            What we make.
-          </SplitText>
-          <p className="max-w-sm text-base leading-relaxed text-muted-foreground">
-            Four practices, one workshop. Every project draws on more than one.
-          </p>
-        </div>
-        <div className="space-y-28 md:space-y-44">
-          {services.map((s, i) => (
-            <article key={s.n} className={`service-row ${i % 2 === 1 ? "flip" : ""}`}>
-              <Reveal className="img-zoom" delay={i * 60}>
-                <ParallaxImage
-                  src={s.img}
-                  alt={s.title}
-                  className={`${i % 2 === 1 ? "aspect-[4/5]" : "aspect-[5/4]"}`}
-                  imgClassName="h-full w-full object-cover"
-                  strength={70}
-                  zoomFrom={1.05}
-                />
-              </Reveal>
-              <div className={`flex flex-col gap-6 ${i % 2 === 1 ? "md:items-start" : "md:items-end md:text-right"}`}>
-                <span className="eyebrow text-muted-foreground">{s.n}</span>
-                <SplitText
-                  as="h3"
-                  className="font-display text-5xl leading-[0.95] md:text-7xl"
-                  stagger={24}
-                >
-                  {s.title}
-                </SplitText>
-                <p className="max-w-md text-lg leading-relaxed text-muted-foreground">{s.body}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+      {/* WHAT WE DO — interactive showcase */}
+      <WhatWeDo />
 
       {/* FEATURED PROJECTS */}
-      <section className="relative">
-        <div className="mx-auto flex max-w-[1600px] items-end justify-between px-6 pt-8 md:px-12">
+      <section className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-28">
+        <div className="mb-12 flex flex-col items-start justify-between gap-6 md:mb-16 md:flex-row md:items-end">
           <div>
-            <p className="eyebrow text-muted-foreground">Selected · {featured.length}</p>
-            <SplitText as="h2" className="mt-4 font-display text-6xl leading-[0.9] md:text-[7rem]">
-              Recent work.
+            <p className="eyebrow text-muted-foreground">Selected · 0{secondary.length + 1}</p>
+            <SplitText as="h2" className="mt-4 font-display text-5xl leading-[0.92] md:text-7xl">
+              Featured projects.
             </SplitText>
           </div>
-          <MagneticLink href="/projects" className="eyebrow hidden border-b border-foreground pb-1 md:inline-block">
+          <MagneticLink
+            href="/projects"
+            className="eyebrow inline-flex items-center gap-2 border-b border-foreground pb-1"
+          >
             All projects <span aria-hidden>→</span>
           </MagneticLink>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-[1600px] gap-x-8 gap-y-20 px-6 md:grid-cols-12 md:px-12">
-          {featured.map((p, i) => (
-            <Reveal
-              key={p.slug}
-              delay={i * 80}
-              className={`group ${i % 2 === 0 ? "md:col-span-7" : "md:col-span-5 md:mt-32"}`}
-            >
-              <ProjectTile href={`/projects/${p.slug}`} src={p.cover} alt={p.title} width={1200} height={1500} />
-              <div className="mt-5 flex items-end justify-between">
-                <div>
-                  <h3 className="font-display text-2xl md:text-3xl">{p.title}</h3>
-                  <p className="eyebrow mt-1 text-muted-foreground">{p.tag} · {p.location}</p>
-                </div>
-                <span className="eyebrow text-muted-foreground">{p.index}</span>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* COVERAGE MARQUEE (REVERSE) */}
-      <section className="mt-32 border-y border-border py-10 md:py-14">
-        <div className="mb-6 flex items-center justify-between px-6 md:px-12">
-          <p className="eyebrow text-muted-foreground">Working across</p>
-          <p className="eyebrow text-muted-foreground">{brand.coverage.length} regions</p>
-        </div>
-        <MarqueeBand
-          words={brand.coverage}
-          direction={-1}
-          className="font-display text-[12vw] leading-none md:text-[8rem]"
-          speed={36}
-        />
-      </section>
-
-      {/* STUDIO */}
-      <section className="mx-auto max-w-[1600px] px-6 py-28 md:px-12 md:py-40">
-        <div className="grid gap-12 md:grid-cols-12">
-          <Reveal className="md:col-span-7">
-            <div className="img-zoom aspect-[16/11]">
-              <ParallaxImage
-                src="/images/studio.jpg"
-                alt="Carpenter shaping a hardwood timber joint at the workbench"
-                className="h-full w-full"
-                imgClassName="h-full w-full object-cover"
-                strength={80}
-              />
-            </div>
-          </Reveal>
-          <Reveal delay={150} className="md:col-span-4 md:col-start-9 flex flex-col justify-end">
-            <p className="eyebrow text-muted-foreground">The workshop</p>
-            <MaskHeading
-              as="h2"
-              lines={["Designed and", <em key="i" className="font-light">built in-house.</em>]}
-              className="mt-4 font-display text-5xl leading-[0.95] md:text-6xl"
+        <div className="grid gap-4 md:grid-cols-12 md:items-stretch md:gap-5">
+          {/* Big feature — shrunk, fills column height so top/bottom align */}
+          <Reveal className="flex md:col-span-5">
+            <FeatureCard
+              href={`/projects/${feature.slug}`}
+              src={feature.cover}
+              title={feature.title}
+              tag={feature.tag}
+              location={feature.location}
+              index={feature.index}
+              fill
+              big
             />
-            <p className="mt-6 leading-relaxed text-muted-foreground">
-              Our designers work alongside our carpenters and landscape team
-              from first sketch to final planting. Detailing happens in the
-              workshop, on the site, and in close conversation with you.
+          </Reveal>
+
+          {/* Right cluster — enlarged: two on top + one wide */}
+          <div className="flex flex-col gap-4 md:col-span-7 md:gap-5">
+            <div className="grid grid-cols-2 gap-4 md:gap-5">
+              {secondary.slice(0, 2).map((p, i) => (
+                <Reveal key={p.slug} delay={80 + i * 80}>
+                  <FeatureCard
+                    href={`/projects/${p.slug}`}
+                    src={p.cover}
+                    title={p.title}
+                    tag={p.tag}
+                    location={p.location}
+                    index={p.index}
+                    aspect="aspect-[4/5] md:aspect-square"
+                  />
+                </Reveal>
+              ))}
+            </div>
+            {secondary[2] && (
+              <Reveal delay={240}>
+                <FeatureCard
+                  href={`/projects/${secondary[2].slug}`}
+                  src={secondary[2].cover}
+                  title={secondary[2].title}
+                  tag={secondary[2].tag}
+                  location={secondary[2].location}
+                  index={secondary[2].index}
+                  aspect="aspect-[16/10]"
+                />
+              </Reveal>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* WORKING ACROSS — quiet coverage band */}
+      <section className="border-y border-border">
+        <div className="mx-auto flex max-w-[1600px] flex-col gap-5 px-6 py-9 md:flex-row md:items-center md:justify-between md:px-12 md:py-11">
+          <p className="eyebrow shrink-0 text-muted-foreground">Working across</p>
+          <ul className="flex flex-wrap items-center gap-x-3 gap-y-1 md:justify-end">
+            {brand.coverage.map((region, i) => (
+              <li key={region} className="flex items-center gap-x-3 font-display text-lg leading-tight md:text-xl">
+                {region}
+                {i < brand.coverage.length - 1 && (
+                  <span aria-hidden className="text-muted-foreground/50">·</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* WORKSHOP — minimal, offset landscape + carpentry */}
+      <section className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-32">
+        <div className="grid items-center gap-14 md:grid-cols-12 md:gap-8">
+          <Reveal className="md:col-span-4">
+            <p className="eyebrow text-muted-foreground">The workshop</p>
+            <h2 className="mt-6 font-display text-4xl leading-[1.02] md:text-5xl">
+              Designed and
+              <br />
+              <em className="font-[300]">built in-house.</em>
+            </h2>
+            <p className="mt-6 max-w-[34ch] leading-relaxed text-muted-foreground">
+              One team — designers, carpenters and landscapers — from first sketch to
+              final planting.
             </p>
             <MagneticLink
-              href="/approach"
-              className="mt-8 inline-flex items-center gap-2 self-start border-b border-foreground pb-1 text-sm"
+              href="/services"
+              className="mt-8 inline-flex items-center gap-2 border-b border-foreground pb-1 text-sm"
             >
-              The studio <span aria-hidden>→</span>
+              What we do <span aria-hidden>→</span>
             </MagneticLink>
           </Reveal>
+
+          <div className="relative md:col-span-7 md:col-start-6">
+            <Reveal className="img-zoom ml-auto aspect-[5/4] w-full md:w-[86%]">
+              <ParallaxImage
+                src="/images/project-1.jpg"
+                alt="Timber-clad garden room set among native planting"
+                className="h-full w-full"
+                imgClassName="h-full w-full object-cover"
+                strength={70}
+              />
+            </Reveal>
+            <Reveal
+              delay={180}
+              className="img-zoom relative mt-4 aspect-[4/5] w-[62%] border-[6px] border-background shadow-[0_24px_50px_-20px_rgba(0,0,0,0.35)] md:absolute md:-bottom-12 md:left-0 md:mt-0 md:w-[38%]"
+            >
+              <ParallaxImage
+                src="/images/studio.jpg"
+                alt="Carpenter shaping a hardwood joint at the workbench"
+                className="h-full w-full"
+                imgClassName="h-full w-full object-cover"
+                strength={50}
+              />
+            </Reveal>
+          </div>
         </div>
       </section>
 
       {/* JOURNAL */}
-      <section className="mx-auto max-w-[1600px] px-6 pb-32 md:px-12">
+      <section className="mx-auto max-w-[1600px] px-6 pb-24 md:px-12">
         <Reveal>
-          <SplitText as="h2" className="max-w-4xl font-display text-4xl leading-tight md:text-6xl">
-            Notes from the workshop and the field — on plants, timber and the slow craft of building outdoors.
-          </SplitText>
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="eyebrow text-muted-foreground">Journal</p>
+              <h2 className="mt-4 font-display text-4xl leading-[0.98] md:text-6xl">
+                Notes from the workshop.
+              </h2>
+            </div>
+            <p className="max-w-sm leading-relaxed text-muted-foreground">
+              On plants, timber and the slow craft of building outdoors.
+            </p>
+          </div>
         </Reveal>
-        <div className="mt-16 grid gap-10 md:grid-cols-3">
+        <div className="mt-12 grid gap-8 md:grid-cols-3">
           {journalPosts.map((post, i) => (
             <Reveal key={post.slug} delay={i * 80} className="img-zoom">
               <Link href={`/journal/${post.slug}`} className="arrow-link block">
@@ -272,13 +259,59 @@ export default function HomePage() {
                   loading="lazy"
                   className="aspect-[4/5] w-full object-cover"
                 />
-                <p className="eyebrow mt-4 text-muted-foreground">{post.date}</p>
+                <p className="eyebrow mt-4 text-muted-foreground">{post.tag} · {post.date}</p>
                 <h3 className="mt-2 font-display text-2xl leading-snug">{post.title}</h3>
               </Link>
             </Reveal>
           ))}
         </div>
       </section>
+
+      {/* GET IN TOUCH */}
+      <GetInTouch />
     </>
+  );
+}
+
+function FeatureCard({
+  href,
+  src,
+  title,
+  tag,
+  location,
+  index,
+  aspect = "aspect-[4/5]",
+  big = false,
+  fill = false,
+}: {
+  href: string;
+  src: string;
+  title: string;
+  tag: string;
+  location: string;
+  index: string;
+  aspect?: string;
+  big?: boolean;
+  fill?: boolean;
+}) {
+  return (
+    <div className={`feat-card group flex w-full flex-col ${fill ? "md:h-full" : ""}`}>
+      <ProjectTile
+        href={href}
+        src={src}
+        alt={title}
+        className={fill ? "aspect-[4/5] md:aspect-auto md:min-h-0 md:flex-1" : aspect}
+        imgClassName="h-full w-full object-cover"
+      />
+      <div className="mt-4 flex items-start justify-between gap-4">
+        <div>
+          <h3 className={`font-display leading-tight ${big ? "text-2xl md:text-3xl" : "text-lg md:text-xl"}`}>
+            {title}
+          </h3>
+          <p className="eyebrow mt-1.5 text-muted-foreground">{tag} · {location}</p>
+        </div>
+        <span className="eyebrow shrink-0 text-muted-foreground">{index}</span>
+      </div>
+    </div>
   );
 }

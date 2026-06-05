@@ -1,12 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,500&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
@@ -55,6 +55,8 @@
 
   --surface-deep: oklch(0.28 0.035 145);
   --surface-deep-foreground: oklch(0.94 0.008 95);
+  --accent-live: oklch(0.74 0.12 150);
+  --menu-scrim: oklch(0.95 0.006 95 / 0.55);
   --radius: 0.25rem;
 
   /* Motion tokens — physical, weighted, never linear */
@@ -78,15 +80,22 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-weight: 300;
+    font-weight: 400;
+    letter-spacing: -0.004em;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    line-height: 0.95;
+    font-weight: 500;
+    font-optical-sizing: auto;
+    letter-spacing: -0.025em;
+    line-height: 0.96;
+  }
+  /* Kill the legacy 300ms tap delay and double-tap zoom on every
+     interactive element — taps respond immediately on touch. */
+  a, button, input, select, textarea, label, summary {
+    touch-action: manipulation;
   }
 
   /* Honor reduced-motion */
@@ -101,8 +110,22 @@
 }
 
 @layer utilities {
-  .font-display { font-family: var(--font-display); }
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-optical-sizing: auto;
+    letter-spacing: -0.025em;
+  }
   .font-sans   { font-family: var(--font-sans); }
+  /* Projects routes follow formedgardens.com.au's exact type: Inter Tight
+     display + Inter body. Scoped via a wrapper so the rest of the site keeps
+     its Hanken Grotesk. Re-declaring the font vars cascades to every
+     descendant that reads them (headings, .font-display, .eyebrow). */
+  .font-formed {
+    --font-display: "Inter Tight", "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --font-sans: "Inter", "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-sans);
+  }
   .surface-deep {
     background-color: var(--surface-deep);
     color: var(--surface-deep-foreground);
@@ -110,9 +133,9 @@
   .eyebrow {
     font-family: var(--font-sans);
     font-size: 0.7rem;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    font-weight: 400;
+    font-weight: 500;
   }
   .hairline { height: 1px; background: currentColor; opacity: 0.25; }
 
@@ -132,6 +155,114 @@
     will-change: transform;
   }
   .img-zoom:hover img { transform: scale(1.05); }
+
+  /* ─── Project banner: cinematic clip-path unveil on mount ─ */
+  .banner-reveal {
+    clip-path: inset(0 0 0 0);
+    animation: banner-unveil 1.4s var(--ease-out-expo) both;
+  }
+  @keyframes banner-unveil {
+    from { clip-path: inset(0 0 100% 0); }
+    to   { clip-path: inset(0 0 0 0); }
+  }
+  /* Caption masks up from beneath its own clip, a beat after the unveil. */
+  .banner-cap { overflow: hidden; }
+  .banner-cap > span {
+    display: block;
+    opacity: 0;
+    transform: translateY(120%);
+    animation: banner-cap-rise 1s var(--ease-out-expo) 0.6s both;
+  }
+  @keyframes banner-cap-rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── Gallery shot: fades + settles in once the image has loaded ─ */
+  .reveal-shot {
+    position: relative;
+    display: block;
+    overflow: hidden;
+  }
+  .reveal-shot img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.05);
+    transition: opacity 0.9s var(--ease-out-expo),
+                transform 1.2s var(--ease-out-expo);
+    will-change: transform;
+  }
+  .reveal-shot[data-loaded="true"] img {
+    opacity: 1;
+    transform: scale(1);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .reveal-shot[data-loaded="true"]:hover img { transform: scale(1.05); }
+  }
+
+  /* ─── Project gallery tile: name reveals on hover ──────── */
+  .gallery-tile .gallery-cap,
+  .gallery-tile .gallery-scrim {
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-out-expo),
+                transform 0.5s var(--ease-out-expo);
+  }
+  .gallery-tile .gallery-cap { transform: translateY(0.6rem); }
+  .gallery-tile:hover .gallery-cap,
+  .gallery-tile:focus-visible .gallery-cap,
+  .gallery-tile:hover .gallery-scrim,
+  .gallery-tile:focus-visible .gallery-scrim {
+    opacity: 1;
+    transform: none;
+  }
+  /* Touch devices can't hover — keep the name + scrim visible. */
+  @media (hover: none) {
+    .gallery-tile .gallery-cap,
+    .gallery-tile .gallery-scrim { opacity: 1; transform: none; }
+  }
+
+  /* Staggered entrance, replayed each time the filter changes (the grid
+     is remounted via a React key). */
+  @keyframes gallery-in {
+    from { opacity: 0; transform: translateY(14px) scale(0.985); }
+    to   { opacity: 1; transform: none; }
+  }
+  .gallery-enter {
+    opacity: 0;
+    animation: gallery-in 0.7s var(--ease-out-expo) forwards;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* Filter chips: animated underline on the active / hovered chip. */
+  .filter-chip {
+    position: relative;
+    padding-bottom: 0.25rem;
+  }
+  /* Invisible expanded hit area — lifts the chip to a ~44px touch
+     target without moving the underline or the baseline row. */
+  .filter-chip::before {
+    content: "";
+    position: absolute;
+    inset: -0.75rem -0.45rem;
+  }
+  .filter-chip::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.45s var(--ease-out-expo);
+  }
+  .filter-chip[aria-pressed="true"]::after,
+  .filter-chip:hover::after { transform: scaleX(1); }
+
 
   /* ─── Loader: cinematic curtain ─────────────────────────── */
   .loader-mask {
@@ -178,7 +309,7 @@
   .split-word {
     display: inline-block;
     white-space: nowrap;
-    margin-right: 0.25em;
+    margin-right: 0.18em;
   }
   .split-word:last-child { margin-right: 0; }
   .split-char {
@@ -304,6 +435,34 @@
   }
   .hamburger.is-open span:nth-child(1) { transform: rotate(45deg); }
   .hamburger.is-open span:nth-child(2) { transform: rotate(-45deg); }
+
+  /* ─── 3-line hamburger (menu trigger) ───────────────────── */
+  .hamburger-3 {
+    width: 26px;
+    height: 11px;
+    position: relative;
+    display: inline-block;
+  }
+  .hamburger-3 span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transition: transform 0.4s var(--ease-out-expo), width 0.4s var(--ease-out-expo);
+  }
+  .hamburger-3 span:nth-child(1) { top: 0; }
+  .hamburger-3 span:nth-child(2) { top: 5px; width: 70%; }
+  .hamburger-3 span:nth-child(3) { top: 10px; }
+  .group:hover .hamburger-3 span:nth-child(2) { width: 100%; }
+
+  /* ─── Sliding sidebar menu panel ────────────────────────── */
+  .menu-panel {
+    transform: translateX(-100%);
+    transition: transform 0.8s var(--ease-vercel);
+    box-shadow: 1px 0 60px rgba(0, 0, 0, 0.25);
+  }
+  .menu-open .menu-panel { transform: translateX(0); }
 
   /* ─── Overlay menu masked text reveal ───────────────────── */
   .menu-mask { overflow: hidden; display: block; line-height: 1; }
@@ -458,6 +617,10 @@
     display: block;
     overflow: hidden;
     line-height: 1.05;
+    /* Give descenders (g, y, p) room inside the clip, then pull the
+       extra space back so line rhythm is unchanged. */
+    padding-bottom: 0.3em;
+    margin-bottom: -0.3em;
   }
   .mask-line > span {
     display: inline-block;
@@ -498,5 +661,196 @@
     .service-row { grid-template-columns: 1.2fr 1fr; }
     .service-row.flip { grid-template-columns: 1fr 1.2fr; direction: rtl; }
     .service-row.flip > * { direction: ltr; }
+  }
+
+  /* ─── What-we-do: blurb crossfade on selection ────────── */
+  .wwd-row {
+    animation: wwd-fade 0.7s var(--ease-out-expo);
+  }
+  @keyframes wwd-fade {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 0.9; transform: translateY(0); }
+  }
+
+  /* ─── Hero headline: legible over video, edges dissolve ── */
+  .hero-headline {
+    text-shadow: 0 2px 60px rgba(20, 30, 22, 0.5), 0 1px 3px rgba(20, 30, 22, 0.35);
+  }
+  .hero-veil {
+    background:
+      radial-gradient(120% 90% at 20% 90%, rgba(18, 26, 20, 0.62), transparent 60%),
+      linear-gradient(to bottom, rgba(18, 26, 20, 0.5) 0%, rgba(18, 26, 20, 0.12) 18%, transparent 40%),
+      linear-gradient(to top, rgba(18, 26, 20, 0.82) 0%, rgba(18, 26, 20, 0.1) 46%, transparent 100%);
+  }
+
+  /* ─── Featured project caption hover ──────────────────── */
+  .feat-card img {
+    transition: transform 1.4s var(--ease-out-expo);
+    will-change: transform;
+  }
+  .feat-card:hover img { transform: scale(1.04); }
+
+  /* ─── Live-status pulse dot ───────────────────────────── */
+  .pulse-dot {
+    position: relative;
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 9999px;
+    background: var(--accent-live);
+  }
+  .pulse-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: var(--accent-live);
+    animation: pulse-ring 2.4s var(--ease-out-expo) infinite;
+  }
+  @keyframes pulse-ring {
+    0%   { transform: scale(1); opacity: 0.55; }
+    70%  { transform: scale(3.4); opacity: 0; }
+    100% { transform: scale(3.4); opacity: 0; }
+  }
+
+  /* ─── Get in touch: light, premium closing invitation ─── */
+  /* Warm canvas with the faintest light spots — sits apart
+     from the dark footer so the two no longer merge. */
+  .contact-lux {
+    position: relative;
+    background:
+      radial-gradient(54% 48% at 86% -6%, oklch(0.74 0.12 150 / 0.05), transparent 70%),
+      radial-gradient(46% 52% at -4% 106%, oklch(0.48 0.08 60 / 0.045), transparent 72%),
+      var(--background);
+  }
+  .contact-heading {
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.028em;
+    font-size: clamp(1.9rem, 4.4vw, 3.4rem);
+  }
+  .contact-heading .accent {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+
+  /* Premium solid CTA — deep green, quiet hover deepen */
+  .lux-cta {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.95rem 1.7rem;
+    border-radius: 6px;
+    background: var(--surface-deep);
+    color: var(--surface-deep-foreground);
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.18s var(--ease-out-quart);
+  }
+  .lux-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--foreground);
+    transform: translateY(101%);
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  .lux-cta:hover::before { transform: translateY(0); }
+  .lux-cta:active { transform: scale(0.985); }
+  .lux-cta svg { transition: transform 0.4s var(--ease-out-expo); }
+  .lux-cta:hover svg { transform: translate(3px, -3px); }
+
+  /* ─── Footer ──────────────────────────────────────────── */
+  /* Coverage list — quiet underline on hover */
+  .coverage-tag {
+    position: relative;
+    transition: opacity 0.3s var(--ease-out-expo);
+  }
+  .coverage-tag::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+  .coverage-tag:hover::after { transform: scaleX(1); }
+
+  /* Social link — icon + label, refined hover */
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    opacity: 0.8;
+    transition: opacity 0.3s var(--ease-out-expo);
+  }
+  .social-link:hover { opacity: 1; }
+  .social-link svg {
+    transition: transform 0.4s var(--ease-spring);
+  }
+  .social-link:hover svg { transform: translateY(-1px); }
+
+  /* ─── Contact: aesthetic atmosphere layer ─────────────────── */
+  /* Warm light-field unique to the contact screen — three faint oklch
+     orbs (live green, ochre, deep canopy) bedded into the canvas so the
+     page reads richer than the flat editorial pages, without changing the
+     type system. */
+  .contact-atmos {
+    position: relative;
+    background:
+      radial-gradient(56% 44% at 88% -8%, oklch(0.74 0.12 150 / 0.08), transparent 66%),
+      radial-gradient(48% 50% at -6% 52%, oklch(0.48 0.08 60 / 0.06), transparent 70%),
+      radial-gradient(64% 52% at 52% 118%, oklch(0.34 0.045 145 / 0.07), transparent 72%),
+      var(--background);
+  }
+
+  /* Film-grain — fixed, pointer-events-none, the editorial-luxury texture
+     that gives the warm canvas a physical, paper-like surface. GPU-cheap:
+     a single fixed layer, never attached to scrolling content. */
+  .film-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 120px 120px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .film-grain { opacity: 0.03; }
+  }
+
+  /* Oversized brand watermark seated behind the form — depth, not noise. */
+  .contact-watermark {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 0.8;
+    color: var(--foreground);
+    opacity: 0.035;
+    user-select: none;
+  }
+
+  /* Eyebrow pill — micro badge that precedes the masthead (skill pattern,
+     warm-palette adaptation of the article tag chip). */
+  .eyebrow-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    padding: 0.32rem 0.8rem;
+    background: oklch(0.97 0.006 95 / 0.5);
+    backdrop-filter: blur(6px);
   }
 }

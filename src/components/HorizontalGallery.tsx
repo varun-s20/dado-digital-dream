@@ -64,7 +64,7 @@ export function HorizontalGallery({ children }: Props) {
     >
       <div
         ref={rail}
-        className={`h-rail items-center min-h-[70vh] ${native ? "snap-x snap-mandatory" : ""}`}
+        className={`h-rail items-center min-h-[70svh] ${native ? "snap-x snap-mandatory" : ""}`}
       >
         {children}
       </div>

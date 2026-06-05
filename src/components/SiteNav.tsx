@@ -2,25 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 import { BrandMark } from "@/components/BrandMark";
 import { brand } from "@/lib/brand";
 
-const navItems = [
-  { href: "/approach", label: "Studio" },
+const menuItems = [
+  { href: "/", label: "Home" },
+  { href: "/services", label: "Services" },
   { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
   { href: "/journal", label: "Journal" },
   { href: "/contact", label: "Contact" },
 ];
-
-const overlayItems = [{ href: "/", label: "Home" }, ...navItems];
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);
@@ -53,30 +46,37 @@ export function SiteNav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  // Home and every project detail page open over a full-bleed image banner.
+  const overImageHero = pathname === "/" || /^\/projects\/.+/.test(pathname);
+  const onDarkHero = overImageHero && !scrolled;
+
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
           scrolled ? "bg-background/80 backdrop-blur-md" : "bg-transparent"
         }`}
+        style={{
+          color: onDarkHero ? "var(--surface-deep-foreground)" : "var(--foreground)",
+          transition: "color 0.5s var(--ease-out-expo), background-color 0.5s var(--ease-out-expo)",
+        }}
       >
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-12">
-          <Link href="/" className="group flex items-baseline gap-3 text-foreground">
+          <Link href="/" className="group flex items-baseline gap-3">
             <BrandMark size="md" />
-            <span className="eyebrow text-muted-foreground transition-opacity duration-300 group-hover:opacity-100">
+            <span className="eyebrow opacity-60 transition-opacity duration-300 group-hover:opacity-100">
               / {brand.tagline}
             </span>
           </Link>
 
-          <DesktopNav pathname={pathname} />
-
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
-            className="eyebrow flex items-center gap-3 text-foreground"
+            className="group eyebrow -m-3 flex items-center gap-3 p-3"
           >
-            <span className="hidden sm:inline">Navigate</span>
-            <span className="hamburger" aria-hidden>
+            <span>Menu</span>
+            <span className="hamburger-3" aria-hidden>
+              <span />
               <span />
               <span />
             </span>
@@ -84,121 +84,90 @@ export function SiteNav() {
         </div>
       </header>
 
+      {/* OVERLAY */}
       <div
-        className={`fixed inset-0 z-[60] overflow-y-auto overscroll-contain transition-opacity duration-700 ${
+        className={`fixed inset-0 z-[60] transition-opacity duration-500 ${
           open ? "menu-open pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
-        style={{ background: "var(--surface-deep)", color: "var(--surface-deep-foreground)" }}
       >
-        <div className="mx-auto flex min-h-full max-w-[1600px] flex-col px-6 py-5 md:px-12">
-          <div
-            className="sticky top-0 z-10 -mx-6 flex items-center justify-between px-6 py-4 md:-mx-12 md:px-12"
-            style={{ background: "var(--surface-deep)" }}
-          >
+        {/* blurred backdrop — frosts the live page; click to close */}
+        <button
+          aria-label="Close menu"
+          onClick={() => setOpen(false)}
+          className="absolute inset-0 cursor-default backdrop-blur-sm"
+          style={{ background: "var(--menu-scrim)" }}
+        />
+
+        {/* close button */}
+        <button
+          onClick={() => setOpen(false)}
+          aria-label="Close menu"
+          className="absolute right-6 top-5 z-20 -m-3 flex items-center gap-3 p-3 md:right-12"
+          style={{ color: "var(--surface-deep-foreground)" }}
+        >
+          <span className="eyebrow md:text-foreground">Close</span>
+          <span className="hamburger is-open md:text-foreground" aria-hidden>
+            <span />
+            <span />
+          </span>
+        </button>
+
+        {/* LEFT sidebar panel */}
+        <div
+          className="menu-panel surface-deep absolute inset-y-0 left-0 flex w-full flex-col justify-between overflow-y-auto px-6 py-5 md:w-[420px] md:px-12"
+        >
+          <div className="flex items-center justify-between">
             <BrandMark size="md" />
-            <button
-              onClick={() => setOpen(false)}
-              aria-label="Close menu"
-              className="eyebrow flex items-center gap-3"
-            >
-              <span className="hidden sm:inline">Close</span>
-              <span className="hamburger is-open" aria-hidden>
-                <span />
-                <span />
-              </span>
-            </button>
           </div>
-          <nav className="my-auto flex flex-col gap-1 py-10 sm:gap-2 md:gap-3">
-            {overlayItems.map((item, i) => {
-              const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href + "/"));
+
+          <nav className="flex flex-col py-8">
+            {menuItems.map((item, i) => {
+              const active =
+                pathname === item.href ||
+                (item.href !== "/" && pathname.startsWith(item.href + "/"));
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className={`group flex items-baseline gap-4 font-display leading-[1.04] text-[clamp(2.75rem,11vw,8rem)] transition-opacity duration-300 hover:opacity-100 ${
-                    active ? "opacity-100" : "opacity-60"
-                  }`}
+                  className="group flex items-baseline gap-4 border-b border-current/12 py-3.5"
+                  style={{
+                    transform: open ? "translateX(0)" : "translateX(-16px)",
+                    opacity: open ? 1 : 0,
+                    transition: `opacity 0.6s var(--ease-out-expo) ${0.15 + i * 0.05}s, transform 0.6s var(--ease-out-expo) ${0.15 + i * 0.05}s`,
+                  }}
                 >
-                  <span className="menu-mask" style={{ ["--i" as string]: i }}>
-                    <span>{item.label}</span>
-                  </span>
+                  <span className="eyebrow w-6 shrink-0 opacity-40">0{i + 1}</span>
                   <span
-                    aria-hidden
-                    className="eyebrow translate-y-[-0.6em] opacity-0 transition-opacity duration-300 group-hover:opacity-60"
+                    className={`font-display text-2xl leading-none transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1.5 md:text-[1.7rem] ${
+                      active ? "opacity-100" : "opacity-70 group-hover:opacity-100"
+                    }`}
                   >
-                    0{i + 1}
+                    {item.label}
                   </span>
                 </Link>
               );
             })}
           </nav>
-          <div className="flex flex-col gap-3 pb-2 text-sm opacity-80 md:flex-row md:items-end md:justify-between">
+
+          <div className="flex flex-col gap-4 text-sm opacity-85">
             <div className="flex flex-col gap-1">
               <a href={`mailto:${brand.email}`} className="hover:opacity-100">{brand.email}</a>
               <a href={brand.phoneHref} className="hover:opacity-100">{brand.phone}</a>
             </div>
-            <span className="eyebrow opacity-70">{brand.fullName}</span>
+            <div className="flex items-center gap-5">
+              {brand.social.map((s) => (
+                <a key={s.label} href={s.href} className="eyebrow opacity-70 hover:opacity-100">
+                  {s.label}
+                </a>
+              ))}
+            </div>
+            <p className="eyebrow opacity-50">
+              {brand.address.line1}, {brand.address.line2}
+            </p>
           </div>
         </div>
       </div>
     </>
-  );
-}
-
-function DesktopNav({ pathname }: { pathname: string }) {
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
-  const [hovered, setHovered] = useState<string | null>(null);
-
-  const activeHref = navItems.find((i) => pathname === i.href || pathname.startsWith(i.href + "/"))?.href ?? null;
-  const target = hovered ?? activeHref;
-
-  const positionIndicator = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    if (!target) { track.style.setProperty("--nav-op", "0"); return; }
-    const link = linkRefs.current[target];
-    if (!link) return;
-    const trackRect = track.getBoundingClientRect();
-    const linkRect = link.getBoundingClientRect();
-    track.style.setProperty("--nav-x", `${linkRect.left - trackRect.left}px`);
-    track.style.setProperty("--nav-w", `${linkRect.width}px`);
-    track.style.setProperty("--nav-scale", "1");
-    track.style.setProperty("--nav-op", "1");
-  }, [target]);
-
-  useLayoutEffect(() => { positionIndicator(); }, [positionIndicator]);
-
-  useEffect(() => {
-    const onResize = () => positionIndicator();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [positionIndicator]);
-
-  return (
-    <nav
-      ref={trackRef}
-      className="nav-track hidden items-center gap-10 md:flex"
-      onPointerLeave={() => setHovered(null)}
-    >
-      {navItems.map((item) => {
-        const active = activeHref === item.href;
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            ref={(el) => { linkRefs.current[item.href] = el; }}
-            onPointerEnter={() => setHovered(item.href)}
-            onFocus={() => setHovered(item.href)}
-            onBlur={() => setHovered(null)}
-            className={`eyebrow nav-link ${active ? "text-foreground" : "text-foreground/65 hover:text-foreground"}`}
-          >
-            {item.label}
-          </Link>
-        );
-      })}
-      <span className="nav-indicator" aria-hidden />
-    </nav>
   );
 }

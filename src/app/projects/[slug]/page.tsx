@@ -2,169 +2,229 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MagneticLink } from "@/components/MagneticLink";
-import { MaskHeading } from "@/components/MaskHeading";
-import { ParallaxImage } from "@/components/ParallaxImage";
-import { PinnedHero } from "@/components/PinnedHero";
+import { ProjectBanner } from "@/components/ProjectBanner";
 import { Reveal } from "@/components/Reveal";
+import { RevealImage } from "@/components/RevealImage";
 import { SplitText } from "@/components/SplitText";
-import { getNextProject, getProject, projects } from "@/lib/projects";
+import {
+  galleryItems,
+  getMoreProjects,
+  getProject,
+  projectDescription,
+  projectFeature,
+  projectImages,
+  projectScope,
+  projectSlug,
+  projectYear,
+} from "@/lib/gallery";
 
 export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+  return galleryItems.map((item) => ({ slug: projectSlug(item) }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return { title: "Project not found" };
+  const [intro] = projectDescription(project);
   return {
-    title: `${project.title} — ${project.tag}`,
-    description: project.intro,
-    openGraph: {
-      title: project.title,
-      description: project.intro,
-      images: [project.cover],
-    },
+    title: project.title,
+    description: intro,
+    openGraph: { title: project.title, description: intro, images: [project.img] },
   };
 }
 
-const aspectMap = {
-  tall: "aspect-[4/5]",
-  wide: "aspect-[16/10]",
-  square: "aspect-square",
-} as const;
-
-export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ProjectPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
-  const next = getNextProject(slug);
+
+  const description = projectDescription(project);
+  const scope = projectScope(project);
+  const year = projectYear(project);
+  const feature = projectFeature(project);
+  const shots = projectImages(project);
+  const more = getMoreProjects(slug, 3);
 
   return (
     <>
-      <PinnedHero image={project.cover} alt={project.title}>
-        <div className="grid items-end gap-10 md:grid-cols-12">
-          <div className="md:col-span-8">
-            <p className="eyebrow opacity-80">{project.tag} · {project.year}</p>
+      {/* BANNER — full-bleed hero, consistent crop across every project */}
+      <ProjectBanner
+        src={project.img}
+        alt={project.title}
+        pos={project.pos}
+        eyebrow={`${project.categories[0]} — ${year} · ${project.location}`}
+      />
+
+      {/* INFO — editorial spread mirroring the reference: title + copy + details · feature image */}
+      <section className="mx-auto max-w-[1400px] px-6 pb-24 pt-14 md:px-12 md:pb-32 md:pt-20">
+        <MagneticLink
+          href="/projects"
+          className="inline-flex items-center gap-2 text-[0.72rem] font-medium uppercase tracking-[0.04em] text-muted-foreground"
+        >
+          <span aria-hidden>←</span> Projects
+        </MagneticLink>
+
+        <div className="mt-11 grid gap-x-16 gap-y-12 md:mt-16 md:grid-cols-2">
+          {/* Left — information, tightly set */}
+          <div className="flex flex-col">
             <SplitText
               as="h1"
-              className="mt-4 font-display text-6xl leading-[0.9] md:text-[9rem]"
-              stagger={26}
+              className="font-display text-[2.4rem] font-[500] leading-[1.02] tracking-[-0.035em] md:text-[3.4rem]"
+              stagger={22}
             >
               {project.title}
             </SplitText>
-          </div>
-          <div className="md:col-span-3 md:col-start-10 self-end">
-            <p className="eyebrow opacity-80">Location</p>
-            <p className="mt-2 font-display text-xl">{project.location}</p>
-          </div>
-        </div>
-      </PinnedHero>
 
-      {/* INTRO + DETAILS */}
-      <section className="mx-auto max-w-[1600px] px-6 py-28 md:px-12 md:py-40">
-        <div className="grid gap-16 md:grid-cols-12">
-          <Reveal className="md:col-span-4">
-            <p className="eyebrow text-muted-foreground">{project.index} · Project</p>
-            <dl className="mt-10 space-y-6 text-sm">
-              <div>
-                <dt className="eyebrow text-muted-foreground">Year</dt>
-                <dd className="mt-2 font-display text-2xl">{project.year}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow text-muted-foreground">Location</dt>
-                <dd className="mt-2 font-display text-2xl">{project.location}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow text-muted-foreground">Services</dt>
-                <dd className="mt-2 space-y-1">
-                  {project.services.map((s) => (
-                    <div key={s} className="font-display text-2xl leading-tight">{s}</div>
-                  ))}
-                </dd>
-              </div>
-            </dl>
-          </Reveal>
-          <div className="md:col-span-7 md:col-start-6 space-y-10">
-            <MaskHeading
-              as="p"
-              lines={project.intro.split(/(?<=\.)\s+/)}
-              className="font-display text-3xl leading-tight md:text-4xl"
-              stagger={120}
-            />
-            <div className="space-y-8 text-lg leading-relaxed text-muted-foreground">
-              {project.body.map((b, i) => (
-                <Reveal key={i} delay={i * 100}>
-                  {b.heading && (
-                    <p className="eyebrow mb-3 text-foreground">{b.heading}</p>
-                  )}
-                  <p>{b.paragraph}</p>
+            <div className="mt-7 max-w-[46ch] space-y-4 text-[0.95rem] leading-[1.6] tracking-[-0.006em] text-muted-foreground">
+              {description.map((p, i) => (
+                <Reveal key={i} delay={i * 90}>
+                  <p>{p}</p>
                 </Reveal>
               ))}
             </div>
+
+            <dl className="mt-14 md:mt-20">
+              <Detail label="Location" value={project.location} />
+              <Detail label="Completed" value={String(year)} />
+              <Detail label="Scope of work" value={scope} />
+            </dl>
           </div>
-        </div>
-      </section>
 
-      {/* GALLERY — mixed layouts */}
-      <section className="mx-auto max-w-[1600px] px-6 pb-32 md:px-12">
-        <div className="grid gap-8 md:grid-cols-12">
-          {project.gallery.map((img, i) => {
-            const span = img.full
-              ? "md:col-span-12"
-              : img.aspect === "tall"
-                ? "md:col-span-6"
-                : img.aspect === "wide"
-                  ? "md:col-span-8"
-                  : "md:col-span-4";
-            const offset = i % 3 === 1 ? "md:mt-24" : i % 3 === 2 ? "md:mt-12" : "";
-            return (
-              <Reveal key={i} delay={(i % 3) * 100} className={`${span} ${offset}`}>
-                <div className={`img-zoom ${aspectMap[img.aspect]}`}>
-                  <ParallaxImage src={img.src} alt={img.alt} strength={60} zoomFrom={1.06} />
-                </div>
-                <p className="eyebrow mt-3 text-muted-foreground">{img.alt}</p>
-              </Reveal>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* NEXT PROJECT */}
-      <section className="relative overflow-hidden">
-        <Link href={`/projects/${next.slug}`} className="group block">
-          <div className="parallax-stage relative h-[80vh]">
-            <img
-              src={next.cover}
-              alt={next.title}
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+          {/* Right — feature image at a fixed aspect, identical on every project */}
+          <div className="md:pt-1">
+            <RevealImage
+              src={feature}
+              alt={`${project.title} — feature`}
+              loading="eager"
+              className="aspect-[4/3] w-full bg-muted"
             />
-            <div className="absolute inset-0 bg-black/50 transition-opacity duration-700 group-hover:bg-black/35" />
-            <div
-              className="relative z-10 mx-auto flex h-full max-w-[1600px] flex-col justify-between px-6 py-16 md:px-12 md:py-20"
-              style={{ color: "var(--surface-deep-foreground)" }}
-            >
-              <p className="eyebrow opacity-80">Next project — {next.index}</p>
-              <div>
-                <p className="eyebrow opacity-80">{next.tag}</p>
-                <h2 className="mt-4 font-display text-6xl leading-[0.9] md:text-[8rem]">
-                  {next.title}
-                </h2>
-                <div className="mt-6 inline-flex items-center gap-3 border-b border-current pb-1 text-sm transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-2">
-                  Open <span aria-hidden>→</span>
-                </div>
-              </div>
-            </div>
           </div>
-        </Link>
+        </div>
       </section>
 
-      {/* BACK TO INDEX */}
-      <section className="mx-auto max-w-[1600px] px-6 py-20 md:px-12">
-        <MagneticLink href="/projects" className="eyebrow inline-flex items-center gap-3">
-          <span aria-hidden>←</span> All projects
-        </MagneticLink>
+      {/* GALLERY — curated, asymmetric editorial composition, category-matched */}
+      <section className="mx-auto max-w-[1400px] px-6 pb-24 md:px-12 md:pb-32">
+        <div className="mb-8 flex items-end justify-between gap-6 border-t border-border pt-8 md:mb-12 md:pt-10">
+          <h2 className="font-display text-2xl leading-[0.98] tracking-[-0.035em] md:text-[2rem]">
+            Selected views
+          </h2>
+          <span className="eyebrow text-muted-foreground">
+            {String(shots.length).padStart(2, "0")} — {project.location}
+          </span>
+        </div>
+
+        <div className="space-y-3 md:space-y-4">
+          {/* establishing wide shot */}
+          <RevealImage
+            src={shots[0]}
+            alt={`${project.title} — view 1`}
+            className="aspect-[16/9] w-full bg-muted"
+          />
+
+          {/* asymmetric two-up */}
+          <div className="grid gap-3 md:grid-cols-12 md:gap-4">
+            <RevealImage
+              src={shots[1]}
+              alt={`${project.title} — view 2`}
+              className="aspect-[4/3] w-full bg-muted md:col-span-7"
+            />
+            <RevealImage
+              src={shots[2]}
+              alt={`${project.title} — view 3`}
+              className="aspect-[4/5] w-full bg-muted md:col-span-5"
+            />
+          </div>
+
+          {/* offset pair — reversed weighting, dropped tile for rhythm */}
+          <div className="grid gap-3 md:grid-cols-12 md:items-start md:gap-4">
+            <RevealImage
+              src={shots[3]}
+              alt={`${project.title} — view 4`}
+              className="aspect-[5/6] w-full bg-muted md:col-span-5 md:mt-16"
+            />
+            <RevealImage
+              src={shots[4]}
+              alt={`${project.title} — view 5`}
+              className="aspect-[3/2] w-full bg-muted md:col-span-7"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* MORE PROJECTS */}
+      <section className="border-t border-border">
+        <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-28">
+          <div className="flex items-end justify-between gap-6">
+            <h2 className="font-display text-3xl font-[500] leading-[0.98] tracking-[-0.03em] md:text-5xl">
+              More projects
+            </h2>
+            <MagneticLink
+              href="/projects"
+              className="eyebrow hidden items-center gap-2 border-b border-foreground pb-1 md:inline-flex"
+            >
+              View all <span aria-hidden>→</span>
+            </MagneticLink>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-3 md:mt-14 md:gap-5">
+            {more.map((item) => (
+              <Link
+                key={item.id}
+                href={`/projects/${projectSlug(item)}`}
+                aria-label={`${item.title}, ${item.location}`}
+                className="gallery-tile group relative block aspect-[4/5] w-full overflow-hidden bg-muted"
+              >
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
+                  style={{ objectPosition: item.pos }}
+                />
+                <div className="gallery-scrim pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                <div
+                  className="gallery-cap pointer-events-none absolute inset-x-0 bottom-0 p-4 md:p-5"
+                  style={{ color: "var(--surface-deep-foreground)" }}
+                >
+                  <h3 className="font-display text-lg font-[500] leading-[1.05] tracking-[-0.02em] md:text-xl">
+                    {item.title}
+                  </h3>
+                  <p className="eyebrow mt-1 truncate opacity-80">{item.location}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
     </>
+  );
+}
+
+function Detail({ label, value }: { label: string; value: string | string[] }) {
+  return (
+    <div className="grid grid-cols-2 items-baseline gap-4 border-t border-border/80 py-4 sm:gap-8">
+      <dt className="text-[0.7rem] font-medium uppercase tracking-[0.04em] text-muted-foreground">
+        {label}
+      </dt>
+      <dd className="text-[0.9rem] leading-snug tracking-[-0.01em]">
+        {Array.isArray(value)
+          ? value.map((v) => (
+              <span key={v} className="block">
+                {v}
+              </span>
+            ))
+          : value}
+      </dd>
+    </div>
   );
 }

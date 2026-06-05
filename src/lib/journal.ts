@@ -33,7 +33,7 @@ export const posts: JournalPost[] = [
       "Spotted gum, blackbutt, silvertop ash — what we reach for, why, and how each weathers in a salt environment over a decade.",
     tag: "Materials",
     author: { name: "Brendan Mostyn", role: "Founder, lead carpenter" },
-    hero: "/images/project-1.jpg",
+    hero: "/images/ph-forest.jpg",
     body: [
       {
         type: "p",
@@ -106,7 +106,7 @@ export const posts: JournalPost[] = [
       "The unsung backbone of a garden that ages well — Lomandra, Themeda, Poa and the three we plant in every coastal job.",
     tag: "Planting",
     author: { name: "Saskia Veldt", role: "Landscape designer" },
-    hero: "/images/project-2.jpg",
+    hero: "/images/ph-seedlings.jpg",
     body: [
       {
         type: "p",
