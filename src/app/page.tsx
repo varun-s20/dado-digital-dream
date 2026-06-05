@@ -20,13 +20,13 @@ export default function HomePage() {
       {/* HERO */}
       <section className="relative min-h-[100dvh] w-full overflow-hidden">
         <video
-          src="/videos/hero-garden.mp4"
+          src="https://xhhvokcsehxhjxabtvvw.supabase.co/storage/v1/object/public/dolobuck/17224715-uhd_3840_2160_30fps.mp4"
           poster="/images/hero-garden-poster.jpg"
           autoPlay
           loop
           muted
           playsInline
-          aria-label="A terraced garden of clipped hedges, stone steps and timber structures"
+          aria-label="A modern timber-clad home rising behind landscaped greenery at golden hour"
           className="absolute inset-0 h-full w-full scale-105 object-cover"
         />
         <div className="hero-veil absolute inset-0" />
@@ -216,18 +216,6 @@ export default function HomePage() {
                 className="h-full w-full"
                 imgClassName="h-full w-full object-cover"
                 strength={70}
-              />
-            </Reveal>
-            <Reveal
-              delay={180}
-              className="img-zoom relative mt-4 aspect-[4/5] w-[62%] border-[6px] border-background shadow-[0_24px_50px_-20px_rgba(0,0,0,0.35)] md:absolute md:-bottom-12 md:left-0 md:mt-0 md:w-[38%]"
-            >
-              <ParallaxImage
-                src="/images/studio.jpg"
-                alt="Carpenter shaping a hardwood joint at the workbench"
-                className="h-full w-full"
-                imgClassName="h-full w-full object-cover"
-                strength={50}
               />
             </Reveal>
           </div>
