@@ -8,9 +8,9 @@ import { StickyStack } from "@/components/StickyStack";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Landscape architecture, construction, swimming pools and garden maintenance — designed and built in-house by BM.",
+    "Landscape architecture, construction, swimming pools and garden maintenance, designed and built in-house by BM.",
   openGraph: {
-    title: "Services — BM.",
+    title: "Services | BM",
     description: "Design, build, pools and maintenance, resolved by one in-house team.",
   },
 };
@@ -19,26 +19,26 @@ const services = [
   {
     n: "01",
     t: "Landscape Architecture",
-    img: "/images/ph-timber-house.jpg",
-    d: "The best gardens evolve over time, and it all starts with a considered concept. We design responsive landscapes that perform in our climate, lift the value of your property and — most of all — change how you live outdoors. Concept design, 3D modelling, CDC/DA/CC approvals and detailed documentation.",
+    img: "/images/earlwood-3.webp",
+    d: "The best gardens evolve over time, and it all starts with a considered concept. We design responsive landscapes that perform in our climate, lift the value of your property and, most of all, change how you live outdoors. Concept design, 3D modelling, CDC/DA/CC approvals and detailed documentation.",
   },
   {
     n: "02",
     t: "Landscape Construction",
-    img: "/images/project-1.jpg",
-    d: "With more than sixteen years on the tools as a team, we bring a deep working knowledge of materials, methods and detailing. We build with our own carpenters and trusted specialists — never handed off — so the garden survives everything exterior construction throws at it. Built well, and built to last.",
+    img: "/images/earlwood-2.webp",
+    d: "With years on the tools as a team, we bring a deep working knowledge of materials, methods and detailing. We build with our own carpenters and trusted specialists, never handed off, so the garden survives everything exterior construction throws at it. Built well, and built to last.",
   },
   {
     n: "03",
     t: "Swimming Pools",
-    img: "/images/ph-pool-sunset.jpg",
-    d: "We are licensed pool builders, which lets us design and deliver the garden and the water as one project. From consultation and approvals through to material sourcing and construction, you get a single transparent process — and a pool that ties straight back into the carpentry around it.",
+    img: "/images/campsie-4.webp",
+    d: "We are licensed pool builders, which lets us design and deliver the garden and the water as one project. From consultation and approvals through to material sourcing and construction, you get a single transparent process and a pool that ties straight back into the carpentry around it.",
   },
   {
     n: "04",
     t: "Garden Maintenance",
-    img: "/images/ph-raised-bed.jpg",
-    d: "Our horticulture team keeps the living parts of your landscape reading the way they were drawn. Tailored to each garden — pruning, planting, pest management, programmed feeding and the long-term planning that lets a place settle properly into itself.",
+    img: "/images/avalon-6.webp",
+    d: "Our horticulture team keeps the living parts of your landscape reading the way they were drawn. Tailored to each garden: pruning, planting, pest management, programmed feeding and the long-term planning that lets a place settle properly into itself.",
   },
 ];
 
@@ -46,17 +46,17 @@ const process = [
   {
     n: "01",
     t: "Consultation",
-    d: "The initial onsite consultation is where it begins — understanding what you want from the garden, what the site will allow, and how we make the two meet. Our experience in planning and residential construction helps navigate the approvals along the way.",
+    d: "The initial onsite consultation is where it begins: understanding what you want from the garden, what the site will allow, and how we make the two meet. Our experience in planning and residential construction helps navigate the approvals along the way.",
   },
   {
     n: "02",
     t: "Design",
-    d: "After we have walked the site, a fee proposal for the design works follows. From there our drawings move through concept to detailed plans, 3D modelling and the CDC/DA/CC approval stages — nothing left unresolved on paper.",
+    d: "After we have walked the site, a fee proposal for the design works follows. From there our drawings move through concept to detailed plans, 3D modelling and the CDC/DA/CC approval stages, with nothing left unresolved on paper.",
   },
   {
     n: "03",
     t: "Construct",
-    d: "Once the vision is set and the plans are resolved, we move to costing. With finalised numbers agreed, the fun part starts — our in-house crew builds your new garden from first dig to final coat.",
+    d: "Once the vision is set and the plans are resolved, we move to costing. With finalised numbers agreed, the build starts: our in-house crew builds your new outdoor space from first dig to final coat.",
   },
   {
     n: "04",
@@ -67,7 +67,7 @@ const process = [
 
 const numbers = [
   { v: "147", l: "Built projects" },
-  { v: "16", l: "Years building" },
+  { v: "30+", l: "Years experience" },
   { v: "9", l: "In-house crew" },
   { v: "1", l: "Mosman workshop" },
 ];
@@ -89,7 +89,7 @@ export default function ServicesPage() {
           <Reveal delay={180} className="md:col-span-4 md:pb-2">
             <p className="text-base leading-relaxed text-muted-foreground">
               One Sydney studio, designing and building outdoors from a single
-              workshop in Mosman. Four disciplines, one team — start to finish.
+              workshop in Mosman. Four disciplines, one team: start to finish.
             </p>
           </Reveal>
         </div>
@@ -98,7 +98,7 @@ export default function ServicesPage() {
       {/* CENTRAL IMAGE — garden + timber, the idea of the whole site */}
       <section className="img-zoom mx-auto max-w-[1600px] px-6 md:px-12">
         <ParallaxImage
-          src="/images/ph-timber-house.jpg"
+          src="/images/earlwood-1.webp"
           alt="Timber-clad home opening onto a designed garden at dusk"
           className="aspect-[16/9] w-full"
           imgClassName="h-full w-full object-cover"
@@ -169,7 +169,7 @@ export default function ServicesPage() {
                 comes together.
               </h2>
               <p className="mt-6 max-w-xs text-base leading-relaxed text-muted-foreground">
-                Four stages, every project — from the first walk of the site to the
+                Four stages, every project, from the first walk of the site to the
                 garden settling into its full design intent.
               </p>
               <MagneticLink

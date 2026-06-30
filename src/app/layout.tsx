@@ -10,13 +10,13 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://bmcarpentry.com.au"),
   title: {
-    default: `${brand.mark} ${brand.fullName}`,
-    template: `%s — ${brand.mark}`,
+    default: brand.fullName,
+    template: `%s — ${brand.fullName}`,
   },
   description:
     "An independent studio designing and building gardens, pools and bespoke timber structures across Sydney and the NSW South Coast.",
   openGraph: {
-    title: `${brand.mark} ${brand.fullName}`,
+    title: brand.fullName,
     description: "Outdoor spaces that respond to architecture and nature.",
     type: "website",
   },

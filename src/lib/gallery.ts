@@ -1,15 +1,3 @@
-/**
- * Projects gallery data.
- *
- * ── Replacing the placeholder photography ───────────────────────────────
- * Every `img` below currently cycles the small set of photos already in
- * `/public/images`. To ship real work, drop the project photos into
- * `/public/images/projects/` and point each `img` at them — nothing else
- * needs to change. Keep a spread of `size` values ("sm" | "wide" | "tall"
- * | "lg") so the mosaic stays lively, and tag each item with the
- * `categories` it should appear under.
- */
-
 export type GallerySize = "sm" | "wide" | "tall" | "lg";
 
 export type GalleryItem = {
@@ -39,67 +27,49 @@ export const CATEGORIES = [
   "Coastal",
 ] as const;
 
-// Photo pool — grouped by what reads best per category. Replace with real files.
-const POOL = ["/images/ph-pool-sunset.jpg", "/images/project-4.jpg"];
+// Photo pool — grouped by what reads best per category.
+const POOL = [
+  "/images/earlwood-2.webp",
+  "/images/campsie-4.webp",
+];
 const GARDEN = [
-  "/images/ph-forest.jpg",
-  "/images/ph-seedlings.jpg",
-  "/images/ph-raised-bed.jpg",
-  "/images/project-2.jpg",
+  "/images/avalon-2.webp",
+  "/images/avalon-3.webp",
+  "/images/avalon-4.webp",
+  "/images/earlwood-3.webp",
 ];
 const TIMBER = [
-  "/images/ph-timber-house.jpg",
-  "/images/studio.jpg",
-  "/images/project-1.jpg",
-  "/images/project-3.jpg",
+  "/images/earlwood-1.webp",
+  "/images/campsie-2.webp",
+  "/images/campsie-1.webp",
+  "/images/avalon-1.webp",
 ];
-const COAST = ["/images/project-2.jpg", "/images/ph-pool-sunset.jpg", "/images/hero.jpg"];
+const COAST = [
+  "/images/avalon-1.webp",
+  "/images/earlwood-2.webp",
+  "/images/campsie-3.webp",
+];
 
 export const galleryItems: GalleryItem[] = [
-  { id: "g01", title: "Mosman Deck", location: "Mosman, Sydney", categories: ["Carpentry"], img: TIMBER[2], size: "lg", slug: "mosman-deck", year: 2026, summary: "A north-facing deck cantilevered over an existing sandstone retaining wall — built in spotted gum, designed to weather to silver with the harbour light." },
-  { id: "g02", title: "Balmoral Pool", location: "Balmoral, Sydney", categories: ["Pools", "Coastal"], img: POOL[0], size: "tall" },
-  { id: "g03", title: "Clovelly Courtyard", location: "Clovelly, Sydney", categories: ["Courtyards", "Gardens"], img: GARDEN[2], size: "sm" },
-  { id: "g04", title: "Bundeena Steps", location: "Bundeena, NSW", categories: ["Gardens", "Coastal"], img: GARDEN[3], size: "wide", slug: "bundeena-steps", year: 2025, summary: "Forty-two sandstone treads cut into a coastal slope, threaded through endemic banksia and tea-tree, holding a path to the water that wasn't there a year ago." },
-  { id: "g05", title: "Fairlight Pergola", location: "Fairlight, Sydney", categories: ["Carpentry"], img: TIMBER[3], size: "tall", slug: "fairlight-pergola", year: 2025, summary: "A 9-metre pergola of laminated blackbutt and 6mm steel plate — sized to the width of the rear elevation, detailed to disappear when seen from the kitchen window." },
-  { id: "g06", title: "Bowral Pool", location: "Bowral, Highlands", categories: ["Pools"], img: POOL[1], size: "wide", slug: "bowral-pool", year: 2024, summary: "A black-bottomed lap pool wrapped in spotted gum, set into a clipped hornbeam hedge — designed to read as a still pond in late afternoon light." },
-  { id: "g07", title: "Palm Beach Pavilion", location: "Palm Beach, Sydney", categories: ["Carpentry", "Coastal"], img: TIMBER[0], size: "sm" },
-  { id: "g08", title: "Bronte Garden", location: "Bronte, Sydney", categories: ["Gardens"], img: GARDEN[0], size: "sm", pos: "center 40%" },
-  { id: "g09", title: "Kiama Boardwalk", location: "Kiama, South Coast", categories: ["Carpentry", "Coastal"], img: TIMBER[1], size: "lg" },
-  { id: "g10", title: "Vaucluse Terrace", location: "Vaucluse, Sydney", categories: ["Courtyards"], img: TIMBER[2], size: "sm", pos: "center 70%" },
-  { id: "g11", title: "Coogee Plunge Pool", location: "Coogee, Sydney", categories: ["Pools", "Coastal"], img: POOL[0], size: "wide", pos: "center 60%" },
-  { id: "g12", title: "Berry Kitchen Garden", location: "Berry, South Coast", categories: ["Gardens"], img: GARDEN[1], size: "sm" },
-  { id: "g13", title: "Cremorne Screen", location: "Cremorne, Sydney", categories: ["Carpentry"], img: TIMBER[3], size: "sm", pos: "center 30%" },
-  { id: "g14", title: "Avalon Garden Room", location: "Avalon, Sydney", categories: ["Carpentry", "Gardens"], img: TIMBER[0], size: "lg", pos: "center 55%" },
-  { id: "g15", title: "Jervis Bay Retreat", location: "Jervis Bay, South Coast", categories: ["Gardens", "Coastal"], img: COAST[0], size: "tall" },
-  { id: "g16", title: "Northbridge Courtyard", location: "Northbridge, Sydney", categories: ["Courtyards"], img: TIMBER[2], size: "sm" },
-  { id: "g17", title: "Whale Beach Pool", location: "Whale Beach, Sydney", categories: ["Pools", "Coastal"], img: POOL[1], size: "tall", pos: "center 40%" },
-  { id: "g18", title: "Seaforth Seedling Beds", location: "Seaforth, Sydney", categories: ["Gardens"], img: GARDEN[1], size: "wide" },
-  { id: "g19", title: "Gerringong Deck", location: "Gerringong, South Coast", categories: ["Carpentry", "Coastal"], img: TIMBER[1], size: "sm" },
-  { id: "g20", title: "Bellevue Hill Garden", location: "Bellevue Hill, Sydney", categories: ["Gardens", "Courtyards"], img: GARDEN[2], size: "sm", pos: "center 35%" },
-  { id: "g21", title: "Cronulla Lap Pool", location: "Cronulla, Sydney", categories: ["Pools", "Coastal"], img: POOL[0], size: "sm" },
-  { id: "g22", title: "Newport Pergola", location: "Newport, Sydney", categories: ["Carpentry"], img: TIMBER[3], size: "tall", pos: "center 60%" },
-  { id: "g23", title: "Huskisson Boardwalk", location: "Huskisson, South Coast", categories: ["Carpentry", "Coastal"], img: COAST[2], size: "lg" },
-  { id: "g24", title: "Pittwater Terrace", location: "Pittwater, Sydney", categories: ["Courtyards", "Coastal"], img: TIMBER[0], size: "sm", pos: "center 45%" },
-  { id: "g25", title: "Manly Plunge", location: "Manly, Sydney", categories: ["Pools", "Coastal"], img: POOL[1], size: "lg" },
-  { id: "g26", title: "Berry Meadow", location: "Berry, South Coast", categories: ["Gardens"], img: GARDEN[0], size: "tall" },
-  { id: "g27", title: "Cremorne Deck", location: "Cremorne, Sydney", categories: ["Carpentry"], img: TIMBER[2], size: "sm", pos: "center 30%" },
-  { id: "g28", title: "Bronte Courtyard", location: "Bronte, Sydney", categories: ["Courtyards"], img: TIMBER[3], size: "wide", pos: "center 50%" },
-  { id: "g29", title: "Avalon Pool", location: "Avalon, Sydney", categories: ["Pools", "Coastal"], img: POOL[0], size: "sm", pos: "center 30%" },
-  { id: "g30", title: "Gerringong Garden", location: "Gerringong, South Coast", categories: ["Gardens", "Coastal"], img: GARDEN[3], size: "sm" },
-  { id: "g31", title: "Mosman Garden Steps", location: "Mosman, Sydney", categories: ["Gardens", "Carpentry"], img: GARDEN[2], size: "lg", pos: "center 60%" },
-  { id: "g32", title: "Coogee Courtyard", location: "Coogee, Sydney", categories: ["Courtyards", "Coastal"], img: TIMBER[0], size: "sm" },
-  { id: "g33", title: "Kiama Pool House", location: "Kiama, South Coast", categories: ["Pools", "Carpentry", "Coastal"], img: TIMBER[1], size: "wide" },
-  { id: "g34", title: "Vaucluse Beds", location: "Vaucluse, Sydney", categories: ["Gardens"], img: GARDEN[1], size: "sm", pos: "center 30%" },
-  { id: "g35", title: "Seaforth Pavilion", location: "Seaforth, Sydney", categories: ["Carpentry"], img: TIMBER[3], size: "tall" },
-  { id: "g36", title: "Jervis Bay Pool", location: "Jervis Bay, South Coast", categories: ["Pools", "Coastal"], img: POOL[1], size: "sm", pos: "center 65%" },
+  { id: "g01", title: "Earlwood Transformation", location: "Earlwood, Sydney", categories: ["Carpentry", "Gardens"], img: "/images/earlwood-2.webp", size: "lg", slug: "earlwood", year: 2026, summary: "A comprehensive, large-scale residential renovation combining structural timber framing, premium external cladding, stone paving, and fully automated irrigation." },
+  { id: "g02", title: "Campsie Deck & Garden", location: "Campsie, Sydney", categories: ["Carpentry", "Gardens"], img: "/images/campsie-2.webp", size: "tall", slug: "campsie", year: 2026, summary: "An integrated timber deck and stair installation featuring custom-engineered drainage systems and structural planter boxes built to border the outdoor area." },
+  { id: "g03", title: "Avalon Beach Stairs", location: "Avalon Beach, Sydney", categories: ["Gardens", "Coastal"], img: "/images/avalon-1.webp", size: "sm", slug: "avalon-beach", year: 2026, summary: "Bespoke carpentry and garden engineering featuring closed stringer stairs, curved steps, structural retaining walls, and raised timber garden beds." },
+  { id: "g04", title: "Bronte Courtyard", location: "Bronte, Sydney", categories: ["Courtyards", "Gardens"], img: "/images/campsie-4.webp", size: "wide" },
+  { id: "g05", title: "Mosman Deck Details", location: "Mosman, Sydney", categories: ["Carpentry"], img: "/images/earlwood-1.webp", size: "tall" },
+  { id: "g06", title: "Balmoral Poolside", location: "Balmoral, Sydney", categories: ["Pools", "Coastal"], img: "/images/campsie-3.webp", size: "wide" },
+  { id: "g07", title: "Palm Beach Pergola", location: "Palm Beach, Sydney", categories: ["Carpentry", "Coastal"], img: "/images/studio-1.webp", size: "sm" },
+  { id: "g08", title: "Vaucluse Garden Walkway", location: "Vaucluse, Sydney", categories: ["Gardens"], img: "/images/avalon-3.webp", size: "sm", pos: "center 40%" },
+  { id: "g09", title: "Kiama Boardwalk", location: "Kiama, South Coast", categories: ["Carpentry", "Coastal"], img: "/images/earlwood-3.webp", size: "lg" },
+  { id: "g10", title: "Clovelly Terraces", location: "Clovelly, Sydney", categories: ["Courtyards"], img: "/images/avalon-4.webp", size: "sm", pos: "center 70%" },
+  { id: "g11", title: "Coogee Garden Steps", location: "Coogee, Sydney", categories: ["Gardens", "Coastal"], img: "/images/avalon-2.webp", size: "wide", pos: "center 60%" },
+  { id: "g12", title: "Berry Meadow Planters", location: "Berry, South Coast", categories: ["Gardens"], img: "/images/avalon-5.webp", size: "sm" },
+  { id: "g13", title: "Cremorne Timber Wall", location: "Cremorne, Sydney", categories: ["Carpentry"], img: "/images/studio-2.webp", size: "sm", pos: "center 30%" },
+  { id: "g14", title: "Avalon Screen", location: "Avalon Beach, Sydney", categories: ["Carpentry", "Gardens"], img: "/images/avalon-6.webp", size: "lg", pos: "center 55%" },
+  { id: "g15", title: "Jervis Bay Decking", location: "Jervis Bay, South Coast", categories: ["Gardens", "Coastal"], img: "/images/earlwood-2.webp", size: "tall" },
+  { id: "g16", title: "Northbridge Courtyard", location: "Northbridge, Sydney", categories: ["Courtyards"], img: "/images/campsie-1.webp", size: "sm" },
 ];
 
-/* ── Per-project detail page helpers ──────────────────────────────────────
- * Every gallery item is also a project with its own page at /projects/[slug].
- * Where an item has no hand-written `summary`/`year`, tasteful copy and a
- * gallery are generated from its category + location so the page reads well.
- * Replace the generators with real content as projects come in.
- */
+/* ── Per-project detail page helpers ────────────────────────────────────── */
 
 const kebab = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -119,7 +89,8 @@ export function getMoreProjects(slug: string, n = 3): GalleryItem[] {
   const start = galleryItems.findIndex((g) => projectSlug(g) === slug);
   const out: GalleryItem[] = [];
   for (let k = 1; out.length < n && k <= galleryItems.length; k++) {
-    out.push(galleryItems[(start + k) % galleryItems.length]);
+    const item = galleryItems[(start + k) % galleryItems.length];
+    if (item) out.push(item);
   }
   return out;
 }
@@ -133,7 +104,7 @@ const SCOPE: Record<string, string[]> = {
 };
 
 export const projectScope = (item: GalleryItem) =>
-  SCOPE[item.categories[0]] ?? ["Design", "Construction"];
+  SCOPE[item.categories[0] ?? "Gardens"] ?? ["Design", "Construction"];
 
 const CONTEXT = [
   (loc: string) =>
@@ -173,39 +144,47 @@ const APPROACH: Record<string, string[]> = {
 export function projectDescription(item: GalleryItem): string[] {
   const cat = item.categories[0] ?? "Gardens";
   const intro = item.summary ?? CONTEXT[num(item) % CONTEXT.length](item.location);
-  const approach = (APPROACH[cat] ?? APPROACH.Gardens)[num(item) % 2];
+  const approach = (APPROACH[cat] ?? APPROACH.Gardens)[num(item) % 2] ?? "Every detail resolved by hand.";
   return [intro, approach];
 }
 
-// Each project draws its supporting imagery from the pool that matches its
-// primary subject, so a pool page shows water and a carpentry page shows
-// timber. Pools are deliberately broad (7 photos each) so a curated gallery
-// of five reads as five distinct views rather than the same shot repeated.
 const ALL = [
-  "/images/ph-pool-sunset.jpg",
-  "/images/ph-forest.jpg",
-  "/images/ph-seedlings.jpg",
-  "/images/ph-raised-bed.jpg",
-  "/images/ph-timber-house.jpg",
-  "/images/studio.jpg",
-  "/images/hero.jpg",
-  "/images/project-1.jpg",
-  "/images/project-2.jpg",
-  "/images/project-3.jpg",
-  "/images/project-4.jpg",
+  "/images/earlwood-1.webp",
+  "/images/earlwood-2.webp",
+  "/images/earlwood-3.webp",
+  "/images/campsie-1.webp",
+  "/images/campsie-2.webp",
+  "/images/campsie-3.webp",
+  "/images/campsie-4.webp",
+  "/images/campsie-5.webp",
+  "/images/campsie-6.webp",
+  "/images/avalon-1.webp",
+  "/images/avalon-2.webp",
+  "/images/avalon-3.webp",
+  "/images/avalon-4.webp",
+  "/images/avalon-5.webp",
+  "/images/avalon-6.webp",
+  "/images/avalon-7.webp",
+  "/images/avalon-8.webp",
+  "/images/avalon-9.webp",
+  "/images/avalon-10.webp",
+  "/images/about-hero.webp",
+  "/images/studio-1.webp",
+  "/images/studio-2.webp",
+  "/images/studio-3.webp",
 ];
 
 const CATEGORY_POOL: Record<string, string[]> = {
-  Pools: ["/images/ph-pool-sunset.jpg", "/images/project-4.jpg", "/images/hero.jpg", "/images/project-2.jpg", "/images/ph-timber-house.jpg", "/images/project-1.jpg", "/images/ph-forest.jpg"],
-  Gardens: ["/images/ph-forest.jpg", "/images/ph-seedlings.jpg", "/images/ph-raised-bed.jpg", "/images/project-2.jpg", "/images/hero.jpg", "/images/project-3.jpg", "/images/ph-timber-house.jpg"],
-  Carpentry: ["/images/ph-timber-house.jpg", "/images/studio.jpg", "/images/project-1.jpg", "/images/project-3.jpg", "/images/project-4.jpg", "/images/ph-raised-bed.jpg", "/images/hero.jpg"],
-  Courtyards: ["/images/ph-timber-house.jpg", "/images/project-1.jpg", "/images/ph-raised-bed.jpg", "/images/project-3.jpg", "/images/ph-seedlings.jpg", "/images/studio.jpg", "/images/project-2.jpg"],
-  Coastal: ["/images/ph-pool-sunset.jpg", "/images/hero.jpg", "/images/project-2.jpg", "/images/ph-forest.jpg", "/images/project-4.jpg", "/images/ph-timber-house.jpg", "/images/ph-seedlings.jpg"],
+  Pools: ["/images/earlwood-2.webp", "/images/campsie-4.webp", "/images/campsie-3.webp", "/images/earlwood-3.webp"],
+  Gardens: ["/images/avalon-2.webp", "/images/avalon-3.webp", "/images/avalon-4.webp", "/images/earlwood-3.webp", "/images/avalon-6.webp", "/images/avalon-1.webp"],
+  Carpentry: ["/images/earlwood-1.webp", "/images/campsie-2.webp", "/images/campsie-1.webp", "/images/studio-1.webp", "/images/studio-2.webp"],
+  Courtyards: ["/images/campsie-1.webp", "/images/avalon-3.webp", "/images/campsie-4.webp", "/images/avalon-4.webp"],
+  Coastal: ["/images/avalon-1.webp", "/images/earlwood-2.webp", "/images/campsie-3.webp", "/images/avalon-2.webp"],
 };
 
 /** Category-matched photos for a project, excluding its hero (and any extras). */
 function categoryPhotos(item: GalleryItem, exclude: string[] = []): string[] {
-  const pool = CATEGORY_POOL[item.categories[0]] ?? CATEGORY_POOL.Gardens;
+  const pool = CATEGORY_POOL[item.categories[0] ?? "Gardens"] ?? CATEGORY_POOL.Gardens;
   const skip = new Set([item.img, ...exclude]);
   const matched = Array.from(new Set([...pool, ...ALL])).filter((p) => !skip.has(p));
   return matched.length ? matched : Array.from(new Set(pool));
@@ -217,11 +196,10 @@ export const projectFeature = (item: GalleryItem): string =>
 
 /**
  * Five category-matched views for the project's curated gallery — distinct
- * from both the banner hero and the feature image above. Deterministic per
- * project (seeded off its id) so the same page always reads the same way.
+ * from both the banner hero and the feature image above.
  */
 export function projectImages(item: GalleryItem, count = 5): string[] {
   const photos = categoryPhotos(item, [projectFeature(item)]);
   const start = num(item) % photos.length;
-  return Array.from({ length: count }, (_, k) => photos[(start + k) % photos.length]);
+  return Array.from({ length: count }, (_, k) => photos[(start + k) % photos.length] ?? item.img);
 }

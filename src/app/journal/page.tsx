@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Journal",
   description: "Notes from the workshop and the field.",
   openGraph: {
-    title: "Journal — BM.",
+    title: "Journal | BM",
     description: "Writing on plants, timber and the craft of building outdoors.",
   },
 };
@@ -23,7 +23,7 @@ export default function JournalPage() {
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
           <p className="eyebrow text-muted-foreground">Journal · field notes</p>
           <p className="eyebrow text-muted-foreground">
-            {String(posts.length).padStart(2, "0")} — Sydney &amp; South Coast
+            {String(posts.length).padStart(2, "0")} · Sydney &amp; South Coast
           </p>
         </div>
         <h1 className="word-rise mt-7 font-display text-6xl leading-[0.8] tracking-[-0.05em] md:mt-9 md:text-[8rem]">

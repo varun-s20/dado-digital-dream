@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Contact",
   description: "Start a garden, pool or carpentry project with BM.",
   openGraph: {
-    title: "Contact — BM.",
+    title: "Contact | BM",
     description: "Get in touch about your next outdoor project.",
   },
 };
@@ -41,7 +41,10 @@ export default function ContactPage() {
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 hidden justify-center overflow-hidden md:flex"
       >
-        <span className="contact-watermark translate-y-[26%] text-[24vw]">{brand.mark}</span>
+        <span
+          className="brand-logo translate-y-[34%]"
+          style={{ width: "30vw", height: "30vw", opacity: 0.045, transition: "none" }}
+        />
       </div>
 
       {/* MASTHEAD — editorial, left-aligned, asymmetric */}
@@ -63,8 +66,8 @@ export default function ContactPage() {
           </h1>
           <Reveal delay={160} className="md:col-span-5 md:col-start-8">
             <p className="text-[0.92rem] leading-[1.5] tracking-[-0.005em] text-muted-foreground">
-              We take on a small number of projects each year. The earlier we hear from
-              you, the more we can shape.
+              We take on a small number of projects each year. The earlier we hear from you, the
+              more we can shape.
             </p>
             <span className="mt-4 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.05em]">
               <span className="pulse-dot" aria-hidden /> Currently booking for 2026
@@ -76,11 +79,11 @@ export default function ContactPage() {
       {/* BODY — image + details · form */}
       <div className="relative mx-auto mt-10 max-w-[1320px] border-t border-border px-6 pb-20 pt-10 md:mt-14 md:px-12 md:pb-24 md:pt-12">
         <div className="grid gap-x-10 gap-y-10 md:grid-cols-12">
-          {/* LEFT — image anchor + studio details */}
+          {/* LEFT - image anchor + studio details */}
           <div className="md:col-span-5">
             <RevealImage
-              src="/images/studio.jpg"
-              alt="Inside the workshop — a carpenter shaping a hardwood joint"
+              src="/images/studio-1.webp"
+              alt="Inside the workshop, shaping a hardwood joint"
               loading="eager"
               className="aspect-[4/5] w-full bg-muted"
             />
@@ -107,7 +110,7 @@ export default function ContactPage() {
                 </span>
               </DetailRow>
               <DetailRow label="Hours">
-                <span className="text-muted-foreground">Mon — Fri · 8:00 — 17:00</span>
+                <span className="text-muted-foreground">Mon-Fri · 7am-4pm</span>
               </DetailRow>
             </dl>
             <div className="mt-6 flex items-center gap-6">
@@ -134,18 +137,19 @@ export default function ContactPage() {
               <Field id="email" label="Email" type="email" autoComplete="email" />
               <Field id="phone" label="Phone" type="tel" autoComplete="tel" />
               <Field id="address" label="Address" className="sm:col-span-2" />
-              <Field
-                id="hear"
-                label="How did you hear about us?"
-                className="sm:col-span-2"
-              />
+              <Field id="hear" label="How did you hear about us?" className="sm:col-span-2" />
 
               <fieldset className="sm:col-span-2">
                 <legend className="eyebrow text-muted-foreground">Project type</legend>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {PROJECT_TYPES.map((t) => (
                     <label key={t} className="cursor-pointer">
-                      <input type="checkbox" name="projectType" value={t} className="peer sr-only" />
+                      <input
+                        type="checkbox"
+                        name="projectType"
+                        value={t}
+                        className="peer sr-only"
+                      />
                       <span className="inline-block border border-border px-4 py-2.5 text-[0.7rem] uppercase tracking-[0.05em] text-muted-foreground transition-colors duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-foreground hover:text-foreground peer-checked:border-foreground peer-checked:bg-foreground peer-checked:text-background peer-focus-visible:ring-1 peer-focus-visible:ring-foreground peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background">
                         {t}
                       </span>
@@ -156,14 +160,13 @@ export default function ContactPage() {
 
               <TextareaField
                 id="message"
-                label="Tell us about the project — site, scope, ideal start"
+                label="Tell us about the project, site, scope, or ideal start"
                 className="sm:col-span-2"
               />
 
               <div className="flex flex-col items-start gap-6 pt-2 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
                 <p className="max-w-xs text-[0.76rem] leading-[1.5] text-muted-foreground/70">
-                  We&rsquo;ll reply within two working days, usually with a few first
-                  questions.
+                  We&rsquo;ll reply within two working days, usually with a few first questions.
                 </p>
                 <HoverFillButton
                   type="button"

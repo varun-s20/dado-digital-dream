@@ -32,8 +32,8 @@ export const posts: JournalPost[] = [
     excerpt:
       "Spotted gum, blackbutt, silvertop ash — what we reach for, why, and how each weathers in a salt environment over a decade.",
     tag: "Materials",
-    author: { name: "Brendan Mostyn", role: "Founder, lead carpenter" },
-    hero: "/images/ph-forest.jpg",
+    author: { name: "Michael", role: "Co-Founder, Lead Carpenter" },
+    hero: "/images/earlwood-1.webp",
     body: [
       {
         type: "p",
@@ -58,14 +58,14 @@ export const posts: JournalPost[] = [
       },
       {
         type: "image",
-        src: "/images/project-3.jpg",
+        src: "/images/campsie-1.webp",
         alt: "Spotted gum decking boards stacked in the workshop, ends sealed",
         aspect: "wide",
       },
       {
         type: "quote",
         text: "Timber on the coast does not fail because it is the wrong species. It fails because nobody planned for the way it would change.",
-        cite: "Brendan Mostyn",
+        cite: "Michael",
       },
       {
         type: "h",
@@ -81,7 +81,7 @@ export const posts: JournalPost[] = [
       },
       {
         type: "image",
-        src: "/images/project-4.jpg",
+        src: "/images/earlwood-3.webp",
         alt: "Detail of an oiled hardwood board weathering to silver-grey",
         aspect: "tall",
       },
@@ -105,8 +105,8 @@ export const posts: JournalPost[] = [
     excerpt:
       "The unsung backbone of a garden that ages well — Lomandra, Themeda, Poa and the three we plant in every coastal job.",
     tag: "Planting",
-    author: { name: "Saskia Veldt", role: "Landscape designer" },
-    hero: "/images/ph-seedlings.jpg",
+    author: { name: "Ben", role: "Co-Founder, Lead Landscaper" },
+    hero: "/images/avalon-6.webp",
     body: [
       {
         type: "p",
@@ -123,7 +123,7 @@ export const posts: JournalPost[] = [
       },
       {
         type: "image",
-        src: "/images/project-2.jpg",
+        src: "/images/avalon-2.webp",
         alt: "Native grasses catching low afternoon light along a sandstone path",
         aspect: "wide",
       },
@@ -142,7 +142,7 @@ export const posts: JournalPost[] = [
       {
         type: "quote",
         text: "A garden without grasses is a garden holding its breath. The moment a southerly comes through, you see which one is alive.",
-        cite: "Saskia Veldt",
+        cite: "Ben",
       },
       {
         type: "h",
@@ -154,7 +154,7 @@ export const posts: JournalPost[] = [
       },
       {
         type: "image",
-        src: "/images/project-1.jpg",
+        src: "/images/avalon-4.webp",
         alt: "A dense drift of Poa massed against a timber screen",
         aspect: "tall",
       },
@@ -174,8 +174,8 @@ export const posts: JournalPost[] = [
     excerpt:
       "On warmth, weathering, and pools that feel like furniture. Notes from the Bowral build and what we'd do differently next time.",
     tag: "Build",
-    author: { name: "Brendan Mostyn", role: "Founder, lead carpenter" },
-    hero: "/images/project-4.jpg",
+    author: { name: "Michael", role: "Co-Founder, Lead Carpenter" },
+    hero: "/images/earlwood-3.webp",
     body: [
       {
         type: "p",
@@ -192,7 +192,7 @@ export const posts: JournalPost[] = [
       },
       {
         type: "image",
-        src: "/images/project-4.jpg",
+        src: "/images/earlwood-3.webp",
         alt: "Black-bottomed lap pool wrapped in spotted gum decking at dusk",
         aspect: "wide",
       },
@@ -207,7 +207,7 @@ export const posts: JournalPost[] = [
       {
         type: "quote",
         text: "We stopped designing a pool with a surround, and started designing a single timber plane that happened to hold water.",
-        cite: "Brendan Mostyn",
+        cite: "Michael",
       },
       {
         type: "p",
@@ -215,7 +215,7 @@ export const posts: JournalPost[] = [
       },
       {
         type: "image",
-        src: "/images/project-2.jpg",
+        src: "/images/avalon-2.webp",
         alt: "Bluestone coping meeting flush spotted gum decking at the pool edge",
         aspect: "tall",
       },
@@ -247,8 +247,8 @@ export const posts: JournalPost[] = [
     excerpt:
       "Why every piece of hardwood that leaves our workshop is oiled, never sealed, and how that decision affects the project ten years out.",
     tag: "Craft",
-    author: { name: "Brendan Mostyn", role: "Founder, lead carpenter" },
-    hero: "/images/project-3.jpg",
+    author: { name: "Michael", role: "Co-Founder, Lead Carpenter" },
+    hero: "/images/campsie-1.webp",
     body: [
       {
         type: "p",
@@ -265,14 +265,14 @@ export const posts: JournalPost[] = [
       },
       {
         type: "image",
-        src: "/images/project-3.jpg",
+        src: "/images/campsie-1.webp",
         alt: "Hand rubbing penetrating oil into a hardwood handrail",
         aspect: "wide",
       },
       {
         type: "quote",
         text: "A coating is a promise to look perfect for two years and terrible for eight. Oil is a promise to look honest the whole way through.",
-        cite: "Brendan Mostyn",
+        cite: "Michael",
       },
       {
         type: "h",

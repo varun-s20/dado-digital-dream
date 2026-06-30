@@ -31,7 +31,9 @@ export function SiteNav() {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, [open]);
 
   useEffect(() => {
@@ -41,7 +43,9 @@ export function SiteNav() {
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
@@ -62,9 +66,9 @@ export function SiteNav() {
         }}
       >
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-12">
-          <Link href="/" className="group flex items-baseline gap-3">
+          <Link href="/" className="group flex items-center gap-3">
             <BrandMark size="md" />
-            <span className="eyebrow opacity-60 transition-opacity duration-300 group-hover:opacity-100">
+            <span className="eyebrow hidden opacity-60 transition-opacity duration-300 group-hover:opacity-100 sm:inline">
               / {brand.tagline}
             </span>
           </Link>
@@ -113,11 +117,9 @@ export function SiteNav() {
         </button>
 
         {/* LEFT sidebar panel */}
-        <div
-          className="menu-panel surface-deep absolute inset-y-0 left-0 flex w-full flex-col justify-between overflow-y-auto px-6 py-5 md:w-[420px] md:px-12"
-        >
+        <div className="menu-panel surface-deep absolute inset-y-0 left-0 flex w-full flex-col justify-between overflow-y-auto px-6 py-5 md:w-[420px] md:px-12">
           <div className="flex items-center justify-between">
-            <BrandMark size="md" />
+            <BrandMark size="md" withName />
           </div>
 
           <nav className="flex flex-col py-8">
@@ -152,8 +154,12 @@ export function SiteNav() {
 
           <div className="flex flex-col gap-4 text-sm opacity-85">
             <div className="flex flex-col gap-1">
-              <a href={`mailto:${brand.email}`} className="hover:opacity-100">{brand.email}</a>
-              <a href={brand.phoneHref} className="hover:opacity-100">{brand.phone}</a>
+              <a href={`mailto:${brand.email}`} className="hover:opacity-100">
+                {brand.email}
+              </a>
+              <a href={brand.phoneHref} className="hover:opacity-100">
+                {brand.phone}
+              </a>
             </div>
             <div className="flex items-center gap-5">
               {brand.social.map((s) => (

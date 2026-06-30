@@ -13,29 +13,29 @@ const practices: Practice[] = [
   {
     label: "Landscape Architecture",
     blurb:
-      "Site-led garden design from first sketch to mature planting — resolved around the light, slope and architecture already on the ground.",
-    img: "/images/ph-timber-house.jpg",
+      "Site-led garden design from first sketch to mature planting, resolved around the light, slope and architecture already on the ground.",
+    img: "/images/earlwood-3.webp",
     alt: "Modern timber-clad home opening onto a designed lawn at dusk",
   },
   {
     label: "Landscape Construction",
     blurb:
-      "Decks, retaining, paving and bespoke timber structures — built in-house by our own carpenters and stone-workers, not subcontracted out.",
-    img: "/images/hero.jpg",
+      "Decks, retaining, paving and bespoke timber structures, built in-house by our own carpenters and stone-workers, not subcontracted out.",
+    img: "/images/earlwood-2.webp",
     alt: "Contemporary garden with concrete steps, timber screen and native grasses",
   },
   {
     label: "Swimming Pools",
     blurb:
-      "Concrete pools detailed as still water — mineral-rendered, stone-coped and wrapped in carpentry that ties straight back into the garden.",
-    img: "/images/ph-pool-sunset.jpg",
+      "Concrete pools detailed as still water: mineral-rendered, stone-coped and wrapped in carpentry that ties straight back into the garden.",
+    img: "/images/campsie-4.webp",
     alt: "Lap pool reflecting the sky among gum trees at sunset",
   },
   {
     label: "Garden Maintenance",
     blurb:
-      "Ongoing care that keeps a garden reading the way it was drawn — pruning, planting and the slow work of letting a place settle in.",
-    img: "/images/ph-raised-bed.jpg",
+      "Ongoing care that keeps a garden reading the way it was drawn, through pruning, planting and the slow work of letting a place settle in.",
+    img: "/images/avalon-6.webp",
     alt: "Raised garden beds planted densely with herbs and greens",
   },
 ];

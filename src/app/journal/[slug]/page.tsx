@@ -14,7 +14,11 @@ export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return { title: "Article not found" };
@@ -67,7 +71,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               href="/journal"
               className="arrow-link eyebrow inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
             >
-              <span aria-hidden className="arrow">←</span> The journal
+              <span aria-hidden className="arrow">
+                ←
+              </span>{" "}
+              The journal
             </Link>
             <span className="h-px flex-1 bg-border" />
             <span className="eyebrow text-muted-foreground">
@@ -91,14 +98,19 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </Reveal>
             <Reveal delay={220} className="flex md:col-span-3 md:col-start-10 md:items-end">
               <div className="flex items-center gap-4">
-                <span aria-hidden className="grid size-11 shrink-0 place-items-center rounded-full border border-border font-display text-sm tracking-[-0.02em]">
+                <span
+                  aria-hidden
+                  className="grid size-11 shrink-0 place-items-center rounded-full border border-border font-display text-sm tracking-[-0.02em]"
+                >
                   {post.author.name
                     .split(" ")
                     .map((w) => w[0])
                     .join("")}
                 </span>
                 <div>
-                  <p className="font-display text-lg leading-tight tracking-[-0.02em]">{post.author.name}</p>
+                  <p className="font-display text-lg leading-tight tracking-[-0.02em]">
+                    {post.author.name}
+                  </p>
                   <p className="mt-0.5 text-sm text-muted-foreground">{post.read} read</p>
                 </div>
               </div>
@@ -123,7 +135,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-6 pb-6 md:px-9 md:pb-8"
             style={{ color: "var(--surface-deep-foreground)" }}
           >
-            <span className="eyebrow opacity-90">{brand.fullName.split(" ").slice(0, 2).join(" ")} · Field notes</span>
+            <span className="eyebrow opacity-90">
+              {brand.fullName.split(" ").slice(0, 2).join(" ")} · Field notes
+            </span>
             <span className="eyebrow opacity-90">{post.tag}</span>
           </div>
         </div>
@@ -211,10 +225,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                           />
                         </div>
                         <figcaption className="mt-4 flex items-start gap-3 border-t border-border pt-3">
-                          <span aria-hidden className="eyebrow shrink-0 pt-0.5 text-muted-foreground/60">
+                          <span
+                            aria-hidden
+                            className="eyebrow shrink-0 pt-0.5 text-muted-foreground/60"
+                          >
                             Fig.
                           </span>
-                          <span className="text-sm leading-snug text-muted-foreground">{block.alt}</span>
+                          <span className="text-sm leading-snug text-muted-foreground">
+                            {block.alt}
+                          </span>
                         </figcaption>
                       </figure>
                     </Reveal>
@@ -228,7 +247,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                             key={j}
                             className="flex gap-5 border-t border-border py-5 text-lg leading-snug text-muted-foreground last:border-b last:border-border md:gap-7 md:text-xl"
                           >
-                            <span className="eyebrow shrink-0 pt-1.5 text-foreground">{String(j + 1).padStart(2, "0")}</span>
+                            <span className="eyebrow shrink-0 pt-1.5 text-foreground">
+                              {String(j + 1).padStart(2, "0")}
+                            </span>
                             <span>{item}</span>
                           </li>
                         ))}
@@ -244,23 +265,30 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <Reveal>
               <div className="mt-16 flex flex-col gap-6 border-t border-border pt-9 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
-                  <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-full border border-border font-display text-sm tracking-[-0.02em]">
+                  <span
+                    aria-hidden
+                    className="grid size-12 shrink-0 place-items-center rounded-full border border-border font-display text-sm tracking-[-0.02em]"
+                  >
                     {post.author.name
                       .split(" ")
                       .map((w) => w[0])
                       .join("")}
                   </span>
                   <div>
-                    <p className="font-display text-lg leading-tight tracking-[-0.02em]">{post.author.name}</p>
+                    <p className="font-display text-lg leading-tight tracking-[-0.02em]">
+                      {post.author.name}
+                    </p>
                     <p className="mt-0.5 text-sm text-muted-foreground">
-                      {post.author.role} — {brand.fullName.split(" ").slice(0, 2).join(" ")}
+                      {post.author.role} | {brand.fullName.split(" ").slice(0, 2).join(" ")}
                     </p>
                   </div>
                 </div>
-                <span className="brand-mark font-display text-2xl">
-                  {brand.mark.replace(/\.$/, "")}
-                  <span className="dot">.</span>
-                </span>
+                <span
+                  className="brand-logo"
+                  role="img"
+                  aria-label={brand.fullName}
+                  style={{ width: 32, height: 32 }}
+                />
               </div>
             </Reveal>
           </div>
@@ -286,14 +314,21 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               <Reveal key={p.slug} delay={i * 90}>
                 <Link href={`/journal/${p.slug}`} className="arrow-link group block">
                   <div className="img-zoom aspect-[16/10] w-full">
-                    <img src={p.hero} alt={p.title} loading="lazy" className="h-full w-full object-cover" />
+                    <img
+                      src={p.hero}
+                      alt={p.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
                   </div>
                   <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-muted-foreground">
                     <span className="eyebrow">{p.date}</span>
                     <span className="eyebrow opacity-40">·</span>
                     <span className="eyebrow">{p.tag}</span>
                   </div>
-                  <h3 className="mt-2 font-display text-2xl leading-[1.1] tracking-[-0.02em]">{p.title}</h3>
+                  <h3 className="mt-2 font-display text-2xl leading-[1.1] tracking-[-0.02em]">
+                    {p.title}
+                  </h3>
                   <span className="mt-3 inline-flex items-center gap-2 text-sm text-muted-foreground">
                     Read <span aria-hidden>→</span>
                   </span>

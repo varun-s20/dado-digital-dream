@@ -61,7 +61,7 @@ export default async function ProjectPage({
         src={project.img}
         alt={project.title}
         pos={project.pos}
-        eyebrow={`${project.categories[0]} — ${year} · ${project.location}`}
+        eyebrow={`${project.categories[0]} | ${year} · ${project.location}`}
       />
 
       {/* INFO — editorial spread mirroring the reference: title + copy + details · feature image */}

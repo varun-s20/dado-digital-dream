@@ -19,21 +19,13 @@ export function Loader() {
       className="loader-curtain fixed inset-0 z-[100] flex flex-col items-center justify-center"
       style={{ background: "var(--surface-deep)", color: "var(--surface-deep-foreground)" }}
     >
-      <div className="flex items-baseline font-display text-6xl leading-none md:text-7xl">
-        <span className="loader-mask">
-          <span>B</span>
-        </span>
-        <span className="loader-mask is-down">
-          <span>M</span>
-        </span>
-        <span className="loader-mask" style={{ marginLeft: "-0.05em" }}>
-          <span>.</span>
-        </span>
-      </div>
       <span
-        className="eyebrow mt-6 opacity-70 loader-mask"
-        style={{ display: "block" }}
-      >
+        className="brand-logo brand-logo-reveal"
+        role="img"
+        aria-label={brand.fullName}
+        style={{ width: 96, height: 96, transition: "none" }}
+      />
+      <span className="eyebrow loader-mask mt-7 opacity-70" style={{ display: "block" }}>
         <span>{brand.tagline}</span>
       </span>
     </div>

@@ -21,7 +21,7 @@ export default function HomePage() {
       <section className="relative min-h-[100dvh] w-full overflow-hidden">
         <video
           src="https://xhhvokcsehxhjxabtvvw.supabase.co/storage/v1/object/public/dolobuck/17224715-uhd_3840_2160_30fps.mp4"
-          poster="/images/hero-garden-poster.jpg"
+          poster="/images/earlwood-2.webp"
           autoPlay
           loop
           muted
@@ -36,7 +36,7 @@ export default function HomePage() {
         >
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <p className="eyebrow opacity-80">{brand.tagline}</p>
-            <p className="eyebrow opacity-70">Design &amp; build · est. 2009</p>
+            <p className="eyebrow opacity-70">Design &amp; build · 30+ years experience</p>
           </div>
 
           <div>
@@ -48,8 +48,8 @@ export default function HomePage() {
             </h1>
             <div className="mt-10 grid items-end gap-8 md:grid-cols-12">
               <p className="max-w-md text-base leading-relaxed opacity-90 md:col-span-5 md:col-start-7">
-                An independent Sydney studio designing and building gardens, pools and
-                bespoke timber structures across Sydney and the NSW South Coast.
+                Sydney-based construction company delivering high-quality carpentry,
+                landscaping, and outdoor construction services across residential and commercial projects.
               </p>
               <MagneticLink
                 href="/projects"
@@ -81,19 +81,19 @@ export default function HomePage() {
             <MaskHeading
               as="p"
               lines={[
-                `${brand.fullName.split(" ").slice(0, 2).join(" ")} is a small studio of designers,`,
-                "carpenters and stone-workers resolving",
-                "gardens, pools and bespoke timberwork",
-                "into the places they belong.",
+                "We specialise in structural and finish",
+                "carpentry, decking, cladding, retaining walls,",
+                "paving, concreting, and hardscapes & softscapes",
+                "with a strong focus on craftsmanship.",
               ]}
               className="font-display text-3xl leading-tight md:text-4xl"
             />
             <Reveal delay={300}>
               <p className="text-muted-foreground">
-                We start with the site — its light, slope, soil and outlook — and let
-                the solution emerge from there. Successful gardens combine
-                functionality, aesthetics and sustainability. Ours stay structured but
-                retain that sense of wildness that nature does best.
+                Our vision is to bring landscaping and carpentry together through one seamless service.
+                Rather than managing multiple contractors, clients can rely on us to handle every aspect
+                from start to finish. By combining these services, we create a smoother, more efficient process
+                that saves our clients valuable time, reduces unnecessary costs, and ensures greater consistency.
               </p>
             </Reveal>
           </div>
@@ -186,7 +186,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WORKSHOP — minimal, offset landscape + carpentry */}
+      {/* WORKSHOP - minimal, offset landscape + carpentry */}
       <section className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-32">
         <div className="grid items-center gap-14 md:grid-cols-12 md:gap-8">
           <Reveal className="md:col-span-4">
@@ -197,7 +197,7 @@ export default function HomePage() {
               <em className="font-[300]">built in-house.</em>
             </h2>
             <p className="mt-6 max-w-[34ch] leading-relaxed text-muted-foreground">
-              One team — designers, carpenters and landscapers — from first sketch to
+              One team of designers, carpenters, and landscapers, from first sketch to
               final planting.
             </p>
             <MagneticLink
@@ -211,8 +211,8 @@ export default function HomePage() {
           <div className="relative md:col-span-7 md:col-start-6">
             <Reveal className="img-zoom ml-auto aspect-[5/4] w-full md:w-[86%]">
               <ParallaxImage
-                src="/images/project-1.jpg"
-                alt="Timber-clad garden room set among native planting"
+                src="/images/about-hero.webp"
+                alt="Timber construction work in progress"
                 className="h-full w-full"
                 imgClassName="h-full w-full object-cover"
                 strength={70}

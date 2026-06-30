@@ -13,7 +13,15 @@ const navLinks = [
 function SocialIcon({ label }: { label: string }) {
   if (label === "Instagram") {
     return (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        aria-hidden
+      >
         <rect x="3" y="3" width="18" height="18" rx="5" />
         <circle cx="12" cy="12" r="3.8" />
         <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none" />
@@ -35,15 +43,21 @@ export function SiteFooter() {
 
   return (
     <footer className="surface-deep relative overflow-hidden border-t border-current/12">
-      <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-20">
+      {/* oversized monogram watermark — depth, seated off the bottom-right edge */}
+      <span
+        aria-hidden
+        className="brand-logo pointer-events-none absolute -bottom-24 -right-16 opacity-[0.04] md:-bottom-32 md:-right-10"
+        style={{ width: 460, height: 460, transition: "none" }}
+      />
+      <div className="relative mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-20">
         {/* brand + columns */}
         <div className="grid gap-12 md:grid-cols-12 md:gap-10">
           {/* brand */}
           <div className="md:col-span-5">
-            <BrandMark size="md" />
-            <p className="mt-5 max-w-sm text-base leading-relaxed opacity-65">
-              Carpentry &amp; landscape, built to weather. Gardens, decks and
-              structures across Sydney and the South Coast.
+            <BrandMark size="lg" withName />
+            <p className="mt-6 max-w-sm text-base leading-relaxed opacity-65">
+              Carpentry &amp; landscape, built to weather. Gardens, decks and structures across
+              Sydney and the South Coast.
             </p>
             <p className="eyebrow mt-7 flex items-center gap-2.5 opacity-60">
               <span className="pulse-dot" aria-hidden />
@@ -91,12 +105,7 @@ export function SiteFooter() {
             <ul className="mt-5 flex gap-6 text-sm">
               {brand.social.map((s) => (
                 <li key={s.label}>
-                  <a
-                    href={s.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="social-link"
-                  >
+                  <a href={s.href} target="_blank" rel="noreferrer" className="social-link">
                     <SocialIcon label={s.label} />
                     {s.label}
                   </a>

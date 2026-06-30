@@ -10,48 +10,48 @@ import { brand } from "@/lib/brand";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "The people, the workshop and the seventeen years behind BM Carpentry & Landscaping.",
+    "The people, the workshop and the craftsmanship behind BM Carpentry & Landscaping.",
   openGraph: {
-    title: "About — BM.",
-    description: "Nine people, one Mosman workshop, a coastline we know by heart.",
+    title: "About BM",
+    description: "One workshop, a passion for carpentry and landscape design.",
   },
 };
 
 const timeline = [
   {
-    year: "2009",
-    t: "Two people and a ute",
-    d: "Brendan starts a small carpentry round out of a Mosman lock-up — decks, screens, the odd pergola.",
+    year: "2012",
+    t: "The beginning",
+    d: "Michael and Ben start a carpentry and garden round out of Mosman, building custom decks, privacy screens, and timber pergolas.",
   },
   {
-    year: "2013",
-    t: "The first whole garden",
-    d: "The Bundeena slope: forty-two sandstone treads and a planting plan. The studio stops being only carpentry.",
+    year: "2015",
+    t: "Bespoke landscape stairs",
+    d: "The Avalon Beach project: our first major curved landscape stairs and retaining wall setup, blending carpentry with garden topography.",
   },
   {
-    year: "2017",
-    t: "Design comes in-house",
-    d: "We hire our first landscape designer rather than subcontract the drawings. Nothing has left the building since.",
+    year: "2018",
+    t: "In-house design",
+    d: "We bring design and estimating in-house to manage the complete client experience from initial concept through to completion.",
   },
   {
-    year: "2021",
-    t: "Stone and water",
-    d: "A dedicated stone team and our first timber-wrapped pools. The four practices finally sit under one roof.",
+    year: "2022",
+    t: "Seamless outdoor spaces",
+    d: "We combine structural carpentry, paving, concreting, and softscape planting under a single, unified B.M. Carpentry team.",
   },
   {
     year: "2026",
-    t: "Nine on the crew",
-    d: "A waitlist we're quietly proud of, and a habit of being called back as the gardens mature.",
+    t: "Extraordinary transformations",
+    d: "A crew of skilled carpenters and landscapers delivering premium, design-led outdoor transformations across Sydney.",
   },
 ];
 
 const crew = [
-  { name: "Brendan Mostyn", role: "Founder · lead carpenter", img: "/images/ph-timber-house.jpg" },
-  { name: "Saskia Veldt", role: "Landscape designer", img: "/images/ph-forest.jpg" },
-  { name: "Declan Fitzhardinge", role: "Site foreman", img: "/images/project-1.jpg" },
-  { name: "Mei-Lin Ang", role: "Planting & horticulture", img: "/images/ph-seedlings.jpg" },
-  { name: "Tomas Wieczorek", role: "Stonemason", img: "/images/project-3.jpg" },
-  { name: "Priya Raghunathan", role: "Studio & drawings", img: "/images/ph-raised-bed.jpg" },
+  { name: "Michael", role: "Co-Founder · Lead Carpenter", img: "/images/campsie-2.webp" },
+  { name: "Ben", role: "Co-Founder · Lead Landscaper", img: "/images/avalon-1.webp" },
+  { name: "Declan", role: "Site Foreman", img: "/images/earlwood-1.webp" },
+  { name: "Mei-Lin", role: "Horticulture Lead", img: "/images/avalon-6.webp" },
+  { name: "Tomas", role: "Stonemason", img: "/images/campsie-3.webp" },
+  { name: "Priya", role: "Design Coordinator", img: "/images/studio-1.webp" },
 ];
 
 const values = [
@@ -62,7 +62,7 @@ const values = [
   },
   {
     t: "We source locally wherever possible.",
-    d: "Timber, stone and plants from close to home — for the climate, the footprint and the people who grow it.",
+    d: "Timber, stone and plants sourced locally for the climate, footprint, and community.",
     icon: "sprout",
   },
   {
@@ -107,26 +107,26 @@ function ValueIcon({ name }: { name: "leaf" | "sprout" | "recycle" }) {
       <path d="M8 5.5 10 2l2 3.5" />
       <path d="m4.5 14-2 3.5h4" />
       <path d="m19.5 14 2 3.5h-4" />
-      <path d="M10 2 4.5 11.5M14 2l5.5 9.5M6.5 17.5H17.5" />
+      <path d="M10 2 4.5 11.5M14 2l5.5 9.5M6.5 30.5H30.5" />
     </svg>
   );
 }
 
 const stats = [
-  { to: 2009, suffix: "", l: "Founded in Mosman" },
+  { to: 2012, suffix: "", l: "Founded in Mosman" },
   { to: 147, suffix: "", l: "Gardens built" },
   { to: 9, suffix: "", l: "On the crew" },
-  { to: 17, suffix: "", l: "Years in the field" },
+  { to: 30, suffix: "", l: "Years in the field" },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      {/* HERO — quiet, type-only; faint garden behind for depth */}
+      {/* HERO - quiet, type-only; faint garden behind for depth */}
       <section className="relative overflow-hidden border-b border-border">
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <img
-            src="/images/ph-forest.jpg"
+            src="/images/earlwood-3.webp"
             alt=""
             className="h-full w-full object-cover opacity-[0.06]"
           />
@@ -136,7 +136,7 @@ export default function AboutPage() {
           <div className="flex items-center gap-4">
             <span className="eyebrow text-muted-foreground">About</span>
             <span className="h-px flex-1 bg-border" />
-            <span className="eyebrow text-muted-foreground">Est. 2009 · Mosman</span>
+            <span className="eyebrow text-muted-foreground">Mosman, Sydney</span>
           </div>
           <SplitText
             as="h1"
@@ -147,7 +147,7 @@ export default function AboutPage() {
           </SplitText>
           <Reveal delay={260}>
             <p className="mt-7 max-w-xl text-base leading-snug tracking-[-0.01em] text-muted-foreground md:text-lg">
-              A small, in-house studio of designers, carpenters and stone-workers —
+              A small, in-house studio of designers, carpenters and landscapers,
               building across Sydney&rsquo;s harbour and the NSW South Coast for
               seventeen years, and still answering the phone ourselves.
             </p>
@@ -167,7 +167,7 @@ export default function AboutPage() {
               lines={[
                 "We started as carpenters, which",
                 "is why we still think with our hands.",
-                "Everything we design, we can build —",
+                "Everything we design, we can build,",
                 "and everything we build, we drew.",
               ]}
               className="font-display text-[1.9rem] leading-[1.08] tracking-[-0.02em] md:text-[2.9rem]"
@@ -240,7 +240,7 @@ export default function AboutPage() {
             <div className="md:sticky md:top-28">
               <p className="eyebrow text-muted-foreground">A short history</p>
               <SplitText as="h2" className="mt-5 font-display text-4xl leading-[0.98] tracking-[-0.02em] md:text-6xl">
-                Seventeen years, told briefly.
+                Our journey, told briefly.
               </SplitText>
             </div>
           </div>
@@ -266,7 +266,7 @@ export default function AboutPage() {
       <section className="surface-deep">
         <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-24">
           <div className="grid gap-x-12 gap-y-6 md:grid-cols-12">
-            <p className="eyebrow opacity-70 md:col-span-3 md:pt-2">In Brendan&rsquo;s words</p>
+            <p className="eyebrow opacity-70 md:col-span-3 md:pt-2">In Michael's words</p>
             <blockquote className="md:col-span-9">
               <MaskHeading
                 as="p"
@@ -281,7 +281,7 @@ export default function AboutPage() {
                 stagger={90}
               />
               <footer className="eyebrow mt-7 opacity-70">
-                Brendan Mostyn — Founder
+                Michael, Co-Founder
               </footer>
             </blockquote>
           </div>
@@ -333,7 +333,7 @@ export default function AboutPage() {
               </h2>
               <p className="mt-5 max-w-md text-base leading-snug tracking-[-0.01em] text-muted-foreground">
                 {brand.address.line1}, {brand.address.line2}. Site visits by
-                appointment — tell us about the place and we&rsquo;ll walk it with you.
+                appointment: tell us about the place and we&rsquo;ll walk it with you.
               </p>
             </div>
             <div className="md:col-span-4 md:col-start-9 md:justify-self-end">
