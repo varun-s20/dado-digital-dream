@@ -27,7 +27,7 @@ export const projects: Project[] = [
       "Irrigation systems",
     ],
     index: "01",
-    cover: "/images/earlwood-2.webp",
+    cover: "/images/earlwood-home-cover.webp",
     intro:
       "A comprehensive, large-scale residential renovation combining structural timber framing, premium external cladding, stone paving, and fully automated irrigation.",
     body: [
@@ -47,9 +47,9 @@ export const projects: Project[] = [
       },
     ],
     gallery: [
-      { src: "/images/earlwood-2.webp", alt: "Earlwood completed deck and framing perspective", aspect: "wide", full: true },
-      { src: "/images/earlwood-1.webp", alt: "Detail of the timber cladding meeting the structural frame", aspect: "tall" },
-      { src: "/images/earlwood-3.webp", alt: "Overview of the paved walkways and garden borders", aspect: "wide" },
+      { src: "/images/earlwood-vid-hero-dusk-wide.webp", alt: "Earlwood completed deck and framing perspective", aspect: "wide", full: true },
+      { src: "/images/earlwood-vid-framing-detail-tall.webp", alt: "Detail of the timber cladding meeting the structural frame", aspect: "tall" },
+      { src: "/images/earlwood-vid-paving-detail-wide.webp", alt: "Overview of the paved walkways and garden borders", aspect: "wide" },
     ],
   },
   {
@@ -103,7 +103,7 @@ export const projects: Project[] = [
       "Planter boxes",
     ],
     index: "03",
-    cover: "/images/campsie-2.webp",
+    cover: "/images/campsie-1.webp",
     intro:
       "An integrated timber deck and stair installation featuring custom-engineered drainage systems and structural planter boxes built to border the outdoor area.",
     body: [

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { CountUp } from "@/components/CountUp";
-import { HorizontalGallery } from "@/components/HorizontalGallery";
+import { FlipNumeral } from "@/components/FlipNumeral";
 import { MagneticLink } from "@/components/MagneticLink";
 import { MaskHeading } from "@/components/MaskHeading";
 import { Reveal } from "@/components/Reveal";
 import { SplitText } from "@/components/SplitText";
+import { ValueReveal, type ValueItem } from "@/components/ValueReveal";
 import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
@@ -54,63 +55,67 @@ const crew = [
   { name: "Priya", role: "Design Coordinator", img: "/images/studio-1.webp" },
 ];
 
-const values = [
+/* Studio story, told as a centred stack of numbered chapters — 01 through
+   04 running one below the other, no imagery. Each chapter's number turns
+   over like a flip-calendar page as it scrolls into view. Copy carries the
+   carpentry-led, design-build philosophy from first sketch to finished
+   garden. */
+const storyBeats = [
   {
-    t: "We design and construct responsibly.",
-    d: "Every decision weighed for how it ages, what it costs the site, and what it leaves behind.",
+    index: "01",
+    kicker: "We started as carpenters.",
+    text: "Which is why we still think with our hands. Everything we design, we can build — and everything we build, we drew first.",
+  },
+  {
+    index: "02",
+    kicker: "So we drew our own gardens.",
+    text: "Design and estimating came in-house, closing the gap between the person who imagines a garden and the people who make it.",
+  },
+  {
+    index: "03",
+    kicker: "No detail gets value-engineered away.",
+    text: "The designer who walked your site is on it again the week we start digging — the same eyes from first sketch to final planting.",
+  },
+  {
+    index: "04",
+    kicker: "One team, start to finish.",
+    text: "Structural carpentry, stonework, paving and planting under a single crew — so the vision that opens a project is the one that closes it.",
+  },
+];
+
+const valueItems: ValueItem[] = [
+  {
     icon: "leaf",
+    title: "Design & construct responsibly.",
+    desc: "Every decision weighed for how it ages, what it costs the site, and what it leaves behind.",
   },
   {
-    t: "We source locally wherever possible.",
-    d: "Timber, stone and plants sourced locally for the climate, footprint, and community.",
-    icon: "sprout",
+    icon: "pin",
+    title: "Source close to home.",
+    desc: "Timber, stone and plants chosen for the climate, the footprint, and the community they come from.",
   },
   {
-    t: "We have a love for recycled materials.",
-    d: "Reclaimed hardwood and salvaged stone carry a patina new material can’t fake, and keep good material in use.",
     icon: "recycle",
+    title: "Give good material a second life.",
+    desc: "Salvaged hardwood and stone carry a patina new material can’t fake — and keep good material in use.",
   },
+];
+
+/** Per-portrait rest tilt / vertical offset — pinned like snapshots on a
+ * workshop corkboard rather than a uniform grid. Co-founders sit larger. */
+const CREW_LAYOUT = [
+  { rotate: -3, lift: 6, size: "lg" },
+  { rotate: 2.5, lift: 24, size: "lg" },
+  { rotate: -2.5, lift: -6, size: "md" },
+  { rotate: 3, lift: 20, size: "md" },
+  { rotate: -3.5, lift: 2, size: "md" },
+  { rotate: 2, lift: -12, size: "md" },
 ] as const;
 
-function ValueIcon({ name }: { name: "leaf" | "sprout" | "recycle" }) {
-  const common = {
-    width: 28,
-    height: 28,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 1.4,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    "aria-hidden": true,
-  };
-  if (name === "leaf") {
-    return (
-      <svg {...common}>
-        <path d="M5 19c0-7 5-12 14-13-1 9-6 14-13 13Z" />
-        <path d="M5 19c3-4 6-6 10-7.5" />
-      </svg>
-    );
-  }
-  if (name === "sprout") {
-    return (
-      <svg {...common}>
-        <path d="M12 20v-7" />
-        <path d="M12 13c0-3-2-5-5-5 0 3 2 5 5 5Z" />
-        <path d="M12 12c0-3 2-5 5-5 0 3-2 5-5 5Z" />
-        <path d="M7 20h10" />
-      </svg>
-    );
-  }
-  return (
-    <svg {...common}>
-      <path d="M8 5.5 10 2l2 3.5" />
-      <path d="m4.5 14-2 3.5h4" />
-      <path d="m19.5 14 2 3.5h-4" />
-      <path d="M10 2 4.5 11.5M14 2l5.5 9.5M6.5 30.5H30.5" />
-    </svg>
-  );
-}
+const CREW_SIZE: Record<string, string> = {
+  lg: "w-[72vw] sm:w-[300px] md:w-[340px] lg:w-[380px]",
+  md: "w-[62vw] sm:w-[250px] md:w-[280px] lg:w-[310px]",
+};
 
 const stats = [
   { to: 2012, suffix: "", l: "Founded in Mosman" },
@@ -122,99 +127,92 @@ const stats = [
 export default function AboutPage() {
   return (
     <>
-      {/* HERO - quiet, type-only; faint garden behind for depth */}
-      <section className="relative overflow-hidden border-b border-border">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <img
-            src="/images/earlwood-3.webp"
-            alt=""
-            className="h-full w-full object-cover opacity-[0.06]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/30 to-background" />
-        </div>
-        <div className="relative mx-auto max-w-[1600px] px-6 pb-16 pt-32 md:px-12 md:pb-24 md:pt-40">
-          <div className="flex items-center gap-4">
-            <span className="eyebrow text-muted-foreground">About</span>
-            <span className="h-px flex-1 bg-border" />
-            <span className="eyebrow text-muted-foreground">Mosman, Sydney</span>
-          </div>
-          <SplitText
-            as="h1"
-            className="mt-8 max-w-3xl font-display text-[2.1rem] leading-[1.04] tracking-[-0.02em] md:text-[3.4rem] md:leading-[1.0]"
-            stagger={16}
-          >
-            Gardens that belong, built by the same hands that draw them.
-          </SplitText>
-          <Reveal delay={260}>
-            <p className="mt-7 max-w-xl text-base leading-snug tracking-[-0.01em] text-muted-foreground md:text-lg">
-              A small, in-house studio of designers, carpenters and landscapers,
-              building across Sydney&rsquo;s harbour and the NSW South Coast for
-              seventeen years, and still answering the phone ourselves.
+      {/* HERO — mirrors formedgardens.com.au/about's copy hierarchy:
+          eyebrow → bold statement → a "Who we are" sub-label → lead copy.
+          Photo-free; the statement carries the masthead. */}
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-[1600px] px-6 pb-24 pt-32 text-center md:px-12 md:pb-32 md:pt-40">
+          <p className="eyebrow text-muted-foreground">Who we are</p>
+          <h1 className="display-heavy mx-auto mt-7 max-w-[1180px] text-[clamp(2.5rem,6.4vw,4.8rem)]">
+            <SplitText as="span" className="block" stagger={10}>
+              Gardens that belong, built by the people
+            </SplitText>
+            <SplitText as="span" className="block" stagger={10} delay={90}>
+              who design them.
+            </SplitText>
+          </h1>
+
+          <Reveal delay={220} className="mx-auto mt-12 max-w-6xl">
+            <p className="text-sm leading-relaxed tracking-[-0.01em] text-muted-foreground md:text-[0.95rem]">
+              A small, in-house studio of designers, carpenters and
+              landscapers — building across Sydney&rsquo;s harbour and the
+              NSW South Coast for seventeen years, and still answering the
+              phone ourselves.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* STORY */}
-      <section className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-24">
-        <div className="grid gap-x-12 gap-y-8 md:grid-cols-12">
-          <Reveal className="md:col-span-3">
-            <p className="eyebrow text-muted-foreground">Who we are</p>
-          </Reveal>
-          <div className="md:col-span-8 md:col-start-5">
-            <MaskHeading
-              as="p"
-              lines={[
-                "We started as carpenters, which",
-                "is why we still think with our hands.",
-                "Everything we design, we can build,",
-                "and everything we build, we drew.",
-              ]}
-              className="font-display text-[1.9rem] leading-[1.08] tracking-[-0.02em] md:text-[2.9rem]"
-              stagger={100}
-            />
-            <Reveal delay={300}>
-              <p className="mt-6 max-w-xl text-base leading-snug tracking-[-0.01em] text-muted-foreground md:text-lg">
-                That single fact shapes how the studio works. There is no handoff
-                between the person who imagines a garden and the people who make it,
-                no quote that quietly value-engineers the detail away. The designer
-                who walked your site is on it again the week we start digging.
-              </p>
-            </Reveal>
+      {/* STORY — a centred header over a stack of numbered chapters (01–04),
+          one below the other, no imagery. Each chapter's numeral flips over
+          as it scrolls into view. */}
+      <section className="mx-auto max-w-[1600px] px-6 md:px-12">
+        <div className="pt-20 text-center md:pt-32">
+          <p className="eyebrow text-muted-foreground">Our story</p>
+          <div className="mx-auto mt-6 max-w-2xl">
+            <SplitText
+              as="h2"
+              className="font-display font-light leading-[1.1] tracking-[-0.03em] text-[clamp(1.9rem,4vw,2.9rem)]"
+              stagger={12}
+            >
+              From first sketch to finished garden.
+            </SplitText>
           </div>
+          <p className="eyebrow mt-6 tabular-nums text-muted-foreground/40">
+            2012 — {new Date().getFullYear()}
+          </p>
+        </div>
+
+        <div className="mx-auto mt-16 max-w-3xl pb-8 md:mt-24 md:pb-24">
+          {storyBeats.map((beat, i) => (
+            <Reveal
+              key={beat.kicker}
+              delay={i * 60}
+              className="grid grid-cols-[auto_1fr] items-center gap-6 border-t border-border py-12 first:border-t-0 first:pt-0 md:gap-12 md:py-16"
+            >
+              <FlipNumeral
+                value={beat.index}
+                delay={i * 60}
+                rotate={i % 2 === 0 ? -2.5 : 2.5}
+              />
+              <div>
+                <MaskHeading
+                  as="h3"
+                  lines={[beat.kicker]}
+                  className="font-display font-light leading-[1.15] tracking-[-0.025em] text-[clamp(1.6rem,3.4vw,2.3rem)]"
+                />
+                <p className="mt-5 max-w-md text-base leading-relaxed tracking-[-0.01em] text-muted-foreground">
+                  {beat.text}
+                </p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* VALUES — sustainability */}
+      {/* VALUES — formedgardens-style: a centred intro above an equal-weight
+          three-column icon grid. No cards, no borders, no imagery. */}
       <section className="border-t border-border">
-        <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-24">
-          <div className="flex items-end justify-between gap-10">
-            <div>
-              <p className="eyebrow text-muted-foreground">Sustainability</p>
-              <SplitText
-                as="h2"
-                className="mt-4 font-display text-4xl leading-[0.98] tracking-[-0.02em] md:text-6xl"
-              >
-                Our values.
-              </SplitText>
-            </div>
+        <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-28">
+          <div className="mx-auto max-w-xl text-center">
+            <p className="eyebrow text-muted-foreground">Sustainability</p>
+            <h2 className="mt-4 font-display font-light leading-[1.06] tracking-[-0.03em] text-[clamp(2rem,4.4vw,3.2rem)]">
+              Our values.
+            </h2>
           </div>
-          <div className="mt-12 grid gap-x-12 gap-y-12 md:mt-16 md:grid-cols-3">
-            {values.map((v, i) => (
-              <Reveal key={v.t} delay={i * 90}>
-                <div className="flex flex-col border-t border-border pt-7">
-                  <span className="text-foreground/85">
-                    <ValueIcon name={v.icon} />
-                  </span>
-                  <h3 className="mt-6 font-display text-2xl leading-[1.1] tracking-[-0.02em] md:text-[1.7rem]">
-                    {v.t}
-                  </h3>
-                  <p className="mt-4 max-w-xs text-base leading-snug tracking-[-0.01em] text-muted-foreground">
-                    {v.d}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
+
+          <div className="mt-16 md:mt-20">
+            <ValueReveal items={valueItems} />
           </div>
         </div>
       </section>
@@ -266,7 +264,7 @@ export default function AboutPage() {
       <section className="surface-deep">
         <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-24">
           <div className="grid gap-x-12 gap-y-6 md:grid-cols-12">
-            <p className="eyebrow opacity-70 md:col-span-3 md:pt-2">In Michael's words</p>
+            <p className="eyebrow opacity-70 md:col-span-3 md:pt-2">In Michael&rsquo;s words</p>
             <blockquote className="md:col-span-9">
               <MaskHeading
                 as="p"
@@ -288,38 +286,44 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* THE CREW — horizontal scroll */}
+      {/* THE CREW — pinned like snapshots on the workshop corkboard */}
       <section className="pt-16 md:pt-24">
-        <div className="mx-auto mb-8 flex max-w-[1600px] items-end justify-between px-6 md:mb-10 md:px-12">
-          <div>
-            <p className="eyebrow text-muted-foreground">The crew · {crew.length}</p>
-            <SplitText as="h2" className="mt-3 font-display text-4xl leading-[0.94] tracking-[-0.02em] md:text-6xl">
-              The hands on it.
-            </SplitText>
-          </div>
-          <p className="eyebrow hidden text-muted-foreground md:block">Scroll →</p>
+        <div className="mx-auto mb-4 px-6 text-center md:mb-2 md:px-12">
+          <p className="eyebrow text-muted-foreground">The crew</p>
+          <SplitText as="h2" className="mt-3 font-display text-4xl leading-[0.94] tracking-[-0.02em] md:text-6xl">
+            The hands on it.
+          </SplitText>
         </div>
-        <HorizontalGallery>
-          {crew.map((person, i) => (
-            <div key={person.name} className="h-tile snap-start">
-              <div className="img-zoom aspect-[4/5] w-full">
-                <img
-                  src={person.img}
-                  alt={person.name}
-                  loading="lazy"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="mt-4 flex items-baseline justify-between">
-                <div>
-                  <h3 className="font-display text-xl tracking-[-0.02em] md:text-2xl">{person.name}</h3>
-                  <p className="eyebrow mt-1 text-muted-foreground">{person.role}</p>
+        <div className="crew-board mx-auto flex flex-wrap items-start justify-center gap-x-8 gap-y-16 px-6 pb-10 pt-16 md:gap-x-12 md:gap-y-24 md:px-12 md:pb-16 md:pt-24">
+          {crew.map((person, i) => {
+            const layout = CREW_LAYOUT[i % CREW_LAYOUT.length];
+            return (
+              <Reveal key={person.name} delay={i * 80} className={CREW_SIZE[layout.size]}>
+                <div
+                  className="crew-card group relative flex flex-col bg-card p-3 pb-5 md:p-4 md:pb-6"
+                  style={{ transform: `rotate(${layout.rotate}deg) translateY(${layout.lift}px)` }}
+                >
+                  <span aria-hidden className="crew-tape" />
+                  <div className="img-zoom aspect-square w-full overflow-hidden bg-muted">
+                    <img
+                      src={person.img}
+                      alt={person.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover grayscale-[0.2] transition-[filter] duration-500 ease-out group-hover:grayscale-0"
+                    />
+                  </div>
+                  <div className="mt-4 flex items-baseline justify-between px-1 md:mt-5">
+                    <div>
+                      <h3 className="font-display text-xl tracking-[-0.02em] md:text-2xl">{person.name}</h3>
+                      <p className="eyebrow mt-1.5 text-muted-foreground">{person.role}</p>
+                    </div>
+                    <span className="eyebrow text-muted-foreground/50">0{i + 1}</span>
+                  </div>
                 </div>
-                <span className="eyebrow text-muted-foreground">0{i + 1}</span>
-              </div>
-            </div>
-          ))}
-        </HorizontalGallery>
+              </Reveal>
+            );
+          })}
+        </div>
       </section>
 
       {/* CTA — quiet, premium; matches the Services page outro */}

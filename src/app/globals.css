@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500&family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,500&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -741,6 +741,12 @@
     align-items: baseline;
     line-height: 1;
   }
+  /* Named lockup (monogram + wordmark): centre the square against the
+     two-line wordmark so the mark reads seated, not floating above it. */
+  .brand-mark.brand-lockup {
+    display: inline-flex;
+    align-items: center;
+  }
   .brand-mark .dot {
     display: inline-block;
     transition: transform 0.5s var(--ease-spring);
@@ -1125,5 +1131,375 @@
     padding: 0.32rem 0.8rem;
     background: oklch(0.97 0.004 75 / 0.5);
     backdrop-filter: blur(6px);
+  }
+
+  /* Contact form: each field settles in with a light stagger once the
+     enclosing Reveal wrapper crosses into view — content is split into
+     semantic chunks rather than animating as one block. transform/opacity
+     only; per-child cadence via the inline --i index. */
+  .contact-stagger > * {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.7s var(--ease-out-expo),
+      transform 0.7s var(--ease-out-expo);
+    transition-delay: calc(var(--i, 0) * 65ms);
+  }
+  .reveal.is-visible .contact-stagger > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ═══ Contact replica — bold editorial "consult before you build" ═══ */
+
+  /* Heavy display used only on this page's hero + closing wordmark. The
+     rest of the site keeps its restrained 400–500 grotesque. */
+  .display-heavy {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.9;
+  }
+
+  /* Inline image capsule baked into the hero headline. Sits on the text
+     baseline, sized in em so it tracks the fluid heading scale. */
+  .hero-pill {
+    display: inline-block;
+    vertical-align: middle;
+    height: 1.4em;
+    width: 3.1em;
+    border-radius: 9999px;
+    object-fit: cover;
+    margin: 0 0.16em;
+    transform: translateY(-0.06em);
+    box-shadow: 0 1px 0 oklch(0.23 0.006 40 / 0.06);
+  }
+
+  /* Tumbled social pills — scattered, overlapping, rotated at rest like
+     fallen blocks; outline inverts to solid and settles flat on hover. */
+  .social-blob {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1.5px solid currentColor;
+    padding: 1rem 2.15rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    background: var(--background);
+    box-shadow: 0 16px 32px -16px oklch(0.23 0.006 40 / 0.35);
+    transition:
+      transform 0.45s var(--ease-spring),
+      background-color 0.35s var(--ease-out-expo),
+      color 0.35s var(--ease-out-expo);
+  }
+  .social-blob-sm {
+    font-size: 1.15rem;
+    padding: 0.75rem 1.6rem;
+  }
+  .social-blob-lg {
+    font-size: 1.95rem;
+    padding: 1.25rem 2.75rem;
+  }
+  @media (max-width: 640px) {
+    .social-blob {
+      font-size: 1.05rem;
+      padding: 0.7rem 1.5rem;
+    }
+    .social-blob-sm {
+      font-size: 0.85rem;
+      padding: 0.55rem 1.15rem;
+    }
+    .social-blob-lg {
+      font-size: 1.3rem;
+      padding: 0.85rem 1.85rem;
+    }
+  }
+  .social-blob:hover,
+  .social-blob:focus-visible {
+    background: var(--foreground);
+    color: var(--background);
+    transform: translateY(-4px) rotate(0deg) !important;
+    z-index: 3 !important;
+    outline: none;
+  }
+  .social-blob.solid {
+    background: var(--foreground);
+    color: var(--background);
+  }
+  .social-blob.solid:hover,
+  .social-blob.solid:focus-visible {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  /* ═══ About page ═══ */
+
+  /* Story chapters: a torn-page desk-calendar tile that turns like a real
+     split-flap page — top leaf tips away, bottom leaf falls into place a
+     beat later — to reveal its chapter number once scrolled into view.
+     Ghost pages stacked behind each tile read as chapters already flipped
+     past: the section's "trip down memory lane" made literal. */
+  .calendar-flip {
+    --tile-rotate: 0deg;
+    position: relative;
+    display: inline-block;
+    width: 4.25rem;
+    height: 5.25rem;
+    vertical-align: middle;
+  }
+  @media (min-width: 768px) {
+    .calendar-flip {
+      width: 5rem;
+      height: 6rem;
+    }
+  }
+  .calendar-flip::before,
+  .calendar-flip::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 0.375rem;
+    background: var(--card);
+    box-shadow: 0 10px 22px -16px oklch(0.23 0.006 40 / 0.4);
+  }
+  .calendar-flip::before {
+    transform: rotate(calc(var(--tile-rotate) * -1.8 - 2.5deg)) translate(-3px, 5px);
+    opacity: 0.5;
+  }
+  .calendar-flip::after {
+    transform: rotate(calc(var(--tile-rotate) * -1.1 - 1.2deg)) translate(-1px, 2.5px);
+    opacity: 0.75;
+  }
+  .calendar-flip-card {
+    position: absolute;
+    inset: 0;
+    perspective: 340px;
+    transform: rotate(var(--tile-rotate));
+    border-radius: 0.375rem;
+    background: var(--card);
+    box-shadow: 0 16px 30px -18px oklch(0.23 0.006 40 / 0.42);
+  }
+  .calendar-flip-punch {
+    position: absolute;
+    top: 0.4rem;
+    left: 50%;
+    width: 1.5rem;
+    height: 0.35rem;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--foreground) 12%, transparent);
+    z-index: 5;
+  }
+  .flip-half,
+  .flip-leaf {
+    position: absolute;
+    inset: 0;
+    height: 50%;
+    overflow: hidden;
+  }
+  .flip-half-top,
+  .flip-leaf-top {
+    top: 0;
+    border-radius: 0.375rem 0.375rem 0 0;
+  }
+  .flip-half-bottom,
+  .flip-leaf-bottom {
+    top: auto;
+    bottom: 0;
+    border-radius: 0 0 0.375rem 0.375rem;
+  }
+  .flip-digit {
+    position: absolute;
+    inset: 0;
+    top: 0;
+    height: 200%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    color: var(--foreground);
+  }
+  .flip-half-bottom .flip-digit,
+  .flip-leaf-bottom .flip-digit {
+    top: -100%;
+  }
+  .flip-half-back {
+    z-index: 1;
+    background: var(--card);
+  }
+  .flip-leaf {
+    z-index: 3;
+    background: var(--card);
+    backface-visibility: hidden;
+  }
+  .flip-leaf-top {
+    transform-origin: bottom center;
+    transform: rotateX(0deg);
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+  .flip-leaf-bottom {
+    z-index: 2;
+    transform-origin: top center;
+    transform: rotateX(90deg);
+    transition: transform 0.48s var(--ease-spring) 0.32s;
+  }
+  .calendar-flip.is-flipped .flip-leaf-top {
+    transform: rotateX(-90deg);
+  }
+  .calendar-flip.is-flipped .flip-leaf-bottom {
+    transform: rotateX(0deg);
+  }
+  .flip-fold {
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    top: calc(50% - 1px);
+    height: 2px;
+    z-index: 4;
+    background: oklch(0.23 0.006 40 / 0.12);
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    /* The global rule zeroes transition-duration but not delay — without
+       this, a reduced-motion visitor would still sit through a 0.32s
+       stall in a half-flipped state before the (now instant) snap. */
+    .flip-leaf-bottom {
+      transition-delay: 0s;
+    }
+  }
+
+  /* Memory-lane tiles flanking each story chapter — loose, tilted
+     photographs rather than a formal grid; they settle flat on hover. */
+  .memory-tile {
+    box-shadow: 0 16px 30px -18px oklch(0.23 0.006 40 / 0.35);
+    transition: transform 0.4s var(--ease-spring);
+  }
+  .memory-tile:hover {
+    transform: rotate(0deg) scale(1.04) !important;
+  }
+
+  /* Crew: portraits pinned like snapshots on a workshop corkboard — each
+     rests at its own tilt and settles flat, lifted and grayscale-free on
+     hover/focus. Mirrors the tumbled/settle mechanic of .social-blob. */
+  .crew-card {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 16px 34px -20px oklch(0.23 0.006 40 / 0.4);
+    transition:
+      transform 0.5s var(--ease-spring),
+      box-shadow 0.4s var(--ease-out-expo);
+    will-change: transform;
+  }
+  .crew-card:hover {
+    transform: translateY(-8px) rotate(0deg) scale(1.035) !important;
+    box-shadow: 0 30px 50px -18px oklch(0.23 0.006 40 / 0.45);
+    z-index: 20;
+  }
+  .crew-tape {
+    position: absolute;
+    top: -0.6rem;
+    left: 50%;
+    width: 2.6rem;
+    height: 1.05rem;
+    transform: translateX(-50%) rotate(-3deg);
+    background: color-mix(in oklab, var(--accent) 55%, transparent);
+    box-shadow: 0 1px 3px oklch(0.23 0.006 40 / 0.25);
+    opacity: 0.9;
+  }
+
+  /* Story polaroids: two prints per side, stacked and tilted like photos
+     tipped out of a shoebox. The back print peeks toward the page edge; the
+     front carries a strip of tape and settles flat + lifts on hover. */
+  .polaroid-stack {
+    position: relative;
+    width: 100%;
+    max-width: 220px;
+  }
+  .polaroid-stack-right {
+    margin-left: auto;
+  }
+  .polaroid {
+    border-radius: 2px;
+    background: var(--card);
+    padding: 0.5rem;
+    box-shadow: 0 16px 32px -20px oklch(0.23 0.006 40 / 0.4);
+    transition:
+      transform 0.5s var(--ease-spring),
+      box-shadow 0.4s var(--ease-out-expo);
+    will-change: transform;
+  }
+  .polaroid img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background: var(--muted);
+  }
+  .polaroid-front {
+    position: relative;
+    z-index: 2;
+    transform: rotate(var(--r));
+  }
+  .polaroid-back {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    transform: translate(22px, 26px) rotate(var(--r));
+  }
+  .polaroid-stack-left .polaroid-back {
+    transform: translate(-22px, 26px) rotate(var(--r));
+  }
+  .polaroid-tape {
+    position: absolute;
+    top: -0.5rem;
+    left: 50%;
+    z-index: 3;
+    width: 2.6rem;
+    height: 1rem;
+    transform: translateX(-50%) rotate(-3deg);
+    background: color-mix(in oklab, var(--accent) 55%, transparent);
+    box-shadow: 0 1px 3px oklch(0.23 0.006 40 / 0.25);
+    opacity: 0.85;
+  }
+  .polaroid-stack:hover .polaroid-front {
+    transform: rotate(0deg) translateY(-6px) scale(1.04);
+    box-shadow: 0 30px 48px -18px oklch(0.23 0.006 40 / 0.45);
+  }
+  .polaroid-stack:hover .polaroid-back {
+    transform: translate(30px, 30px) rotate(calc(var(--r) * 1.4));
+  }
+  .polaroid-stack-left:hover .polaroid-back {
+    transform: translate(-30px, 30px) rotate(calc(var(--r) * 1.4));
+  }
+
+  /* "Who we are" continuation cue — a quiet down-arrow that bobs to invite
+     the scroll into the story. Collapsed by the global reduced-motion rule. */
+  .scroll-cue-arrow {
+    display: inline-block;
+    font-size: 1.15rem;
+    line-height: 1;
+    color: var(--muted-foreground);
+    animation: scroll-cue-bob 2s ease-in-out infinite;
+  }
+  @keyframes scroll-cue-bob {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translateY(6px);
+      opacity: 1;
+    }
   }
 }

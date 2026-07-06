@@ -14,29 +14,29 @@ const practices: Practice[] = [
     label: "Landscape Architecture",
     blurb:
       "Site-led garden design from first sketch to mature planting, resolved around the light, slope and architecture already on the ground.",
-    img: "/images/earlwood-3.webp",
+    img: "/images/earlwood-vid-finished-dusk-wide-tall.webp",
     alt: "Modern timber-clad home opening onto a designed lawn at dusk",
   },
   {
     label: "Landscape Construction",
     blurb:
       "Decks, retaining, paving and bespoke timber structures, built in-house by our own carpenters and stone-workers, not subcontracted out.",
-    img: "/images/earlwood-2.webp",
-    alt: "Contemporary garden with concrete steps, timber screen and native grasses",
+    img: "/images/avalon-4.webp",
+    alt: "Sandstone retaining wall meeting handcrafted timber landscape stairs",
   },
   {
     label: "Swimming Pools",
     blurb:
       "Concrete pools detailed as still water: mineral-rendered, stone-coped and wrapped in carpentry that ties straight back into the garden.",
-    img: "/images/campsie-4.webp",
-    alt: "Lap pool reflecting the sky among gum trees at sunset",
+    img: "/images/campsie-6.webp",
+    alt: "Concrete plunge pool wrapped in a hardwood deck beside the house",
   },
   {
     label: "Garden Maintenance",
     blurb:
       "Ongoing care that keeps a garden reading the way it was drawn, through pruning, planting and the slow work of letting a place settle in.",
-    img: "/images/avalon-6.webp",
-    alt: "Raised garden beds planted densely with herbs and greens",
+    img: "/images/campsie-2.webp",
+    alt: "Established garden beds and lawn maturing along a rendered wall",
   },
 ];
 
@@ -94,18 +94,33 @@ export function WhatWeDo() {
         </div>
 
         {/* RIGHT — crossfading showcase */}
-        <div className="relative min-h-[58svh] overflow-hidden md:min-h-full">
-          {practices.map((p, i) => (
-            <img
-              key={p.label}
-              src={p.img}
-              alt={p.alt}
-              loading="lazy"
-              className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                i === active ? "scale-100 opacity-100" : "scale-105 opacity-0"
-              }`}
-            />
-          ))}
+        <div className="relative min-h-[58svh] overflow-hidden md:min-h-full bg-black">
+          {practices.map((p, i) => {
+            const isVideo = p.img.endsWith(".mp4");
+            const activeClass = i === active 
+              ? "scale-100 opacity-100 pointer-events-auto" 
+              : "scale-105 opacity-0 pointer-events-none";
+            return isVideo ? (
+              <video
+                key={p.label}
+                src={p.img}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${activeClass}`}
+                aria-label={p.alt}
+              />
+            ) : (
+              <img
+                key={p.label}
+                src={p.img}
+                alt={p.alt}
+                loading="lazy"
+                className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${activeClass}`}
+              />
+            );
+          })}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
         </div>
       </div>

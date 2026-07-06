@@ -19,13 +19,13 @@ const services = [
   {
     n: "01",
     t: "Landscape Architecture",
-    img: "/images/earlwood-3.webp",
+    img: "/images/earlwood-vid-yard-perspective-wide.webp",
     d: "The best gardens evolve over time, and it all starts with a considered concept. We design responsive landscapes that perform in our climate, lift the value of your property and, most of all, change how you live outdoors. Concept design, 3D modelling, CDC/DA/CC approvals and detailed documentation.",
   },
   {
     n: "02",
     t: "Landscape Construction",
-    img: "/images/earlwood-2.webp",
+    img: "/images/earlwood-vid-decking-work-wide.webp",
     d: "With years on the tools as a team, we bring a deep working knowledge of materials, methods and detailing. We build with our own carpenters and trusted specialists, never handed off, so the garden survives everything exterior construction throws at it. Built well, and built to last.",
   },
   {
@@ -98,7 +98,7 @@ export default function ServicesPage() {
       {/* CENTRAL IMAGE — garden + timber, the idea of the whole site */}
       <section className="img-zoom mx-auto max-w-[1600px] px-6 md:px-12">
         <ParallaxImage
-          src="/images/earlwood-1.webp"
+          src="/images/earlwood-vid-cladding-sunset-wide.webp"
           alt="Timber-clad home opening onto a designed garden at dusk"
           className="aspect-[16/9] w-full"
           imgClassName="h-full w-full object-cover"

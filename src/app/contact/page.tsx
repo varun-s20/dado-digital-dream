@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { BrandMark } from "@/components/BrandMark";
 import { HoverFillButton } from "@/components/HoverFillButton";
-import { MagneticLink } from "@/components/MagneticLink";
 import { Reveal } from "@/components/Reveal";
 import { RevealImage } from "@/components/RevealImage";
 import { brand } from "@/lib/brand";
@@ -14,235 +14,303 @@ export const metadata: Metadata = {
   },
 };
 
-// CSS-only floating label: rests inside the line, rises to small-caps on focus
-// or once the field holds a value. Tight tracking for the luxury read.
-const floatLabel =
-  "pointer-events-none absolute left-0 top-5 text-[0.95rem] tracking-[-0.005em] text-muted-foreground " +
-  "transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] " +
-  "peer-focus:top-0 peer-focus:text-[0.66rem] peer-focus:uppercase peer-focus:tracking-[0.05em] " +
-  "peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[0.66rem] " +
-  "peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-[0.05em]";
+/* ── Hero image capsules ──────────────────────────────────────── */
+const PILL_A = "/images/earlwood-vid-cladding-sunset-wide.webp";
+const PILL_B = "/images/campsie-6.webp";
 
-// 16px on mobile — anything smaller makes iOS Safari auto-zoom the
-// viewport when a field gains focus. Desktop drops back to the 0.95rem set.
-const fieldBase =
-  "peer w-full border-b border-border bg-transparent pb-2 pt-5 text-base tracking-[-0.005em] md:text-[0.95rem] " +
-  "outline-none focus:border-foreground/0";
+/* ── Four-up gallery ──────────────────────────────────────────── */
+const ROW = [
+  { src: "/images/campsie-3.webp", alt: "Coastal garden and pool, Avalon Beach" },
+  { src: "/images/earlwood-1.webp", alt: "Hardwood deck and cladding, Earlwood" },
+  { src: "/images/campsie-2.webp", alt: "Landscaped courtyard, Campsie" },
+  { src: "/images/earlwood-3.webp", alt: "Established planting against fresh hardwood, Earlwood" },
+];
 
-const PROJECT_TYPES = ["Landscape", "Carpentry", "Pool", "Stonework", "Other"];
+/* ── Form option group ────────────────────────────────────────── */
+const PROJECT_TYPES = ["Landscape", "Carpentry", "Pool", "Stonework"];
+
+/* ── Social icons for the contact card ────────────────────────── */
+function SocialIcon({ label }: { label: string }) {
+  if (label === "Instagram") {
+    return (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        aria-hidden
+      >
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="3.8" />
+        <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none" />
+      </svg>
+    );
+  }
+  if (label === "LinkedIn") {
+    return (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+        <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3.2 9.2h3.6V21H3.2zM9.4 9.2H13v1.6h.05c.5-.9 1.74-1.86 3.58-1.86 3.83 0 4.54 2.4 4.54 5.52V21h-3.6v-5.3c0-1.26-.02-2.9-1.78-2.9-1.78 0-2.05 1.36-2.05 2.8V21H9.4z" />
+      </svg>
+    );
+  }
+  if (label === "Facebook") {
+    return (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+        <path d="M13.5 21v-7.6h2.55l.38-2.96h-2.93V8.56c0-.86.24-1.44 1.47-1.44h1.57V4.47C16.2 4.4 15.3 4.32 14.25 4.32c-2.19 0-3.69 1.34-3.69 3.79v2.33H8V13.4h2.56V21h2.94z" />
+      </svg>
+    );
+  }
+  return null;
+}
 
 export default function ContactPage() {
   return (
     <section className="contact-atmos relative overflow-hidden">
-      {/* aesthetic design layer — fixed grain + a faint oversized watermark
-          seated behind the body for depth */}
       <div className="film-grain" aria-hidden />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 hidden justify-center overflow-hidden md:flex"
-      >
-        <span
-          className="brand-logo translate-y-[34%]"
-          style={{ width: "30vw", height: "30vw", opacity: 0.045, transition: "none" }}
-        />
-      </div>
 
-      {/* MASTHEAD — editorial, left-aligned, asymmetric */}
-      <div className="relative mx-auto max-w-[1320px] px-6 pt-28 md:px-12 md:pt-32">
-        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
-          <span className="eyebrow-pill eyebrow text-muted-foreground">
-            <span className="pulse-dot" aria-hidden /> Contact
-          </span>
-          <p className="eyebrow text-muted-foreground">Sydney &amp; South Coast</p>
-        </div>
-
-        <div className="mt-7 grid items-end gap-x-10 gap-y-6 md:mt-9 md:grid-cols-12">
-          <h1 className="word-rise font-display text-[2.4rem] font-[400] leading-[0.9] tracking-[-0.04em] md:col-span-7 md:text-[3.5rem]">
-            <span style={{ animationDelay: "0.1s" }}>Tell us about</span>
-            <br />
-            <span style={{ animationDelay: "0.28s" }} className="italic font-[300]">
-              your site.
-            </span>
-          </h1>
-          <Reveal delay={160} className="md:col-span-5 md:col-start-8">
-            <p className="text-[0.92rem] leading-[1.5] tracking-[-0.005em] text-muted-foreground">
-              We take on a small number of projects each year. The earlier we hear from you, the
-              more we can shape.
-            </p>
-            <span className="mt-4 inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.05em]">
-              <span className="pulse-dot" aria-hidden /> Currently booking for 2026
-            </span>
+      {/* ═══ HERO — headline with image capsules baked in ═══ */}
+      <div className="relative mx-auto max-w-[1320px] px-6 pt-28 text-center md:px-12 md:pt-36">
+        <p className="display-heavy mx-auto max-w-[30ch] text-[clamp(6rem,5.6vw,4.2rem)] ">
+          <Reveal as="span" className="block">
+            Consult with <img src={PILL_A} alt="" aria-hidden className="hero-pill" /> us
           </Reveal>
-        </div>
+          <Reveal as="span" delay={120} className="block">
+            <img src={PILL_B} alt="" aria-hidden className="hero-pill" /> Before You Build
+          </Reveal>
+        </p>
       </div>
 
-      {/* BODY — image + details · form */}
-      <div className="relative mx-auto mt-10 max-w-[1320px] border-t border-border px-6 pb-20 pt-10 md:mt-14 md:px-12 md:pb-24 md:pt-12">
-        <div className="grid gap-x-10 gap-y-10 md:grid-cols-12">
-          {/* LEFT - image anchor + studio details */}
-          <div className="md:col-span-5">
-            <RevealImage
-              src="/images/studio-1.webp"
-              alt="Inside the workshop, shaping a hardwood joint"
-              loading="eager"
-              className="aspect-[4/5] w-full bg-muted"
-            />
-            <dl className="mt-8 divide-y divide-border border-y border-border">
-              <DetailRow label="Phone">
-                <a href={brand.phoneHref} className="arrow-link font-display tracking-[-0.01em]">
-                  {brand.phone}
-                </a>
-              </DetailRow>
-              <DetailRow label="Email">
-                <MagneticLink
-                  href={`mailto:${brand.email}` as never}
-                  className="arrow-link inline-flex items-baseline gap-2 font-display tracking-[-0.01em]"
-                >
-                  {brand.email}
-                  <span aria-hidden className="text-xs">
-                    →
-                  </span>
-                </MagneticLink>
-              </DetailRow>
-              <DetailRow label="Studio">
-                <span className="font-display leading-snug tracking-[-0.01em]">
-                  {brand.address.line1}, {brand.address.line2}
-                </span>
-              </DetailRow>
-              <DetailRow label="Hours">
-                <span className="text-muted-foreground">Mon-Fri · 7am-4pm</span>
-              </DetailRow>
-            </dl>
-            <div className="mt-6 flex items-center gap-6">
-              {brand.social.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[0.68rem] font-medium uppercase tracking-[0.05em] text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:underline focus-visible:underline-offset-4"
-                >
-                  {s.label}
-                </a>
-              ))}
-            </div>
-          </div>
+      {/* ═══ GET IN TOUCH — contact card · form ═══ */}
+      <div className="relative mx-auto mt-20 max-w-[1320px] px-6 md:mt-28 md:px-12">
+        
 
-          {/* RIGHT — enquiry form */}
-          <Reveal delay={120} className="md:col-span-7 md:col-start-6">
-            <p className="eyebrow text-muted-foreground">Send an enquiry</p>
-            <form className="mt-7 grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
-              <Field id="firstName" label="First name" autoComplete="given-name" />
-              <Field id="lastName" label="Last name" autoComplete="family-name" />
-              <Field id="email" label="Email" type="email" autoComplete="email" />
-              <Field id="phone" label="Phone" type="tel" autoComplete="tel" />
-              <Field id="address" label="Address" className="sm:col-span-2" />
-              <Field id="hear" label="How did you hear about us?" className="sm:col-span-2" />
-
-              <fieldset className="sm:col-span-2">
-                <legend className="eyebrow text-muted-foreground">Project type</legend>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {PROJECT_TYPES.map((t) => (
-                    <label key={t} className="cursor-pointer">
-                      <input
-                        type="checkbox"
-                        name="projectType"
-                        value={t}
-                        className="peer sr-only"
-                      />
-                      <span className="inline-block border border-border px-4 py-2.5 text-[0.7rem] uppercase tracking-[0.05em] text-muted-foreground transition-colors duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-foreground hover:text-foreground peer-checked:border-foreground peer-checked:bg-foreground peer-checked:text-background peer-focus-visible:ring-1 peer-focus-visible:ring-foreground peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background">
-                        {t}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-
-              <TextareaField
-                id="message"
-                label="Tell us about the project, site, scope, or ideal start"
-                className="sm:col-span-2"
+        <div className="mt-10 grid gap-x-14 gap-y-10 md:mt-14 md:grid-cols-2">
+          {/* revamped contact card */}
+          <Reveal delay={80} className="h-full">
+            
+            <div className="relative flex h-full flex-col justify-between gap-10 overflow-hidden rounded-[1.75rem] bg-secondary/70 p-8 md:p-11">
+              <span
+                aria-hidden
+                className="brand-logo pointer-events-none absolute -bottom-14 -right-14 opacity-[0.05]"
+                style={{ width: 260, height: 260, transition: "none" }}
               />
 
-              <div className="flex flex-col items-start gap-6 pt-2 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
-                <p className="max-w-xs text-[0.76rem] leading-[1.5] text-muted-foreground/70">
-                  We&rsquo;ll reply within two working days, usually with a few first questions.
-                </p>
+              <div className="relative flex flex-col gap-7">
+                <InfoRow label="Get in Touch">
+                  <div className="flex flex-col gap-1">
+                    {brand.phones.map((p) => (
+                      <a key={p.href} href={p.href} className="arrow-link block w-fit">
+                        {p.number}
+                      </a>
+                    ))}
+                  </div>
+                </InfoRow>
+                <div className="hairline" />
+                <InfoRow label="Email">
+                  <a href={`mailto:${brand.email}`} className="arrow-link block w-fit break-all">
+                    {brand.email}
+                  </a>
+                </InfoRow>
+                <div className="hairline" />
+                <InfoRow label="Studio">
+                  {brand.address.line1}, {brand.address.line2}
+                </InfoRow>
+                <div className="hairline" />
+                <InfoRow label="Hours">Mon–Fri · 7am–4pm</InfoRow>
+                <div className="hairline" />
+                <InfoRow label="Follow">
+                  <div className="flex items-center gap-3">
+                    {brand.social.map((s) => (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={s.label}
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 transition-colors duration-200 hover:border-foreground hover:text-foreground"
+                      >
+                        <SocialIcon label={s.label} />
+                      </a>
+                    ))}
+                  </div>
+                </InfoRow>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* enquiry form */}
+          <Reveal delay={140}>
+            <form className="contact-stagger grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">
+              <Field id="first-name" label="First Name" autoComplete="given-name" index={0} />
+              <Field id="last-name" label="Last Name" autoComplete="family-name" index={1} />
+              <Field id="email" label="Email" type="email" autoComplete="email" index={2} />
+              <Field id="phone" label="Phone" type="tel" autoComplete="tel" index={3} />
+
+              <SelectField
+                id="project-type"
+                label="Select an option"
+                options={PROJECT_TYPES}
+                index={4}
+              />
+
+              <Field
+                id="address"
+                label="Address"
+                autoComplete="street-address"
+                index={5}
+                span
+              />
+              <Field id="heard" label="How did you hear about us?" index={6} span />
+
+              <div className="field-line relative sm:col-span-2" style={{ ["--i" as string]: 7 }}>
+                <label htmlFor="message" className="eyebrow text-muted-foreground">
+                  Want to tell us more about the project?
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={3}
+                  className="peer mt-3 w-full resize-none border-b border-border bg-transparent pb-2 text-base leading-[1.5] tracking-[-0.005em] outline-none md:text-[0.95rem]"
+                />
+              </div>
+
+              <div className="pt-2 sm:col-span-2" style={{ ["--i" as string]: 8 }}>
                 <HoverFillButton
                   type="button"
-                  className="surface-deep px-7 py-3.5 text-[0.72rem] uppercase tracking-[0.06em]"
+                  className="rounded-full border border-foreground px-8 py-3.5 text-[0.78rem] uppercase tracking-[0.06em] transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97]"
                 >
-                  Send enquiry <span aria-hidden>→</span>
+                  Send Enquiry <span aria-hidden>→</span>
                 </HoverFillButton>
               </div>
             </form>
           </Reveal>
         </div>
       </div>
+
+      {/* ═══ FOUR-UP GALLERY ═══ */}
+      <div className="relative mx-auto mt-24 px-6 md:mt-32 md:px-12">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+          {ROW.map((img, i) => (
+            <Reveal key={img.src} delay={i * 90}>
+              <RevealImage
+                src={img.src}
+                alt={img.alt}
+                className="aspect-[3/4] w-full overflow-hidden rounded-xl bg-muted"
+              />
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+      {/* ═══ SOCIAL CLUSTER — brand lockup + tumbled social pills, flush on the footer ═══ */}
+      <div className="relative z-10 mx-auto mb-4 mt-16 max-w-[1320px] px-6 md:px-12">
+        <div className="flex flex-col items-center gap-3.5 pb-2">
+          <BrandMark size="xl" />
+          <span
+            className="eyebrow whitespace-nowrap text-muted-foreground"
+            style={{ fontSize: "0.86rem" }}
+          >
+            Let&rsquo;s Build Together
+          </span>
+        </div>
+      </div>
     </section>
   );
 }
 
-function DetailRow({ label, children }: { label: string; children: React.ReactNode }) {
+/* ── Stacked label/value row inside the contact card ─────────── */
+function InfoRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="grid grid-cols-[5.5rem_1fr] items-baseline gap-4 py-3.5 text-[0.95rem]">
-      <dt className="eyebrow text-muted-foreground">{label}</dt>
-      <dd>{children}</dd>
+    <div>
+      <p className="eyebrow text-muted-foreground/80">{label}</p>
+      <div className="mt-2.5 font-display text-[1.35rem] leading-snug tracking-[-0.01em] sm:text-[1.55rem]">
+        {children}
+      </div>
     </div>
   );
 }
 
+/* ── Underlined floating-label field ──────────────────────────── */
 function Field({
   id,
   label,
   type = "text",
-  className = "",
   autoComplete,
+  index = 0,
+  span = false,
 }: {
   id: string;
   label: string;
   type?: string;
-  className?: string;
   autoComplete?: string;
+  index?: number;
+  span?: boolean;
 }) {
   return (
-    <div className={`field-line relative ${className}`}>
+    <div
+      className={`field-line relative ${span ? "sm:col-span-2" : ""}`}
+      style={{ ["--i" as string]: index }}
+    >
+      <label htmlFor={id} className="eyebrow text-muted-foreground">
+        {label}
+      </label>
       <input
         id={id}
         name={id}
         type={type}
         autoComplete={autoComplete}
-        placeholder=" "
-        className={fieldBase}
+        className="peer mt-3 w-full border-b border-border bg-transparent pb-2 text-base tracking-[-0.005em] outline-none md:text-[0.95rem]"
       />
-      <label htmlFor={id} className={floatLabel}>
-        {label}
-      </label>
     </div>
   );
 }
 
-function TextareaField({
+/* ── Underlined select with custom chevron ─────────────────────── */
+function SelectField({
   id,
   label,
-  className = "",
+  options,
+  index = 0,
 }: {
   id: string;
   label: string;
-  className?: string;
+  options: string[];
+  index?: number;
 }) {
   return (
-    <div className={`field-line relative ${className}`}>
-      <textarea
-        id={id}
-        name={id}
-        rows={4}
-        placeholder=" "
-        className={`${fieldBase} resize-none leading-[1.5]`}
-      />
-      <label htmlFor={id} className={floatLabel}>
+    <div
+      className="field-line relative sm:col-span-2"
+      style={{ ["--i" as string]: index }}
+    >
+      <label htmlFor={id} className="eyebrow text-muted-foreground">
         {label}
       </label>
+      <div className="relative mt-3">
+        <select
+          id={id}
+          name={id}
+          defaultValue=""
+          className="peer w-full appearance-none border-b border-border bg-transparent pb-2 pr-7 text-base tracking-[-0.005em] outline-none md:text-[0.95rem]"
+        >
+          <option value="" disabled>
+            Select an option
+          </option>
+          {options.map((o) => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
+        </select>
+        <svg
+          aria-hidden
+          viewBox="0 0 12 8"
+          className="pointer-events-none absolute right-0 top-1/2 h-2 w-3 -translate-y-1/2 text-muted-foreground"
+        >
+          <path d="M1 1.5L6 6.5L11 1.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
+        </svg>
+      </div>
     </div>
   );
 }

@@ -16,6 +16,10 @@ export type GalleryItem = {
   summary?: string;
   /** Optional explicit completion year; otherwise derived. */
   year?: number;
+  /** Optional project-specific custom gallery images/videos. */
+  images?: string[];
+  /** Optional custom feature image for the editorial spread. */
+  featureImg?: string;
 };
 
 /** Filter chips, in display order. "All" is prepended in the UI. */
@@ -51,7 +55,25 @@ const COAST = [
 ];
 
 export const galleryItems: GalleryItem[] = [
-  { id: "g01", title: "Earlwood Transformation", location: "Earlwood, Sydney", categories: ["Carpentry", "Gardens"], img: "/images/earlwood-2.webp", size: "lg", slug: "earlwood", year: 2026, summary: "A comprehensive, large-scale residential renovation combining structural timber framing, premium external cladding, stone paving, and fully automated irrigation." },
+  {
+    id: "g01",
+    title: "Earlwood Transformation",
+    location: "Earlwood, Sydney",
+    categories: ["Carpentry", "Gardens"],
+    img: "/images/earlwood-vid-cladding-sunset-wide.webp",
+    size: "lg",
+    slug: "earlwood",
+    year: 2026,
+    summary: "A comprehensive, large-scale residential renovation combining structural timber framing, premium external cladding, stone paving, and fully automated irrigation.",
+    featureImg: "/images/earlwood-vid-yard-perspective-wide.webp",
+    images: [
+      "/images/earlwood-vid-hero-dusk-wide.webp",
+      "/images/earlwood-vid-decking-work-wide.webp",
+      "/videos/earlwood-carpentry.mp4",
+      "/images/earlwood-vid-paving-detail-wide.webp",
+      "/videos/earlwood-final.mp4"
+    ]
+  },
   { id: "g02", title: "Campsie Deck & Garden", location: "Campsie, Sydney", categories: ["Carpentry", "Gardens"], img: "/images/campsie-2.webp", size: "tall", slug: "campsie", year: 2026, summary: "An integrated timber deck and stair installation featuring custom-engineered drainage systems and structural planter boxes built to border the outdoor area." },
   { id: "g03", title: "Avalon Beach Stairs", location: "Avalon Beach, Sydney", categories: ["Gardens", "Coastal"], img: "/images/avalon-1.webp", size: "sm", slug: "avalon-beach", year: 2026, summary: "Bespoke carpentry and garden engineering featuring closed stringer stairs, curved steps, structural retaining walls, and raised timber garden beds." },
   { id: "g04", title: "Bronte Courtyard", location: "Bronte, Sydney", categories: ["Courtyards", "Gardens"], img: "/images/campsie-4.webp", size: "wide" },
@@ -192,13 +214,16 @@ function categoryPhotos(item: GalleryItem, exclude: string[] = []): string[] {
 
 /** A single feature image for the info spread (distinct from the banner hero). */
 export const projectFeature = (item: GalleryItem): string =>
-  categoryPhotos(item)[0] ?? item.img;
+  item.featureImg ?? categoryPhotos(item)[0] ?? item.img;
 
 /**
  * Five category-matched views for the project's curated gallery — distinct
  * from both the banner hero and the feature image above.
  */
 export function projectImages(item: GalleryItem, count = 5): string[] {
+  if (item.images && item.images.length > 0) {
+    return item.images;
+  }
   const photos = categoryPhotos(item, [projectFeature(item)]);
   const start = num(item) % photos.length;
   return Array.from({ length: count }, (_, k) => photos[(start + k) % photos.length] ?? item.img);

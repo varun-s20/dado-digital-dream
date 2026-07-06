@@ -134,9 +134,9 @@ export function SiteFooter() {
           </span>
           <span className="flex gap-6">
             <span>Designed &amp; built in-house</span>
-            <a href="#" className="transition-opacity hover:opacity-100">
+            <Link href="/privacy" className="transition-opacity hover:opacity-100">
               Privacy
-            </a>
+            </Link>
           </span>
         </div>
       </div>

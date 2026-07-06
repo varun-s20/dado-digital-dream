@@ -29,9 +29,9 @@ export function BrandMark({
   if (!withName) return <span className={`brand-mark ${className}`}>{mark}</span>;
 
   return (
-    <span className={`brand-mark flex items-center gap-3.5 ${className}`}>
+    <span className={`brand-mark brand-lockup gap-3 ${className}`}>
       {mark}
-      <span className="flex flex-col leading-[1.05]">
+      <span className="flex flex-col justify-center leading-[1.08]">
         <span className="font-display text-[0.95rem] font-medium tracking-[0.02em]">
           BM Carpentry
         </span>

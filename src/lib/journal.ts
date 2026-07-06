@@ -33,7 +33,7 @@ export const posts: JournalPost[] = [
       "Spotted gum, blackbutt, silvertop ash — what we reach for, why, and how each weathers in a salt environment over a decade.",
     tag: "Materials",
     author: { name: "Michael", role: "Co-Founder, Lead Carpenter" },
-    hero: "/images/earlwood-1.webp",
+    hero: "/images/campsie-5.webp",
     body: [
       {
         type: "p",
@@ -106,7 +106,7 @@ export const posts: JournalPost[] = [
       "The unsung backbone of a garden that ages well — Lomandra, Themeda, Poa and the three we plant in every coastal job.",
     tag: "Planting",
     author: { name: "Ben", role: "Co-Founder, Lead Landscaper" },
-    hero: "/images/avalon-6.webp",
+    hero: "/images/hero.jpg",
     body: [
       {
         type: "p",
@@ -175,7 +175,7 @@ export const posts: JournalPost[] = [
       "On warmth, weathering, and pools that feel like furniture. Notes from the Bowral build and what we'd do differently next time.",
     tag: "Build",
     author: { name: "Michael", role: "Co-Founder, Lead Carpenter" },
-    hero: "/images/earlwood-3.webp",
+    hero: "/images/project-4.jpg",
     body: [
       {
         type: "p",
