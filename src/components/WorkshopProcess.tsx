@@ -15,35 +15,35 @@ const STAGES: Stage[] = [
   {
     n: "01",
     name: "Frame",
-    img: "/images/earlwood-vid-framing-detail-tall.webp",
+    img: "/images/avalon-6.webp",
     cap: "Structural timber framing set out across three terrace levels.",
     alt: "Structural timber framing meeting the new deck levels at Earlwood",
   },
   {
     n: "02",
     name: "Clad",
-    img: "/images/earlwood-vid-cladding-sunset-tall.webp",
+    img: "/images/avalon-5.webp",
     cap: "Vertical timber cladding, unifying the facade in low sun.",
     alt: "Timber cladding running up the facade, lit at sunset",
   },
   {
     n: "03",
     name: "Deck",
-    img: "/images/earlwood-vid-decking-work-tall.webp",
+    img: "/images/campsie-5.webp",
     cap: "Hardwood decking laid by hand, every junction mitered.",
     alt: "Carpenter laying hardwood decking boards over the timber frame",
   },
   {
     n: "04",
     name: "Plant",
-    img: "/images/earlwood-vid-garden-planting-tall.webp",
+    img: "/images/earlwood-1.webp",
     cap: "Zoned irrigation and dense, terraced planting go in.",
     alt: "Newly planted terraced garden beds with irrigation",
   },
   {
     n: "05",
     name: "Settle",
-    img: "/images/earlwood-vid-hero-dusk-tall.webp",
+    img: "/images/earlwood-3.webp",
     cap: "The finished garden, resolved and reading at dusk.",
     alt: "The completed Earlwood garden and clad home at dusk",
   },
@@ -214,17 +214,15 @@ export function WorkshopProcess() {
       <section
         ref={stage}
         className={`surface-deep relative w-full ${
-          native
-            ? "overflow-x-auto overscroll-x-contain py-14 [scrollbar-width:none]"
-            : "h-[100svh] overflow-hidden"
+          native ? "py-16" : "h-[100svh] overflow-hidden"
         }`}
         aria-label="How we build, in-house"
       >
         {/* HUD — top readout. When pinned, offset below the fixed navbar so it
           never tucks under it; the native strip scrolls so it keeps a tight top. */}
         <div
-          className={`pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 pb-6 md:px-12 ${
-            native ? "pt-6" : "pt-20 md:pt-24"
+          className={`pointer-events-none z-20 flex items-center justify-between px-6 pb-6 md:px-12 ${
+            native ? "relative pt-0" : "absolute inset-x-0 top-0 pt-20 md:pt-24"
           }`}
           style={LIGHT}
         >
@@ -242,17 +240,23 @@ export function WorkshopProcess() {
         {/* Rail */}
         <div
           ref={rail}
-          className={`flex items-stretch gap-[4vw] px-6 md:gap-[3vw] md:px-12 ${
-            native ? "h-[68svh] snap-x snap-mandatory" : "h-full"
+          className={`flex px-6 md:px-12 ${
+            native
+              ? "flex-col gap-5"
+              : "h-full items-stretch gap-[4vw] md:gap-[3vw]"
           }`}
         >
           {/* Opening statement */}
           <div
-            className="flex h-full w-[84vw] max-w-[560px] flex-none snap-center flex-col justify-center pr-4 md:w-[38vw]"
+            className={`flex flex-col justify-center ${
+              native
+                ? "w-full py-4"
+                : "h-full w-[84vw] max-w-[560px] flex-none pr-4 md:w-[38vw]"
+            }`}
             style={LIGHT}
           >
             <p className="eyebrow opacity-55">In-house, end to end</p>
-            <h2 className="mt-6 font-display text-[16vw] leading-[0.84] tracking-[-0.03em] md:text-[5.8vw]">
+            <h2 className="mt-6 font-display text-[13vw] leading-[0.84] tracking-[-0.03em] md:text-[5.8vw]">
               Built
               <br />
               in-house.
@@ -274,7 +278,11 @@ export function WorkshopProcess() {
               data-stage
               data-n={s.n}
               data-name={s.name}
-              className="relative h-full w-[80vw] flex-none snap-center overflow-hidden md:w-[33vw] md:min-w-[360px]"
+              className={`relative overflow-hidden ${
+                native
+                  ? "aspect-[4/5] w-full"
+                  : "h-full w-[80vw] flex-none md:w-[33vw] md:min-w-[360px]"
+              }`}
             >
               <div data-img className="absolute inset-0 will-change-transform">
                 <img
@@ -317,11 +325,15 @@ export function WorkshopProcess() {
 
           {/* Closing — the ledger */}
           <div
-            className="flex h-full w-[84vw] max-w-[540px] flex-none snap-center flex-col justify-center md:w-[36vw]"
+            className={`flex flex-col justify-center ${
+              native
+                ? "w-full py-4"
+                : "h-full w-[84vw] max-w-[540px] flex-none md:w-[36vw]"
+            }`}
             style={LIGHT}
           >
             <p className="eyebrow opacity-55">Finished</p>
-            <h2 className="mt-6 font-display text-[13vw] leading-[0.88] tracking-[-0.025em] md:text-[4.4vw]">
+            <h2 className="mt-6 font-display text-[12vw] leading-[0.88] tracking-[-0.025em] md:text-[4.4vw]">
               One garden,
               <br />
               one crew.

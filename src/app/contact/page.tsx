@@ -72,7 +72,7 @@ export default function ContactPage() {
 
       {/* ═══ HERO — headline with image capsules baked in ═══ */}
       <div className="relative mx-auto max-w-[1320px] px-6 pt-28 text-center md:px-12 md:pt-36">
-        <p className="display-heavy mx-auto max-w-[30ch] text-[clamp(6rem,5.6vw,4.2rem)] ">
+        <p className="display-heavy mx-auto max-w-[16ch] text-[clamp(1.85rem,6.4vw,4rem)]">
           <Reveal as="span" className="block">
             Consult with <img src={PILL_A} alt="" aria-hidden className="hero-pill" /> us
           </Reveal>
@@ -129,7 +129,7 @@ export default function ContactPage() {
                         target="_blank"
                         rel="noreferrer"
                         aria-label={s.label}
-                        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 transition-colors duration-200 hover:border-foreground hover:text-foreground"
+                        className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 transition-colors duration-200 hover:border-foreground hover:text-foreground"
                       >
                         <SocialIcon label={s.label} />
                       </a>

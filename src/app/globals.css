@@ -1,12 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500&family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,500&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
+/* Fonts are self-hosted via next/font (see layout.tsx) — the family names
+   come through as CSS variables (--font-hanken / --font-inter / --font-inter-tight)
+   with automatic preload + swap, so there's no render-blocking @import. */
 @theme inline {
-  --font-display: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
@@ -76,9 +78,10 @@
   * {
     border-color: var(--color-border);
   }
-  html {
-    scroll-behavior: smooth;
-  }
+  /* No native `scroll-behavior: smooth` — Lenis owns smooth scrolling and
+     native smooth fights its programmatic scroll (anchor jumps, route-reset),
+     causing the "clunky" double-animation. Reduced-motion users get instant
+     jumps, which is the desired behaviour anyway. */
   /* Belt-and-braces guard against accidental horizontal scroll on any
      page. `clip` (not `hidden`) avoids creating a scroll container, so
      position: sticky keeps working. */
@@ -146,8 +149,8 @@
      its Hanken Grotesk. Re-declaring the font vars cascades to every
      descendant that reads them (headings, .font-display, .eyebrow). */
   .font-formed {
-    --font-display: "Inter Tight", "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
-    --font-sans: "Inter", "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --font-display: var(--font-inter-tight), var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+    --font-sans: var(--font-inter), var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
     font-family: var(--font-sans);
   }
   .surface-deep {
@@ -188,7 +191,6 @@
     transition:
       transform 1.6s var(--ease-out-expo),
       filter var(--dur-med) var(--ease-out-expo);
-    will-change: transform;
   }
   .img-zoom:hover img {
     transform: scale(1.05);
@@ -241,7 +243,6 @@
     transition:
       opacity 0.9s var(--ease-out-expo),
       transform 1.2s var(--ease-out-expo);
-    will-change: transform;
   }
   .reveal-shot[data-loaded="true"] img {
     opacity: 1;

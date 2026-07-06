@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { MagneticLink } from "@/components/MagneticLink";
 import { MaskHeading } from "@/components/MaskHeading";
-import { ProjectTile } from "@/components/ProjectTile";
 import { GetInTouch } from "@/components/GetInTouch";
 import { Reveal } from "@/components/Reveal";
 import { SplitText } from "@/components/SplitText";
@@ -9,18 +8,23 @@ import { WhatWeDo } from "@/components/WhatWeDo";
 import { WorkshopProcess } from "@/components/WorkshopProcess";
 import { brand } from "@/lib/brand";
 import { posts } from "@/lib/journal";
-import { projects } from "@/lib/projects";
+import { galleryItems, projectSlug, type GallerySize } from "@/lib/gallery";
 
-const featured = projects.slice(0, 4);
 const journalPosts = posts.slice(0, 3);
 
-// Mixed-aspect, asymmetric rhythm for the Recent work grid. Feature tiles run
-// wide; the middle tile is taller and drops to break the baseline.
-const workLayout = [
-  { col: "md:col-span-7", aspect: "aspect-[3/2]" },
-  { col: "md:col-span-5 md:mt-28", aspect: "aspect-[4/5]" },
-  { col: "md:col-span-7", aspect: "aspect-[4/3]" },
+// Recent work: a tight bento mosaic. Fixed size sequence chosen so the tiles
+// tile a perfect rectangle with zero gaps on both the 2-col and 4-col grids
+// (verified by hand — do not reorder without re-checking the packing).
+const WORK_SIZES: GallerySize[] = [
+  "sm", "tall", "lg", "wide", "tall", "sm", "tall", "lg", "lg", "wide",
 ];
+const work = galleryItems.slice(0, WORK_SIZES.length);
+const SPAN: Record<GallerySize, string> = {
+  sm: "col-span-1 row-span-1",
+  wide: "col-span-2 row-span-1",
+  tall: "col-span-1 row-span-2",
+  lg: "col-span-2 row-span-2",
+};
 
 export default function HomePage() {
   return (
@@ -29,7 +33,6 @@ export default function HomePage() {
       <section className="relative min-h-[100dvh] w-full overflow-hidden">
         <video
           src="https://xhhvokcsehxhjxabtvvw.supabase.co/storage/v1/object/public/dolobuck/17224715-uhd_3840_2160_30fps.mp4"
-          poster="/images/earlwood-2.webp"
           autoPlay
           loop
           muted
@@ -94,7 +97,7 @@ export default function HomePage() {
                 "paving, concreting, and hardscapes & softscapes",
                 "with a strong focus on craftsmanship.",
               ]}
-              className="font-display text-3xl leading-tight md:text-4xl"
+              className="font-display text-[clamp(1.6rem,6.2vw,1.875rem)] leading-tight md:text-4xl"
             />
             <Reveal delay={300}>
               <p className="text-muted-foreground">
@@ -116,7 +119,7 @@ export default function HomePage() {
         <div className="grid gap-8 md:grid-cols-12 md:items-end">
           <div className="md:col-span-8">
             <p className="eyebrow text-muted-foreground">
-              <span className="text-accent">Selected</span> · 0{featured.length}
+              <span className="text-accent">Selected</span> · {work.length}
             </p>
             <SplitText
               as="h2"
@@ -133,59 +136,49 @@ export default function HomePage() {
           </Reveal>
         </div>
 
-        <div className="mt-14 grid gap-x-8 gap-y-14 md:mt-24 md:grid-cols-12 md:gap-y-10">
-          {featured.map((p, i) => {
-            const cfg = workLayout[i] ?? workLayout[0];
-            return (
-              <Reveal key={p.slug} delay={i * 90} className={`group ${cfg.col}`}>
-                <div className="flex items-baseline justify-between border-t border-border pb-4 pt-3">
-                  <span className="eyebrow font-display tabular-nums text-foreground">
-                    {p.index}
-                  </span>
-                  <span className="eyebrow text-muted-foreground">{p.year}</span>
-                </div>
-                <ProjectTile
-                  href={`/projects/${p.slug}`}
-                  src={p.cover}
-                  alt={p.title}
-                  imgClassName={`${cfg.aspect} w-full object-cover`}
-                  width={1200}
-                  height={1500}
-                />
-                <div className="mt-5 flex items-start justify-between gap-4">
-                  <Link
-                    href={`/projects/${p.slug}`}
-                    className="arrow-link inline-flex items-baseline gap-2.5"
-                  >
-                    <h3 className="font-display text-2xl md:text-[1.85rem]">{p.title}</h3>
-                    <span aria-hidden className="text-accent">→</span>
-                  </Link>
-                  <span className="eyebrow shrink-0 pt-1.5 text-muted-foreground">
-                    {p.location.split(",")[0]}
-                  </span>
-                </div>
-                <p className="eyebrow mt-2 text-muted-foreground">{p.tag}</p>
-              </Reveal>
-            );
-          })}
-
-          {/* Closing note + CTA — fills the space beside the last project */}
-          <Reveal
-            delay={120}
-            className="mt-2 flex flex-col justify-end md:col-span-4 md:col-start-9 md:mt-0 md:pb-3"
-          >
-            <span aria-hidden className="mb-7 hidden h-px w-14 bg-foreground/25 md:block" />
-            <p className="max-w-xs leading-relaxed text-muted-foreground">
-              More decking, cladding, stairs and gardens in the full archive.
-            </p>
-            <MagneticLink
-              href="/projects"
-              className="arrow-link mt-6 inline-flex items-center gap-3 font-display text-3xl md:text-4xl"
+        <div className="mt-10 grid auto-rows-[8.5rem] grid-flow-dense grid-cols-2 gap-1.5 sm:auto-rows-[10rem] md:mt-16 md:auto-rows-[11rem] md:grid-cols-4 md:gap-2">
+          {work.map((item, i) => (
+            <Link
+              key={item.id}
+              href={`/projects/${projectSlug(item)}`}
+              aria-label={`${item.title}, ${item.location}`}
+              style={{ ["--d" as string]: `${Math.min(i, 12) * 45}ms` }}
+              className={`gallery-tile gallery-enter group relative block overflow-hidden bg-muted ${SPAN[WORK_SIZES[i]]}`}
             >
-              All projects <span aria-hidden className="text-accent">→</span>
-            </MagneticLink>
-          </Reveal>
+              <img
+                src={item.img}
+                alt={item.title}
+                loading={i < 4 ? "eager" : "lazy"}
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
+                style={{ objectPosition: item.pos }}
+              />
+              <div className="gallery-scrim pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+              <div
+                className="gallery-cap pointer-events-none absolute inset-x-0 bottom-0 p-3 md:p-4"
+                style={{ color: "var(--surface-deep-foreground)" }}
+              >
+                <h3 className="font-display text-base font-[400] leading-[1.05] tracking-[-0.025em] md:text-lg">
+                  {item.title}
+                </h3>
+                <p className="eyebrow mt-1 truncate opacity-80">{item.location}</p>
+              </div>
+            </Link>
+          ))}
         </div>
+
+        {/* Closing note + CTA */}
+        <Reveal delay={120} className="mt-12 flex flex-col gap-6 border-t border-border pt-8 md:flex-row md:items-end md:justify-between">
+          <p className="max-w-xs leading-relaxed text-muted-foreground">
+            More decking, cladding, stairs and gardens in the full archive.
+          </p>
+          <MagneticLink
+            href="/projects"
+            className="arrow-link inline-flex items-center gap-3 font-display text-3xl md:text-4xl"
+          >
+            All projects <span aria-hidden className="text-accent">→</span>
+          </MagneticLink>
+        </Reveal>
       </section>
 
       {/* WORKING ACROSS — quiet coverage band */}
@@ -209,7 +202,7 @@ export default function HomePage() {
       <WorkshopProcess />
 
       {/* JOURNAL */}
-      <section className="mx-auto max-w-[1600px] px-6 pb-24 md:px-12">
+      <section className="mx-auto max-w-[1600px] px-6 pb-24 pt-24 md:px-12 md:pt-32">
         <Reveal>
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>

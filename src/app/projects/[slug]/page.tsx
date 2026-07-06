@@ -212,7 +212,7 @@ export default async function ProjectPage({
 
 function Detail({ label, value }: { label: string; value: string | string[] }) {
   return (
-    <div className="grid grid-cols-2 items-baseline gap-4 border-t border-border/80 py-4 sm:gap-8">
+    <div className="grid grid-cols-[6rem_1fr] items-baseline gap-4 border-t border-border/80 py-4 sm:grid-cols-2 sm:gap-8">
       <dt className="text-[0.7rem] font-medium uppercase tracking-[0.04em] text-muted-foreground">
         {label}
       </dt>

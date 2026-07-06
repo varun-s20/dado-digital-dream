@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { CountUp } from "@/components/CountUp";
-import { FlipNumeral } from "@/components/FlipNumeral";
 import { MagneticLink } from "@/components/MagneticLink";
+import { ParallaxImage } from "@/components/ParallaxImage";
 import { MaskHeading } from "@/components/MaskHeading";
 import { Reveal } from "@/components/Reveal";
 import { SplitText } from "@/components/SplitText";
@@ -55,11 +55,10 @@ const crew = [
   { name: "Priya", role: "Design Coordinator", img: "/images/studio-1.webp" },
 ];
 
-/* Studio story, told as a centred stack of numbered chapters — 01 through
-   04 running one below the other, no imagery. Each chapter's number turns
-   over like a flip-calendar page as it scrolls into view. Copy carries the
-   carpentry-led, design-build philosophy from first sketch to finished
-   garden. */
+/* Studio story, told as a clean centred column of four numbered chapters
+   (01–04) running one below the other — no imagery. Uniform, calm rhythm:
+   a small index label over a centred kicker and a centred paragraph, hairline
+   dividers between. Carries the carpentry-led, design-build philosophy. */
 const storyBeats = [
   {
     index: "01",
@@ -113,8 +112,8 @@ const CREW_LAYOUT = [
 ] as const;
 
 const CREW_SIZE: Record<string, string> = {
-  lg: "w-[72vw] sm:w-[300px] md:w-[340px] lg:w-[380px]",
-  md: "w-[62vw] sm:w-[250px] md:w-[280px] lg:w-[310px]",
+  lg: "w-[66vw] max-w-[300px] sm:w-[300px] md:w-[340px] lg:w-[380px]",
+  md: "w-[58vw] max-w-[260px] sm:w-[250px] md:w-[280px] lg:w-[310px]",
 };
 
 const stats = [
@@ -127,76 +126,103 @@ const stats = [
 export default function AboutPage() {
   return (
     <>
-      {/* HERO — mirrors formedgardens.com.au/about's copy hierarchy:
-          eyebrow → bold statement → a "Who we are" sub-label → lead copy.
-          Photo-free; the statement carries the masthead. */}
+      {/* HERO — type-led masthead: centred eyebrow, oversized statement with
+          a single italic-light accent, one lead paragraph — then a single
+          full-bleed photograph so the page has weight without going busy. */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1600px] px-6 pb-24 pt-32 text-center md:px-12 md:pb-32 md:pt-40">
+        <div className="mx-auto flex max-w-[1180px] flex-col items-center px-6 pt-32 text-center md:px-12 md:pt-40">
           <p className="eyebrow text-muted-foreground">Who we are</p>
-          <h1 className="display-heavy mx-auto mt-7 max-w-[1180px] text-[clamp(2.5rem,6.4vw,4.8rem)]">
-            <SplitText as="span" className="block" stagger={10}>
-              Gardens that belong, built by the people
-            </SplitText>
-            <SplitText as="span" className="block" stagger={10} delay={90}>
-              who design them.
-            </SplitText>
-          </h1>
 
-          <Reveal delay={220} className="mx-auto mt-12 max-w-6xl">
-            <p className="text-sm leading-relaxed tracking-[-0.01em] text-muted-foreground md:text-[0.95rem]">
+          <MaskHeading
+            as="h1"
+            lines={[
+              <span key="l1">
+                Gardens that <span className="italic font-[300]">belong</span>,
+              </span>,
+              <span key="l2">built by the people who design them.</span>,
+            ]}
+            className="mt-8 font-display leading-[1.02] tracking-[-0.03em] text-[clamp(2.4rem,6.2vw,4.6rem)]"
+            stagger={90}
+          />
+
+          <Reveal delay={220} className="mt-10 max-w-xl pb-20 md:pb-28">
+            <p className="text-base leading-relaxed tracking-[-0.01em] text-muted-foreground">
               A small, in-house studio of designers, carpenters and
-              landscapers — building across Sydney&rsquo;s harbour and the
-              NSW South Coast for seventeen years, and still answering the
-              phone ourselves.
+              landscapers — building across Sydney&rsquo;s harbour and the NSW
+              South Coast for seventeen years, and still answering the phone
+              ourselves.
             </p>
           </Reveal>
         </div>
+
+        <ParallaxImage
+          src="/images/about-hero.webp"
+          alt="A landscaped garden and timber build by BM Carpentry at golden hour"
+          className="h-[56vh] w-full md:h-[84vh]"
+          strength={140}
+        />
       </section>
 
-      {/* STORY — a centred header over a stack of numbered chapters (01–04),
-          one below the other, no imagery. Each chapter's numeral flips over
-          as it scrolls into view. */}
-      <section className="mx-auto max-w-[1600px] px-6 md:px-12">
-        <div className="pt-20 text-center md:pt-32">
+      {/* STORY — type-led, centred column. A masthead, then four numbered
+          chapters in one calm rhythm (kicker · paragraph) over a giant ghosted
+          chapter numeral, on a warm atmosphere wash so the wide side gutters
+          read intentional, not empty. No imagery, nothing scattered. */}
+      <section
+        className="relative overflow-hidden"
+        style={{
+          background:
+            "radial-gradient(58% 44% at 12% 16%, oklch(0.65 0.118 62 / 0.06), transparent 68%), radial-gradient(52% 46% at 88% 84%, oklch(0.65 0.118 62 / 0.05), transparent 70%)",
+        }}
+      >
+        <div className="mx-auto max-w-[1180px] px-6 pt-24 text-center md:px-12 md:pt-36">
           <p className="eyebrow text-muted-foreground">Our story</p>
-          <div className="mx-auto mt-6 max-w-2xl">
-            <SplitText
-              as="h2"
-              className="font-display font-light leading-[1.1] tracking-[-0.03em] text-[clamp(1.9rem,4vw,2.9rem)]"
-              stagger={12}
-            >
-              From first sketch to finished garden.
-            </SplitText>
-          </div>
-          <p className="eyebrow mt-6 tabular-nums text-muted-foreground/40">
-            2012 — {new Date().getFullYear()}
+          <SplitText
+            as="h2"
+            className="mx-auto mt-6 block max-w-2xl font-display font-light leading-[1.08] tracking-[-0.03em] text-[clamp(1.9rem,4.4vw,3rem)]"
+            stagger={12}
+          >
+            From first sketch to
+          </SplitText>
+          <SplitText
+            as="span"
+            delay={120}
+            className="mx-auto block max-w-2xl font-display font-[300] italic leading-[1.08] tracking-[-0.03em] text-[clamp(1.9rem,4.4vw,3rem)]"
+          >
+            finished garden.
+          </SplitText>
+          <p className="eyebrow mt-6 tabular-nums text-muted-foreground/50">
+            2012 &ndash; {new Date().getFullYear()}
           </p>
-        </div>
 
-        <div className="mx-auto mt-16 max-w-3xl pb-8 md:mt-24 md:pb-24">
-          {storyBeats.map((beat, i) => (
-            <Reveal
-              key={beat.kicker}
-              delay={i * 60}
-              className="grid grid-cols-[auto_1fr] items-center gap-6 border-t border-border py-12 first:border-t-0 first:pt-0 md:gap-12 md:py-16"
-            >
-              <FlipNumeral
-                value={beat.index}
-                delay={i * 60}
-                rotate={i % 2 === 0 ? -2.5 : 2.5}
-              />
-              <div>
-                <MaskHeading
-                  as="h3"
-                  lines={[beat.kicker]}
-                  className="font-display font-light leading-[1.15] tracking-[-0.025em] text-[clamp(1.6rem,3.4vw,2.3rem)]"
-                />
-                <p className="mt-5 max-w-md text-base leading-relaxed tracking-[-0.01em] text-muted-foreground">
-                  {beat.text}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+          <div className="mx-auto mt-14 max-w-2xl md:mt-20">
+            {storyBeats.map((beat, i) => (
+              <Reveal
+                key={beat.index}
+                delay={i * 70}
+                className="relative border-t border-border py-14 first:border-t-0 first:pt-0 md:py-20"
+              >
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none font-display font-medium leading-none tabular-nums tracking-tight text-accent/[0.07] text-[34vw] md:text-[18rem]"
+                >
+                  {beat.index}
+                </span>
+                <div className="relative">
+                  <p className="eyebrow tabular-nums text-accent">
+                    Chapter {beat.index}
+                  </p>
+                  <MaskHeading
+                    as="h3"
+                    lines={[beat.kicker]}
+                    className="mx-auto mt-5 max-w-xl font-display font-light leading-[1.14] tracking-[-0.025em] text-[clamp(1.5rem,3.2vw,2.15rem)]"
+                  />
+                  <p className="mx-auto mt-5 max-w-md text-base leading-relaxed tracking-[-0.01em] text-muted-foreground">
+                    {beat.text}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -309,7 +335,7 @@ export default function AboutPage() {
                       src={person.img}
                       alt={person.name}
                       loading="lazy"
-                      className="h-full w-full object-cover grayscale-[0.2] transition-[filter] duration-500 ease-out group-hover:grayscale-0"
+                      className="h-full w-full object-cover transition-[filter] duration-500 ease-out md:grayscale-[0.2] md:group-hover:grayscale-0"
                     />
                   </div>
                   <div className="mt-4 flex items-baseline justify-between px-1 md:mt-5">

@@ -59,10 +59,11 @@ export function SiteNav() {
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
           scrolled ? "bg-background/80 backdrop-blur-md" : "bg-transparent"
-        }`}
+        } ${open ? "pointer-events-none opacity-0" : "opacity-100"}`}
         style={{
           color: onDarkHero ? "var(--surface-deep-foreground)" : "var(--foreground)",
-          transition: "color 0.5s var(--ease-out-expo), background-color 0.5s var(--ease-out-expo)",
+          transition:
+            "color 0.5s var(--ease-out-expo), background-color 0.5s var(--ease-out-expo), opacity 0.15s linear",
         }}
       >
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-12">
@@ -90,7 +91,7 @@ export function SiteNav() {
 
       {/* OVERLAY */}
       <div
-        className={`fixed inset-0 z-[60] transition-opacity duration-500 ${
+        className={`fixed inset-0 z-[60] transition-opacity duration-[220ms] ease-out ${
           open ? "menu-open pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
       >

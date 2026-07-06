@@ -81,7 +81,7 @@ export default function ServicesPage() {
         <div className="mt-6 grid gap-x-12 gap-y-8 md:mt-7 md:grid-cols-12 md:items-end">
           <SplitText
             as="h1"
-            className="font-display text-[2.5rem] leading-[1.03] md:col-span-8 md:text-[3.4rem]"
+            className="font-display text-[clamp(1.9rem,7vw,2.5rem)] leading-[1.03] md:col-span-8 md:text-[3.4rem]"
             stagger={16}
           >
             Gardens, pools and carpentry that respond to the architecture and the land.

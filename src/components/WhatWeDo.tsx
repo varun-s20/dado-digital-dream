@@ -14,14 +14,14 @@ const practices: Practice[] = [
     label: "Landscape Architecture",
     blurb:
       "Site-led garden design from first sketch to mature planting, resolved around the light, slope and architecture already on the ground.",
-    img: "/images/earlwood-vid-finished-dusk-wide-tall.webp",
+    img: "/images/dsc09432_hdr.webp",
     alt: "Modern timber-clad home opening onto a designed lawn at dusk",
   },
   {
     label: "Landscape Construction",
     blurb:
       "Decks, retaining, paving and bespoke timber structures, built in-house by our own carpenters and stone-workers, not subcontracted out.",
-    img: "/images/avalon-4.webp",
+    img: "/images/page_4_img_6.jpg",
     alt: "Sandstone retaining wall meeting handcrafted timber landscape stairs",
   },
   {
