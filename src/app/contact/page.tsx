@@ -72,7 +72,7 @@ export default function ContactPage() {
 
       {/* ═══ HERO — headline with image capsules baked in ═══ */}
       <div className="relative mx-auto max-w-[1320px] px-6 pt-28 text-center md:px-12 md:pt-36">
-        <p className="display-heavy mx-auto max-w-[16ch] text-[clamp(1.85rem,6.4vw,4rem)]">
+        <p className="display-heavy mx-auto text-[clamp(1.85rem,6.4vw,6rem)]">
           <Reveal as="span" className="block">
             Consult with <img src={PILL_A} alt="" aria-hidden className="hero-pill" /> us
           </Reveal>

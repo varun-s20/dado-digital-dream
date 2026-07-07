@@ -43,6 +43,7 @@ next-env.d.ts
 src/ref/
 public/ref/
 .venv/
+ref
 
 
 # Local design source assets + graphify scratch (not build inputs)

@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
 import { CountUp } from "@/components/CountUp";
 import { MagneticLink } from "@/components/MagneticLink";
-import { ParallaxImage } from "@/components/ParallaxImage";
 import { MaskHeading } from "@/components/MaskHeading";
 import { Reveal } from "@/components/Reveal";
 import { SplitText } from "@/components/SplitText";
+import { StoryChapter } from "@/components/StoryChapter";
 import { ValueReveal, type ValueItem } from "@/components/ValueReveal";
 import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "About",
-  description:
-    "The people, the workshop and the craftsmanship behind BM Carpentry & Landscaping.",
+  description: "The people, the workshop and the craftsmanship behind BM Carpentry & Landscaping.",
   openGraph: {
     title: "About BM",
     description: "One workshop, a passion for carpentry and landscape design.",
@@ -47,12 +46,12 @@ const timeline = [
 ];
 
 const crew = [
-  { name: "Michael", role: "Co-Founder · Lead Carpenter", img: "/images/campsie-2.webp" },
-  { name: "Ben", role: "Co-Founder · Lead Landscaper", img: "/images/avalon-1.webp" },
-  { name: "Declan", role: "Site Foreman", img: "/images/earlwood-1.webp" },
-  { name: "Mei-Lin", role: "Horticulture Lead", img: "/images/avalon-6.webp" },
-  { name: "Tomas", role: "Stonemason", img: "/images/campsie-3.webp" },
-  { name: "Priya", role: "Design Coordinator", img: "/images/studio-1.webp" },
+  { name: "Michael", role: "Co-Founder · Lead Carpenter" },
+  { name: "Ben", role: "Co-Founder · Lead Landscaper" },
+  { name: "Declan", role: "Site Foreman" },
+  { name: "Mei-Lin", role: "Horticulture Lead" },
+  { name: "Tomas", role: "Stonemason" },
+  { name: "Priya", role: "Design Coordinator" },
 ];
 
 /* Studio story, told as a clean centred column of four numbered chapters
@@ -64,21 +63,25 @@ const storyBeats = [
     index: "01",
     kicker: "We started as carpenters.",
     text: "Which is why we still think with our hands. Everything we design, we can build — and everything we build, we drew first.",
+    img: "/images/earlwood-2.webp",
   },
   {
     index: "02",
     kicker: "So we drew our own gardens.",
     text: "Design and estimating came in-house, closing the gap between the person who imagines a garden and the people who make it.",
+    img: "/images/avalon-6.webp",
   },
   {
     index: "03",
     kicker: "No detail gets value-engineered away.",
     text: "The designer who walked your site is on it again the week we start digging — the same eyes from first sketch to final planting.",
+    img: "/images/campsie-3.webp",
   },
   {
     index: "04",
     kicker: "One team, start to finish.",
     text: "Structural carpentry, stonework, paving and planting under a single crew — so the vision that opens a project is the one that closes it.",
+    img: "/images/earlwood-1.webp",
   },
 ];
 
@@ -101,20 +104,15 @@ const valueItems: ValueItem[] = [
 ];
 
 /** Per-portrait rest tilt / vertical offset — pinned like snapshots on a
- * workshop corkboard rather than a uniform grid. Co-founders sit larger. */
+ * workshop corkboard rather than a uniform grid. */
 const CREW_LAYOUT = [
-  { rotate: -3, lift: 6, size: "lg" },
-  { rotate: 2.5, lift: 24, size: "lg" },
-  { rotate: -2.5, lift: -6, size: "md" },
-  { rotate: 3, lift: 20, size: "md" },
-  { rotate: -3.5, lift: 2, size: "md" },
-  { rotate: 2, lift: -12, size: "md" },
+  { rotate: -3, lift: 6 },
+  { rotate: 2.5, lift: 24 },
+  { rotate: -2.5, lift: -6 },
+  { rotate: 3, lift: 20 },
+  { rotate: -3.5, lift: 2 },
+  { rotate: 2, lift: -12 },
 ] as const;
-
-const CREW_SIZE: Record<string, string> = {
-  lg: "w-[66vw] max-w-[300px] sm:w-[300px] md:w-[340px] lg:w-[380px]",
-  md: "w-[58vw] max-w-[260px] sm:w-[250px] md:w-[280px] lg:w-[310px]",
-};
 
 const stats = [
   { to: 2012, suffix: "", l: "Founded in Mosman" },
@@ -130,14 +128,20 @@ export default function AboutPage() {
           a single italic-light accent, one lead paragraph — then a single
           full-bleed photograph so the page has weight without going busy. */}
       <section className="border-b border-border">
-        <div className="mx-auto flex max-w-[1180px] flex-col items-center px-6 pt-32 text-center md:px-12 md:pt-40">
+        <img
+          src="/images/earlwood-2.webp"
+          alt="A landscaped garden and timber build by BM Carpentry at golden hour"
+          className="h-[30vh] w-full object-cover md:h-[50vh]"
+        />
+
+        <div className="mx-auto flex max-w-[1180px] flex-col items-center px-6 py-14 md:py-14 text-center md:px-12">
           <p className="eyebrow text-muted-foreground">Who we are</p>
 
           <MaskHeading
             as="h1"
             lines={[
               <span key="l1">
-                Gardens that <span className="italic font-[300]">belong</span>,
+                Gardens that <span className="italic font-[300] text-accent">belong</span>,
               </span>,
               <span key="l2">built by the people who design them.</span>,
             ]}
@@ -145,22 +149,14 @@ export default function AboutPage() {
             stagger={90}
           />
 
-          <Reveal delay={220} className="mt-10 max-w-xl pb-20 md:pb-28">
+          <Reveal delay={220} className="mt-10 max-w-4xl">
             <p className="text-base leading-relaxed tracking-[-0.01em] text-muted-foreground">
-              A small, in-house studio of designers, carpenters and
-              landscapers — building across Sydney&rsquo;s harbour and the NSW
-              South Coast for seventeen years, and still answering the phone
-              ourselves.
+              A small, in-house studio of designers, carpenters and landscapers building across
+              Sydney&rsquo;s harbour and the NSW South Coast for seventeen years, and still
+              answering the phone ourselves.
             </p>
           </Reveal>
         </div>
-
-        <ParallaxImage
-          src="/images/about-hero.webp"
-          alt="A landscaped garden and timber build by BM Carpentry at golden hour"
-          className="h-[56vh] w-full md:h-[84vh]"
-          strength={140}
-        />
       </section>
 
       {/* STORY — type-led, centred column. A masthead, then four numbered
@@ -178,7 +174,7 @@ export default function AboutPage() {
           <p className="eyebrow text-muted-foreground">Our story</p>
           <SplitText
             as="h2"
-            className="mx-auto mt-6 block max-w-2xl font-display font-light leading-[1.08] tracking-[-0.03em] text-[clamp(1.9rem,4.4vw,3rem)]"
+            className="mx-auto mt-6 block max-w-3xl font-display font-semibold leading-[1.0] tracking-[-0.045em] text-[clamp(2.4rem,5.6vw,4rem)]"
             stagger={12}
           >
             From first sketch to
@@ -186,7 +182,7 @@ export default function AboutPage() {
           <SplitText
             as="span"
             delay={120}
-            className="mx-auto block max-w-2xl font-display font-[300] italic leading-[1.08] tracking-[-0.03em] text-[clamp(1.9rem,4.4vw,3rem)]"
+            className="mx-auto block max-w-3xl font-display font-semibold italic leading-[1.0] tracking-[-0.045em] text-[clamp(2.4rem,5.6vw,4rem)]"
           >
             finished garden.
           </SplitText>
@@ -194,7 +190,7 @@ export default function AboutPage() {
             2012 &ndash; {new Date().getFullYear()}
           </p>
 
-          <div className="mx-auto mt-14 max-w-2xl md:mt-20">
+          <div className="mx-auto mt-14 max-w-4xl md:mt-20">
             {storyBeats.map((beat, i) => (
               <Reveal
                 key={beat.index}
@@ -208,17 +204,13 @@ export default function AboutPage() {
                   {beat.index}
                 </span>
                 <div className="relative">
-                  <p className="eyebrow tabular-nums text-accent">
-                    Chapter {beat.index}
-                  </p>
-                  <MaskHeading
-                    as="h3"
-                    lines={[beat.kicker]}
-                    className="mx-auto mt-5 max-w-xl font-display font-light leading-[1.14] tracking-[-0.025em] text-[clamp(1.5rem,3.2vw,2.15rem)]"
+                  <StoryChapter
+                    index={beat.index}
+                    kicker={beat.kicker}
+                    text={beat.text}
+                    img={beat.img}
+                    side={i % 2 === 0 ? "left" : "right"}
                   />
-                  <p className="mx-auto mt-5 max-w-md text-base leading-relaxed tracking-[-0.01em] text-muted-foreground">
-                    {beat.text}
-                  </p>
                 </div>
               </Reveal>
             ))}
@@ -263,7 +255,10 @@ export default function AboutPage() {
           <div className="md:col-span-4">
             <div className="md:sticky md:top-28">
               <p className="eyebrow text-muted-foreground">A short history</p>
-              <SplitText as="h2" className="mt-5 font-display text-4xl leading-[0.98] tracking-[-0.02em] md:text-6xl">
+              <SplitText
+                as="h2"
+                className="mt-5 font-display text-4xl leading-[0.98] tracking-[-0.02em] md:text-6xl"
+              >
                 Our journey, told briefly.
               </SplitText>
             </div>
@@ -272,9 +267,13 @@ export default function AboutPage() {
             {timeline.map((item, i) => (
               <Reveal key={item.year} delay={i * 60}>
                 <div className="grid grid-cols-[auto_1fr] gap-6 border-t border-border py-7 first:border-t-0 first:pt-0 md:gap-12 md:py-9">
-                  <span className="font-display text-2xl tracking-[-0.02em] text-muted-foreground/70 md:text-3xl">{item.year}</span>
+                  <span className="font-display text-2xl tracking-[-0.02em] text-muted-foreground/70 md:text-3xl">
+                    {item.year}
+                  </span>
                   <div>
-                    <h3 className="font-display text-2xl leading-[1.04] tracking-[-0.02em] md:text-3xl">{item.t}</h3>
+                    <h3 className="font-display text-2xl leading-[1.04] tracking-[-0.02em] md:text-3xl">
+                      {item.t}
+                    </h3>
                     <p className="mt-3 max-w-xl text-base leading-snug tracking-[-0.01em] text-muted-foreground">
                       {item.d}
                     </p>
@@ -304,9 +303,7 @@ export default function AboutPage() {
                 className="font-display text-[1.9rem] leading-[1.08] tracking-[-0.02em] md:text-[3.4rem]"
                 stagger={90}
               />
-              <footer className="eyebrow mt-7 opacity-70">
-                Michael, Co-Founder
-              </footer>
+              <footer className="eyebrow mt-7 opacity-70">Michael, Co-Founder</footer>
             </blockquote>
           </div>
         </div>
@@ -316,31 +313,34 @@ export default function AboutPage() {
       <section className="pt-16 md:pt-24">
         <div className="mx-auto mb-4 px-6 text-center md:mb-2 md:px-12">
           <p className="eyebrow text-muted-foreground">The crew</p>
-          <SplitText as="h2" className="mt-3 font-display text-4xl leading-[0.94] tracking-[-0.02em] md:text-6xl">
+          <SplitText
+            as="h2"
+            className="mt-3 font-display text-4xl leading-[0.94] tracking-[-0.02em] md:text-6xl"
+          >
             The hands on it.
           </SplitText>
         </div>
-        <div className="crew-board mx-auto flex flex-wrap items-start justify-center gap-x-8 gap-y-16 px-6 pb-10 pt-16 md:gap-x-12 md:gap-y-24 md:px-12 md:pb-16 md:pt-24">
+        <div className="crew-board mx-auto grid max-w-[1400px] grid-cols-1 items-start justify-center gap-x-10 gap-y-16 px-6 pb-10 pt-16 sm:grid-cols-2 md:grid-cols-3 md:gap-x-14 md:gap-y-24 md:px-12 md:pb-16 md:pt-24">
           {crew.map((person, i) => {
             const layout = CREW_LAYOUT[i % CREW_LAYOUT.length];
             return (
-              <Reveal key={person.name} delay={i * 80} className={CREW_SIZE[layout.size]}>
+              <Reveal key={person.name} delay={i * 80} className="mx-auto w-[90%]">
                 <div
                   className="crew-card group relative flex flex-col bg-card p-3 pb-5 md:p-4 md:pb-6"
                   style={{ transform: `rotate(${layout.rotate}deg) translateY(${layout.lift}px)` }}
                 >
                   <span aria-hidden className="crew-tape" />
-                  <div className="img-zoom aspect-square w-full overflow-hidden bg-muted">
-                    <img
-                      src={person.img}
-                      alt={person.name}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-[filter] duration-500 ease-out md:grayscale-[0.2] md:group-hover:grayscale-0"
-                    />
+                  {/* ponytail: no crew photography yet — placeholder initial card; swap for a real portrait via an `img` field on `crew` when photos land */}
+                  <div className="img-zoom flex aspect-square w-full items-center justify-center overflow-hidden bg-muted transition-colors duration-500 ease-out md:group-hover:bg-accent/10">
+                    <span className="font-display text-[5rem] font-light leading-none tracking-[-0.02em] text-muted-foreground/40 md:text-[6.5rem]">
+                      {person.name[0]}
+                    </span>
                   </div>
                   <div className="mt-4 flex items-baseline justify-between px-1 md:mt-5">
                     <div>
-                      <h3 className="font-display text-xl tracking-[-0.02em] md:text-2xl">{person.name}</h3>
+                      <h3 className="font-display text-xl tracking-[-0.02em] md:text-2xl">
+                        {person.name}
+                      </h3>
                       <p className="eyebrow mt-1.5 text-muted-foreground">{person.role}</p>
                     </div>
                     <span className="eyebrow text-muted-foreground/50">0{i + 1}</span>
@@ -362,8 +362,8 @@ export default function AboutPage() {
                 Come and meet the workshop.
               </h2>
               <p className="mt-5 max-w-md text-base leading-snug tracking-[-0.01em] text-muted-foreground">
-                {brand.address.line1}, {brand.address.line2}. Site visits by
-                appointment: tell us about the place and we&rsquo;ll walk it with you.
+                {brand.address.line1}, {brand.address.line2}. Site visits by appointment: tell us
+                about the place and we&rsquo;ll walk it with you.
               </p>
             </div>
             <div className="md:col-span-4 md:col-start-9 md:justify-self-end">

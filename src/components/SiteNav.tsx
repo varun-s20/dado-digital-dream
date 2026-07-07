@@ -50,8 +50,9 @@ export function SiteNav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  // Home and every project detail page open over a full-bleed image banner.
-  const overImageHero = pathname === "/" || /^\/projects\/.+/.test(pathname);
+  // Home, About, and every project detail page open over a full-bleed image banner.
+  const overImageHero =
+    pathname === "/" || pathname === "/about" || /^\/projects\/.+/.test(pathname);
   const onDarkHero = overImageHero && !scrolled;
 
   return (
