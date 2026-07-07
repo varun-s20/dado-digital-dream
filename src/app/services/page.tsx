@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import { DisciplineCard } from "@/components/DisciplineCard";
 import { MagneticLink } from "@/components/MagneticLink";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { Reveal } from "@/components/Reveal";
 import { SplitText } from "@/components/SplitText";
-import { StickyStack } from "@/components/StickyStack";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -19,25 +19,25 @@ const services = [
   {
     n: "01",
     t: "Landscape Architecture",
-    img: "/images/earlwood-vid-yard-perspective-wide.webp",
+    img: "/images/dsc09432_hdr.webp",
     d: "The best gardens evolve over time, and it all starts with a considered concept. We design responsive landscapes that perform in our climate, lift the value of your property and, most of all, change how you live outdoors. Concept design, 3D modelling, CDC/DA/CC approvals and detailed documentation.",
   },
   {
     n: "02",
     t: "Landscape Construction",
-    img: "/images/earlwood-vid-decking-work-wide.webp",
+    img: "/images/page_4_img_6.jpg",
     d: "With years on the tools as a team, we bring a deep working knowledge of materials, methods and detailing. We build with our own carpenters and trusted specialists, never handed off, so the garden survives everything exterior construction throws at it. Built well, and built to last.",
   },
   {
     n: "03",
     t: "Swimming Pools",
-    img: "/images/campsie-4.webp",
+    img: "/images/campsie-6.webp",
     d: "We are licensed pool builders, which lets us design and deliver the garden and the water as one project. From consultation and approvals through to material sourcing and construction, you get a single transparent process and a pool that ties straight back into the carpentry around it.",
   },
   {
     n: "04",
     t: "Garden Maintenance",
-    img: "/images/avalon-6.webp",
+    img: "/images/campsie-2.webp",
     d: "Our horticulture team keeps the living parts of your landscape reading the way they were drawn. Tailored to each garden: pruning, planting, pest management, programmed feeding and the long-term planning that lets a place settle properly into itself.",
   },
 ];
@@ -75,86 +75,79 @@ const numbers = [
 export default function ServicesPage() {
   return (
     <>
-      {/* HERO — tight, filled, editorial */}
-      <section className="mx-auto max-w-[1600px] px-6 pb-12 pt-32 md:px-12 md:pb-16 md:pt-36">
-        <p className="eyebrow text-muted-foreground">Services · What we do</p>
-        <div className="mt-6 grid gap-x-12 gap-y-8 md:mt-7 md:grid-cols-12 md:items-end">
-          <SplitText
-            as="h1"
-            className="font-display text-[clamp(1.9rem,7vw,2.5rem)] leading-[1.03] md:col-span-8 md:text-[3.4rem]"
-            stagger={16}
-          >
-            Gardens, pools and carpentry that respond to the architecture and the land.
-          </SplitText>
-          <Reveal delay={180} className="md:col-span-4 md:pb-2">
-            <p className="text-base leading-relaxed text-muted-foreground">
-              One Sydney studio, designing and building outdoors from a single
-              workshop in Mosman. Four disciplines, one team: start to finish.
-            </p>
-          </Reveal>
+      {/* HERO — two staggered images flanking a stacked header/subhead */}
+      <section className="mx-auto max-w-[1600px] pb-16 md:px-12 md:pb-24 md:pt-28">
+        <div className="grid gap-x-8 gap-y-12 md:grid-cols-12 ">
+          {/* image A — offset down, narrower, sits under the middle words */}
+          <div className="img-zoom relative md:col-span-4 md:mt-28 ">
+            <ParallaxImage
+              src="/images/earlwood-home-cover.webp"
+              alt="Timber-clad home and garden, Earlwood"
+              className="w-full"
+              strength={90}
+              zoomFrom={1.08}
+            />
+            <div className="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/55 via-black/0 to-transparent">
+              <p className="eyebrow p-5 text-white/90">Earlwood</p>
+            </div>
+          </div>
+
+          {/* middle — short stacked words, rule centered between both images */}
+          <div className="flex-col md:col-span-3 md:col-start-5 md:h-full items-center hidden md:flex">
+            <SplitText as="p" className="font-display text-4xl leading-[1.1] md:text-6xl">
+              Your garden
+            </SplitText>
+            <span aria-hidden className="my-10 h-40 w-px bg-black/20" />
+            <SplitText as="p" className="font-display text-4xl leading-[1.1] md:text-6xl">
+              Our craft
+            </SplitText>
+          </div>
+
+          {/* image B — top-aligned, taller; header + copy + CTA continue beneath it */}
+          <div className="md:col-span-5 md:col-start-8 px-6 md:px-0">
+            <div className="img-zoom relative hidden md:block">
+              <ParallaxImage
+                src="/images/hero.jpg"
+                alt="BM Carpentry and Landscaping"
+                className="aspect-square w-full"
+                strength={90}
+                zoomFrom={1.08}
+              />
+              <div className="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/55 via-black/0 to-transparent">
+                <p className="eyebrow p-5 text-white/90">Sydney</p>
+              </div>
+            </div>
+            <Reveal delay={180} className="md:mt-8">
+              <h1 className="font-display text-[clamp(1.6rem,4vw,2rem)] leading-[1.15] md:text-[1.9rem]">
+                Gardens, pools and carpentry that respond to the architecture and the land.
+              </h1>
+              <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
+                One Sydney studio, designing and building outdoors from a single
+                workshop in Mosman. Four disciplines, one team: start to finish.
+              </p>
+              <MagneticLink
+                href="/about"
+                className="mt-6 inline-flex items-center gap-2 border-b border-foreground pb-1 text-sm"
+              >
+                Studio profile <span aria-hidden>→</span>
+              </MagneticLink>
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* CENTRAL IMAGE — garden + timber, the idea of the whole site */}
-      <section className="img-zoom mx-auto max-w-[1600px] px-6 md:px-12">
-        <ParallaxImage
-          src="/images/earlwood-vid-cladding-sunset-wide.webp"
-          alt="Timber-clad home opening onto a designed garden at dusk"
-          className="aspect-[16/9] w-full"
-          imgClassName="h-full w-full object-cover"
-          strength={110}
-          zoomFrom={1.08}
-        />
-      </section>
-
       {/* SERVICES — sticky stack of panels */}
-      <section className="mx-auto max-w-[1600px] px-6 pt-20 md:px-12 md:pt-28">
-        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-3 border-b border-border pb-6">
-          <SplitText as="h2" className="font-display text-3xl leading-tight md:text-4xl">
+      <section className="mx-auto max-w-[1600px] px-6 pt-12 md:px-12">
+        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
+          <SplitText as="h2" className="font-display text-3xl leading-tight md:text-6xl">
             Four disciplines.
           </SplitText>
           <p className="eyebrow text-muted-foreground">Designed &amp; built in-house</p>
         </div>
       </section>
-      <StickyStack
-        cards={services.map((s) => ({
-          id: s.n,
-          content: (
-            <div className="border-t border-border bg-background">
-              <div className="mx-auto grid max-w-[1600px] items-center gap-10 px-6 py-14 md:grid-cols-12 md:px-12 md:py-20">
-                <div className="md:col-span-5">
-                  <div className="img-zoom aspect-[4/5]">
-                    <img
-                      src={s.img}
-                      alt={s.t}
-                      loading="lazy"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col md:col-span-6 md:col-start-7">
-                  <span className="font-display text-6xl leading-none text-muted-foreground/35 md:text-7xl">
-                    {s.n}
-                  </span>
-                  <h3 className="mt-4 font-display text-4xl leading-[1.0] md:text-5xl">
-                    {s.t}
-                  </h3>
-                  <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
-                    {s.d}
-                  </p>
-                  <MagneticLink
-                    href="/contact"
-                    className="mt-8 inline-flex items-center gap-2 self-start border-b border-foreground pb-1 text-sm"
-                  >
-                    Learn more <span aria-hidden>→</span>
-                  </MagneticLink>
-                </div>
-              </div>
-            </div>
-          ),
-        }))}
-        offset={0}
-      />
+      {services.map((s) => (
+        <DisciplineCard key={s.n} n={s.n} t={s.t} img={s.img} d={s.d} />
+      ))}
 
       {/* PROCESS — sticky left, scrolling right */}
       <section className="mx-auto max-w-[1600px] px-6 pt-24 md:px-12 md:pt-36">
