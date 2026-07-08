@@ -23,19 +23,10 @@ export type GalleryItem = {
 };
 
 /** Filter chips, in display order. "All" is prepended in the UI. */
-export const CATEGORIES = [
-  "Pools",
-  "Gardens",
-  "Carpentry",
-  "Courtyards",
-  "Coastal",
-] as const;
+export const CATEGORIES = ["Pools", "Gardens", "Carpentry", "Courtyards", "Coastal"] as const;
 
 // Photo pool — grouped by what reads best per category.
-const POOL = [
-  "/images/earlwood-2.webp",
-  "/images/campsie-4.webp",
-];
+const POOL = ["/images/earlwood-2.webp", "/images/campsie-4.webp"];
 const GARDEN = [
   "/images/avalon-2.webp",
   "/images/avalon-3.webp",
@@ -48,53 +39,151 @@ const TIMBER = [
   "/images/campsie-1.webp",
   "/images/avalon-1.webp",
 ];
-const COAST = [
-  "/images/avalon-1.webp",
-  "/images/earlwood-2.webp",
-  "/images/campsie-3.webp",
-];
+const COAST = ["/images/avalon-1.webp", "/images/earlwood-2.webp", "/images/campsie-3.webp"];
 
 export const galleryItems: GalleryItem[] = [
   {
     id: "g01",
-    title: "Earlwood Transformation",
-    location: "Earlwood, Sydney",
-    categories: ["Carpentry", "Gardens"],
-    img: "/images/earlwood-vid-cladding-sunset-wide.webp",
+    title: "Kiama Boardwalk",
+    location: "Kiama, South Coast",
+    categories: ["Carpentry", "Coastal"],
+    img: "/images/earlwood-3.webp",
     size: "lg",
-    slug: "earlwood",
-    year: 2026,
-    summary: "A comprehensive, large-scale residential renovation combining structural timber framing, premium external cladding, stone paving, and fully automated irrigation.",
-    featureImg: "/images/earlwood-vid-yard-perspective-wide.webp",
-    images: [
-      "/images/earlwood-vid-hero-dusk-wide.webp",
-      "/images/earlwood-vid-decking-work-wide.webp",
-      "/videos/earlwood-carpentry.mp4",
-      "/images/earlwood-vid-paving-detail-wide.webp",
-      "/videos/earlwood-final.mp4"
-    ]
   },
-  { id: "g02", title: "Campsie Deck & Garden", location: "Campsie, Sydney", categories: ["Carpentry", "Gardens"], img: "/images/campsie-2.webp", size: "tall", slug: "campsie", year: 2026, summary: "An integrated timber deck and stair installation featuring custom-engineered drainage systems and structural planter boxes built to border the outdoor area." },
-  { id: "g03", title: "Avalon Beach Stairs", location: "Avalon Beach, Sydney", categories: ["Gardens", "Coastal"], img: "/images/avalon-1.webp", size: "sm", slug: "avalon-beach", year: 2026, summary: "Bespoke carpentry and garden engineering featuring closed stringer stairs, curved steps, structural retaining walls, and raised timber garden beds." },
-  { id: "g04", title: "Bronte Courtyard", location: "Bronte, Sydney", categories: ["Courtyards", "Gardens"], img: "/images/campsie-4.webp", size: "wide" },
-  { id: "g05", title: "Mosman Deck Details", location: "Mosman, Sydney", categories: ["Carpentry"], img: "/images/earlwood-1.webp", size: "tall" },
-  { id: "g06", title: "Balmoral Poolside", location: "Balmoral, Sydney", categories: ["Pools", "Coastal"], img: "/images/campsie-3.webp", size: "wide" },
-  { id: "g07", title: "Palm Beach Pergola", location: "Palm Beach, Sydney", categories: ["Carpentry", "Coastal"], img: "/images/studio-1.webp", size: "sm" },
-  { id: "g08", title: "Vaucluse Garden Walkway", location: "Vaucluse, Sydney", categories: ["Gardens"], img: "/images/avalon-3.webp", size: "sm", pos: "center 40%" },
-  { id: "g09", title: "Kiama Boardwalk", location: "Kiama, South Coast", categories: ["Carpentry", "Coastal"], img: "/images/earlwood-3.webp", size: "lg" },
-  { id: "g10", title: "Clovelly Terraces", location: "Clovelly, Sydney", categories: ["Courtyards"], img: "/images/avalon-4.webp", size: "sm", pos: "center 70%" },
-  { id: "g11", title: "Coogee Garden Steps", location: "Coogee, Sydney", categories: ["Gardens", "Coastal"], img: "/images/avalon-2.webp", size: "wide", pos: "center 60%" },
-  { id: "g12", title: "Berry Meadow Planters", location: "Berry, South Coast", categories: ["Gardens"], img: "/images/avalon-5.webp", size: "sm" },
-  { id: "g13", title: "Cremorne Timber Wall", location: "Cremorne, Sydney", categories: ["Carpentry"], img: "/images/studio-2.webp", size: "sm", pos: "center 30%" },
-  { id: "g14", title: "Avalon Screen", location: "Avalon Beach, Sydney", categories: ["Carpentry", "Gardens"], img: "/images/avalon-6.webp", size: "lg", pos: "center 55%" },
-  { id: "g15", title: "Jervis Bay Decking", location: "Jervis Bay, South Coast", categories: ["Gardens", "Coastal"], img: "/images/earlwood-2.webp", size: "tall" },
-  { id: "g16", title: "Northbridge Courtyard", location: "Northbridge, Sydney", categories: ["Courtyards"], img: "/images/campsie-1.webp", size: "sm" },
+  {
+    id: "g02",
+    title: "Campsie Deck & Garden",
+    location: "Campsie, Sydney",
+    categories: ["Carpentry", "Gardens"],
+    img: "/images/campsie-2.webp",
+    size: "sm",
+    slug: "campsie",
+    year: 2026,
+    summary:
+      "An integrated timber deck and stair installation featuring custom-engineered drainage systems and structural planter boxes built to border the outdoor area.",
+  },
+  {
+    id: "g03",
+    title: "Bronte Courtyard",
+    location: "Bronte, Sydney",
+    categories: ["Courtyards", "Gardens"],
+    img: "/images/campsie-4.webp",
+    size: "wide",
+  },
+  {
+    id: "g04",
+    title: "Mosman Deck Details",
+    location: "Mosman, Sydney",
+    categories: ["Carpentry"],
+    img: "/images/earlwood-1.webp",
+    size: "tall",
+  },
+  {
+    id: "g05",
+    title: "Balmoral Poolside",
+    location: "Balmoral, Sydney",
+    categories: ["Pools", "Coastal"],
+    img: "/images/campsie-3.webp",
+    size: "wide",
+  },
+  {
+    id: "g06",
+    title: "Palm Beach Pergola",
+    location: "Palm Beach, Sydney",
+    categories: ["Carpentry", "Coastal"],
+    img: "/images/studio-1.webp",
+    size: "sm",
+  },
+  {
+    id: "g07",
+    title: "Vaucluse Garden Walkway",
+    location: "Vaucluse, Sydney",
+    categories: ["Gardens"],
+    img: "/images/avalon-3.webp",
+    size: "sm",
+    pos: "center 40%",
+  },
+  {
+    id: "g08",
+    title: "Avalon Beach Stairs",
+    location: "Avalon Beach, Sydney",
+    categories: ["Gardens", "Coastal"],
+    img: "/images/avalon-1.webp",
+    size: "sm",
+    slug: "avalon-beach",
+    year: 2026,
+    summary:
+      "Bespoke carpentry and garden engineering featuring closed stringer stairs, curved steps, structural retaining walls, and raised timber garden beds.",
+  },
+  {
+    id: "g09",
+    title: "Clovelly Terraces",
+    location: "Clovelly, Sydney",
+    categories: ["Courtyards"],
+    img: "/images/avalon-4.webp",
+    size: "sm",
+    pos: "center 70%",
+  },
+  {
+    id: "g10",
+    title: "Coogee Garden Steps",
+    location: "Coogee, Sydney",
+    categories: ["Gardens", "Coastal"],
+    img: "/images/avalon-2.webp",
+    size: "wide",
+    pos: "center 60%",
+  },
+  {
+    id: "g11",
+    title: "Berry Meadow Planters",
+    location: "Berry, South Coast",
+    categories: ["Gardens"],
+    img: "/images/avalon-5.webp",
+    size: "sm",
+  },
+  {
+    id: "g12",
+    title: "Cremorne Timber Wall",
+    location: "Cremorne, Sydney",
+    categories: ["Carpentry"],
+    img: "/images/studio-2.webp",
+    size: "sm",
+    pos: "center 30%",
+  },
+  {
+    id: "g13",
+    title: "Avalon Screen",
+    location: "Avalon Beach, Sydney",
+    categories: ["Carpentry", "Gardens"],
+    img: "/images/avalon-6.webp",
+    size: "lg",
+    pos: "center 55%",
+  },
+  {
+    id: "g14",
+    title: "Jervis Bay Decking",
+    location: "Jervis Bay, South Coast",
+    categories: ["Gardens", "Coastal"],
+    img: "/images/earlwood-2.webp",
+    size: "tall",
+  },
+  {
+    id: "g15",
+    title: "Northbridge Courtyard",
+    location: "Northbridge, Sydney",
+    categories: ["Courtyards"],
+    img: "/images/campsie-1.webp",
+    size: "sm",
+  },
 ];
 
 /* ── Per-project detail page helpers ────────────────────────────────────── */
 
 const kebab = (s: string) =>
-  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 
 const num = (item: GalleryItem) => parseInt(item.id.replace(/\D/g, ""), 10) || 1;
 
@@ -166,7 +255,8 @@ const APPROACH: Record<string, string[]> = {
 export function projectDescription(item: GalleryItem): string[] {
   const cat = item.categories[0] ?? "Gardens";
   const intro = item.summary ?? CONTEXT[num(item) % CONTEXT.length](item.location);
-  const approach = (APPROACH[cat] ?? APPROACH.Gardens)[num(item) % 2] ?? "Every detail resolved by hand.";
+  const approach =
+    (APPROACH[cat] ?? APPROACH.Gardens)[num(item) % 2] ?? "Every detail resolved by hand.";
   return [intro, approach];
 }
 
@@ -197,11 +287,39 @@ const ALL = [
 ];
 
 const CATEGORY_POOL: Record<string, string[]> = {
-  Pools: ["/images/earlwood-2.webp", "/images/campsie-4.webp", "/images/campsie-3.webp", "/images/earlwood-3.webp"],
-  Gardens: ["/images/avalon-2.webp", "/images/avalon-3.webp", "/images/avalon-4.webp", "/images/earlwood-3.webp", "/images/avalon-6.webp", "/images/avalon-1.webp"],
-  Carpentry: ["/images/earlwood-1.webp", "/images/campsie-2.webp", "/images/campsie-1.webp", "/images/studio-1.webp", "/images/studio-2.webp"],
-  Courtyards: ["/images/campsie-1.webp", "/images/avalon-3.webp", "/images/campsie-4.webp", "/images/avalon-4.webp"],
-  Coastal: ["/images/avalon-1.webp", "/images/earlwood-2.webp", "/images/campsie-3.webp", "/images/avalon-2.webp"],
+  Pools: [
+    "/images/earlwood-2.webp",
+    "/images/campsie-4.webp",
+    "/images/campsie-3.webp",
+    "/images/earlwood-3.webp",
+  ],
+  Gardens: [
+    "/images/avalon-2.webp",
+    "/images/avalon-3.webp",
+    "/images/avalon-4.webp",
+    "/images/earlwood-3.webp",
+    "/images/avalon-6.webp",
+    "/images/avalon-1.webp",
+  ],
+  Carpentry: [
+    "/images/earlwood-1.webp",
+    "/images/campsie-2.webp",
+    "/images/campsie-1.webp",
+    "/images/studio-1.webp",
+    "/images/studio-2.webp",
+  ],
+  Courtyards: [
+    "/images/campsie-1.webp",
+    "/images/avalon-3.webp",
+    "/images/campsie-4.webp",
+    "/images/avalon-4.webp",
+  ],
+  Coastal: [
+    "/images/avalon-1.webp",
+    "/images/earlwood-2.webp",
+    "/images/campsie-3.webp",
+    "/images/avalon-2.webp",
+  ],
 };
 
 /** Category-matched photos for a project, excluding its hero (and any extras). */

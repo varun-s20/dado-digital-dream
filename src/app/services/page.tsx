@@ -107,7 +107,7 @@ export default function ServicesPage() {
           <div className="md:col-span-5 md:col-start-8 px-6 md:px-0">
             <div className="img-zoom relative hidden md:block">
               <ParallaxImage
-                src="/images/hero.jpg"
+                src="/images/from-live-site/live-site-16-cara-deck.webp"
                 alt="BM Carpentry and Landscaping"
                 className="aspect-square w-full"
                 strength={90}

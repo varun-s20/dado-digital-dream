@@ -23,6 +23,57 @@ export type JournalPost = {
 
 export const posts: JournalPost[] = [
   {
+    slug: "on-finishing-oil-not-coating",
+    date: "Aug 03, 2025",
+    iso: "2025-08-03",
+    read: "5 min",
+    title: "On finishing — oil, not coating",
+    dek: "Why every piece of hardwood that leaves our workshop is oiled, never sealed, and how that decision affects the project ten years out.",
+    excerpt:
+      "Why every piece of hardwood that leaves our workshop is oiled, never sealed, and how that decision affects the project ten years out.",
+    tag: "Craft",
+    author: { name: "Michael", role: "Co-Founder, Lead Carpenter" },
+    hero: "/images/campsie-1.webp",
+    body: [
+      {
+        type: "p",
+        lead: true,
+        text: "There is a fork in the road at the end of every timber project, and most people take the wrong branch. A film finish — a sealer, a varnish, a hard coat — looks spectacular on day one. Oil looks quieter. Ten years later, only one of them has aged with any grace.",
+      },
+      {
+        type: "h",
+        text: "What a coating actually does",
+      },
+      {
+        type: "p",
+        text: "A film finish sits on top of the timber like a layer of glass. It is brilliant until the first moment it is breached — a scratch, a dropped pot, a season of UV — and then water gets underneath and cannot get out. The coating lifts, clouds and flakes, and the only honest repair is to sand the whole surface back to bare wood and start again.",
+      },
+      {
+        type: "image",
+        src: "/images/campsie-1.webp",
+        alt: "Hand rubbing penetrating oil into a hardwood handrail",
+        aspect: "wide",
+      },
+      {
+        type: "quote",
+        text: "A coating is a promise to look perfect for two years and terrible for eight. Oil is a promise to look honest the whole way through.",
+        cite: "Michael",
+      },
+      {
+        type: "h",
+        text: "Why we oil instead",
+      },
+      {
+        type: "p",
+        text: "A penetrating oil does the opposite of a coat. It soaks into the fibres rather than bridging across them, so it cannot lift or peel — there is no film to fail. The timber is free to take on and give up moisture with the weather, which is exactly what a board wants to do. When it dries out, you wipe on another coat in an afternoon. No sanding, no stripping, no scaffolding of regret.",
+      },
+      {
+        type: "p",
+        text: "It is not the finish that photographs best the day the client moves in. It is the finish that still looks like itself when we drive past the house a decade later — and that, in the end, is the only review we care about.",
+      },
+    ],
+  },
+  {
     slug: "choosing-hardwoods-for-the-coast",
     date: "Apr 27, 2026",
     iso: "2026-04-27",
@@ -106,7 +157,7 @@ export const posts: JournalPost[] = [
       "The unsung backbone of a garden that ages well — Lomandra, Themeda, Poa and the three we plant in every coastal job.",
     tag: "Planting",
     author: { name: "Ben", role: "Co-Founder, Lead Landscaper" },
-    hero: "/images/hero.jpg",
+    hero: "/images/from-live-site/live-site-17.webp",
     body: [
       {
         type: "p",
@@ -175,7 +226,7 @@ export const posts: JournalPost[] = [
       "On warmth, weathering, and pools that feel like furniture. Notes from the Bowral build and what we'd do differently next time.",
     tag: "Build",
     author: { name: "Michael", role: "Co-Founder, Lead Carpenter" },
-    hero: "/images/project-4.jpg",
+    hero: "/images/from-live-site/live-site-10.webp",
     body: [
       {
         type: "p",
@@ -234,57 +285,6 @@ export const posts: JournalPost[] = [
       {
         type: "p",
         text: "None of it changed our mind about the material. A timber pool asks more of you in the drawing and more of the client in the upkeep. In return it gives you an edge that ages, warms, and belongs — which a slab of stone, however beautiful, never quite manages.",
-      },
-    ],
-  },
-  {
-    slug: "on-finishing-oil-not-coating",
-    date: "Aug 03, 2025",
-    iso: "2025-08-03",
-    read: "5 min",
-    title: "On finishing — oil, not coating",
-    dek: "Why every piece of hardwood that leaves our workshop is oiled, never sealed, and how that decision affects the project ten years out.",
-    excerpt:
-      "Why every piece of hardwood that leaves our workshop is oiled, never sealed, and how that decision affects the project ten years out.",
-    tag: "Craft",
-    author: { name: "Michael", role: "Co-Founder, Lead Carpenter" },
-    hero: "/images/campsie-1.webp",
-    body: [
-      {
-        type: "p",
-        lead: true,
-        text: "There is a fork in the road at the end of every timber project, and most people take the wrong branch. A film finish — a sealer, a varnish, a hard coat — looks spectacular on day one. Oil looks quieter. Ten years later, only one of them has aged with any grace.",
-      },
-      {
-        type: "h",
-        text: "What a coating actually does",
-      },
-      {
-        type: "p",
-        text: "A film finish sits on top of the timber like a layer of glass. It is brilliant until the first moment it is breached — a scratch, a dropped pot, a season of UV — and then water gets underneath and cannot get out. The coating lifts, clouds and flakes, and the only honest repair is to sand the whole surface back to bare wood and start again.",
-      },
-      {
-        type: "image",
-        src: "/images/campsie-1.webp",
-        alt: "Hand rubbing penetrating oil into a hardwood handrail",
-        aspect: "wide",
-      },
-      {
-        type: "quote",
-        text: "A coating is a promise to look perfect for two years and terrible for eight. Oil is a promise to look honest the whole way through.",
-        cite: "Michael",
-      },
-      {
-        type: "h",
-        text: "Why we oil instead",
-      },
-      {
-        type: "p",
-        text: "A penetrating oil does the opposite of a coat. It soaks into the fibres rather than bridging across them, so it cannot lift or peel — there is no film to fail. The timber is free to take on and give up moisture with the weather, which is exactly what a board wants to do. When it dries out, you wipe on another coat in an afternoon. No sanding, no stripping, no scaffolding of regret.",
-      },
-      {
-        type: "p",
-        text: "It is not the finish that photographs best the day the client moves in. It is the finish that still looks like itself when we drive past the house a decade later — and that, in the end, is the only review we care about.",
       },
     ],
   },
