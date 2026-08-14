@@ -175,6 +175,28 @@ export const galleryItems: GalleryItem[] = [
     img: "/images/campsie-1.webp",
     size: "sm",
   },
+  {
+    id: "g16",
+    title: "Earlwood Deck & Garden",
+    location: "Earlwood, Sydney",
+    categories: ["Carpentry", "Gardens"],
+    img: "/images/earlwood-home-cover.webp",
+    size: "lg",
+    slug: "earlwood",
+    year: 2026,
+    summary:
+      "A full carpentry-led rebuild across three terraced levels: structural framing, vertical timber cladding, hand-laid hardwood decking and zoned garden planting, built and planted by one crew from first dig to final coat.",
+  },
+  {
+    id: "g17",
+    title: "Paddington Courtyard",
+    location: "Paddington, Sydney",
+    categories: ["Courtyards", "Carpentry"],
+    // ponytail: placeholder photo — swap for real Paddington site photography once supplied
+    img: "/images/from-live-site/live-site-4-hero.webp",
+    size: "wide",
+    slug: "paddington",
+  },
 ];
 
 /* ── Per-project detail page helpers ────────────────────────────────────── */
@@ -238,7 +260,7 @@ const APPROACH: Record<string, string[]> = {
     "Existing canopy was protected to the millimetre, and new planting threaded around it so the garden feels established from the outset.",
   ],
   Carpentry: [
-    "Every junction was resolved in the workshop first: concealed fixings, clean returns, and hardwood left to silver in the open air.",
+    "Every junction was resolved by hand: concealed fixings, clean returns, and hardwood left to silver in the open air.",
     "The timber was rough-sawn, sanded and finished in oil rather than coated, so it ages honestly with the weather.",
   ],
   Courtyards: [

@@ -114,7 +114,7 @@ export default function ContactPage() {
                   </a>
                 </InfoRow>
                 <div className="hairline" />
-                <InfoRow label="Studio">
+                <InfoRow label="Location">
                   {brand.address.line1}, {brand.address.line2}
                 </InfoRow>
                 <div className="hairline" />

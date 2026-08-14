@@ -1,89 +1,18 @@
 import type { Metadata } from "next";
-import { CountUp } from "@/components/CountUp";
-import { MagneticLink } from "@/components/MagneticLink";
+import { CtaOutro } from "@/components/CtaOutro";
 import { MaskHeading } from "@/components/MaskHeading";
 import { Reveal } from "@/components/Reveal";
 import { SplitText } from "@/components/SplitText";
-import { StoryChapter } from "@/components/StoryChapter";
 import { ValueReveal, type ValueItem } from "@/components/ValueReveal";
-import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "The people, the workshop and the craftsmanship behind BM Carpentry & Landscaping.",
+  description: "The people and the craftsmanship behind BM Carpentry & Landscaping.",
   openGraph: {
     title: "About BM",
-    description: "One workshop, a passion for carpentry and landscape design.",
+    description: "A small team, a passion for carpentry and landscape design.",
   },
 };
-
-const timeline = [
-  {
-    year: "2012",
-    t: "The beginning",
-    d: "Michael and Ben start a carpentry and garden round out of Mosman, building custom decks, privacy screens, and timber pergolas.",
-  },
-  {
-    year: "2015",
-    t: "Bespoke landscape stairs",
-    d: "The Avalon Beach project: our first major curved landscape stairs and retaining wall setup, blending carpentry with garden topography.",
-  },
-  {
-    year: "2018",
-    t: "In-house design",
-    d: "We bring design and estimating in-house to manage the complete client experience from initial concept through to completion.",
-  },
-  {
-    year: "2022",
-    t: "Seamless outdoor spaces",
-    d: "We combine structural carpentry, paving, concreting, and softscape planting under a single, unified B.M. Carpentry team.",
-  },
-  {
-    year: "2026",
-    t: "Extraordinary transformations",
-    d: "A crew of skilled carpenters and landscapers delivering premium, design-led outdoor transformations across Sydney.",
-  },
-];
-
-const crew = [
-  { name: "Michael", role: "Co-Founder · Lead Carpenter" },
-  { name: "Ben", role: "Co-Founder · Lead Landscaper" },
-  { name: "Declan", role: "Site Foreman" },
-  { name: "Mei-Lin", role: "Horticulture Lead" },
-  { name: "Tomas", role: "Stonemason" },
-  { name: "Priya", role: "Design Coordinator" },
-];
-
-/* Studio story, told as a clean centred column of four numbered chapters
-   (01–04) running one below the other — no imagery. Uniform, calm rhythm:
-   a small index label over a centred kicker and a centred paragraph, hairline
-   dividers between. Carries the carpentry-led, design-build philosophy. */
-const storyBeats = [
-  {
-    index: "01",
-    kicker: "We started as carpenters.",
-    text: "Which is why we still think with our hands. Everything we design, we can build — and everything we build, we drew first.",
-    img: "/images/earlwood-2.webp",
-  },
-  {
-    index: "02",
-    kicker: "So we drew our own gardens.",
-    text: "Design and estimating came in-house, closing the gap between the person who imagines a garden and the people who make it.",
-    img: "/images/avalon-6.webp",
-  },
-  {
-    index: "03",
-    kicker: "No detail gets value-engineered away.",
-    text: "The designer who walked your site is on it again the week we start digging — the same eyes from first sketch to final planting.",
-    img: "/images/campsie-3.webp",
-  },
-  {
-    index: "04",
-    kicker: "One team, start to finish.",
-    text: "Structural carpentry, stonework, paving and planting under a single crew — so the vision that opens a project is the one that closes it.",
-    img: "/images/earlwood-1.webp",
-  },
-];
 
 const valueItems: ValueItem[] = [
   {
@@ -103,22 +32,24 @@ const valueItems: ValueItem[] = [
   },
 ];
 
-/** Per-portrait rest tilt / vertical offset — pinned like snapshots on a
- * workshop corkboard rather than a uniform grid. */
-const CREW_LAYOUT = [
-  { rotate: -3, lift: 6 },
-  { rotate: 2.5, lift: 24 },
-  { rotate: -2.5, lift: -6 },
-  { rotate: 3, lift: 20 },
-  { rotate: -3.5, lift: 2 },
-  { rotate: 2, lift: -12 },
-] as const;
-
-const stats = [
-  { to: 2012, suffix: "", l: "Founded in Mosman" },
-  { to: 147, suffix: "", l: "Gardens built" },
-  { to: 9, suffix: "", l: "On the crew" },
-  { to: 30, suffix: "", l: "Years in the field" },
+// ponytail: markers are experience spans, not founding years — swap for real
+// dates (and add the years the two trades actually started) once confirmed.
+const timeline = [
+  {
+    marker: "20 yrs",
+    t: "Landscaping.",
+    d: "It started on the tools in Sydney gardens: retaining, paving, planting and hardscapes, and two decades of learning what actually survives the weather here.",
+  },
+  {
+    marker: "10 yrs",
+    t: "Carpentry.",
+    d: "Structural and finish carpentry grew alongside it — decking, cladding, stairs and bespoke timber structures, built to the same standard as the garden around them.",
+  },
+  {
+    marker: "Today",
+    t: "One team, both trades.",
+    d: "Rather than run them apart, we brought the two together. One crew draws it, builds it and plants it, so nothing is handed off at the point where most outdoor projects come undone.",
+  },
 ];
 
 export default function AboutPage() {
@@ -141,7 +72,7 @@ export default function AboutPage() {
             as="h1"
             lines={[
               <span key="l1">
-                Gardens that <span className="italic font-[300] text-accent">belong</span>,
+                Spaces that <span className="italic font-[300] text-accent">belong</span>,
               </span>,
               <span key="l2">built by the people who design them.</span>,
             ]}
@@ -151,18 +82,14 @@ export default function AboutPage() {
 
           <Reveal delay={220} className="mt-10 max-w-4xl">
             <p className="text-base leading-relaxed tracking-[-0.01em] text-muted-foreground">
-              A small, in-house studio of designers, carpenters and landscapers building across
-              Sydney&rsquo;s harbour and the NSW South Coast for seventeen years, and still
-              answering the phone ourselves.
+              A small, in-house team of carpenters and landscapers building across Sydney for
+              more than twenty years, and still answering the phone ourselves.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* STORY — type-led, centred column. A masthead, then four numbered
-          chapters in one calm rhythm (kicker · paragraph) over a giant ghosted
-          chapter numeral, on a warm atmosphere wash so the wide side gutters
-          read intentional, not empty. No imagery, nothing scattered. */}
+      {/* STORY — no fictional founding narrative; disabled 2026-08, keep for later.
       <section
         className="relative overflow-hidden"
         style={{
@@ -217,6 +144,7 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      */}
 
       {/* VALUES — formedgardens-style: a centred intro above an equal-weight
           three-column icon grid. No cards, no borders, no imagery. */}
@@ -235,7 +163,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* STATS — animated count-up */}
+      {/* STATS — "2012 founded" number strip; disabled 2026-08, keep for later.
       <section className="border-y border-border">
         <div className="mx-auto grid max-w-[1600px] gap-y-10 px-6 py-12 md:grid-cols-4 md:gap-x-12 md:px-12 md:py-16">
           {stats.map((s, i) => (
@@ -248,8 +176,46 @@ export default function AboutPage() {
           ))}
         </div>
       </section>
+      */}
 
-      {/* TIMELINE — sticky left, scrolling right */}
+      {/* TIMELINE — the real history: two trades, learned separately, brought
+          together. Markers are experience spans, not founding dates. */}
+      <section className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-24">
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="md:col-span-4">
+            <div className="md:sticky md:top-28">
+              <p className="eyebrow text-muted-foreground">How we got here</p>
+              <SplitText
+                as="h2"
+                className="mt-5 font-display text-4xl leading-[0.98] tracking-[-0.02em] md:text-6xl"
+              >
+                Two trades, one team.
+              </SplitText>
+            </div>
+          </div>
+          <div className="md:col-span-7 md:col-start-6">
+            {timeline.map((item, i) => (
+              <Reveal key={item.marker} delay={i * 60}>
+                <div className="grid grid-cols-[auto_1fr] gap-6 border-t border-border py-7 first:border-t-0 first:pt-0 md:gap-12 md:py-9">
+                  <span className="font-display text-2xl tabular-nums tracking-[-0.02em] text-muted-foreground/70 md:text-3xl">
+                    {item.marker}
+                  </span>
+                  <div>
+                    <h3 className="font-display text-2xl leading-[1.04] tracking-[-0.02em] md:text-3xl">
+                      {item.t}
+                    </h3>
+                    <p className="mt-3 max-w-xl text-base leading-snug tracking-[-0.01em] text-muted-foreground">
+                      {item.d}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TIMELINE (old) — invented years, "a short history"; disabled 2026-08, keep for later.
       <section className="mx-auto max-w-[1600px] px-6 py-16 md:px-12 md:py-24">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-4">
@@ -284,6 +250,7 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      */}
 
       {/* FOUNDER QUOTE */}
       <section className="surface-deep">
@@ -309,7 +276,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* THE CREW — pinned like snapshots on the workshop corkboard */}
+      {/* THE CREW — only two people, no crew grid needed; disabled 2026-08, keep for later.
       <section className="pt-16 md:pt-24">
         <div className="mx-auto mb-4 px-6 text-center md:mb-2 md:px-12">
           <p className="eyebrow text-muted-foreground">The crew</p>
@@ -330,7 +297,6 @@ export default function AboutPage() {
                   style={{ transform: `rotate(${layout.rotate}deg) translateY(${layout.lift}px)` }}
                 >
                   <span aria-hidden className="crew-tape" />
-                  {/* ponytail: no crew photography yet — placeholder initial card; swap for a real portrait via an `img` field on `crew` when photos land */}
                   <div className="img-zoom flex aspect-square w-full items-center justify-center overflow-hidden bg-muted transition-colors duration-500 ease-out md:group-hover:bg-accent/10">
                     <span className="font-display text-[5rem] font-light leading-none tracking-[-0.02em] text-muted-foreground/40 md:text-[6.5rem]">
                       {person.name[0]}
@@ -351,32 +317,10 @@ export default function AboutPage() {
           })}
         </div>
       </section>
+      */}
 
-      {/* CTA — quiet, premium; matches the Services page outro */}
-      <section className="mt-16 border-t border-border md:mt-24">
-        <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-24">
-          <div className="grid items-end gap-10 md:grid-cols-12">
-            <div className="md:col-span-7">
-              <p className="eyebrow text-muted-foreground">Get in touch</p>
-              <h2 className="mt-5 font-display text-4xl leading-[1.02] tracking-[-0.02em] md:text-5xl">
-                Come and meet the workshop.
-              </h2>
-              <p className="mt-5 max-w-md text-base leading-snug tracking-[-0.01em] text-muted-foreground">
-                {brand.address.line1}, {brand.address.line2}. Site visits by appointment: tell us
-                about the place and we&rsquo;ll walk it with you.
-              </p>
-            </div>
-            <div className="md:col-span-4 md:col-start-9 md:justify-self-end">
-              <MagneticLink
-                href="/contact"
-                className="eyebrow inline-flex items-center gap-3 border-b border-foreground pb-1"
-              >
-                Start a project <span aria-hidden>→</span>
-              </MagneticLink>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* CTA — matches the homepage/services outro */}
+      <CtaOutro />
     </>
   );
 }

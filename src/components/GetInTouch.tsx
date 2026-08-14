@@ -68,7 +68,7 @@ export function GetInTouch() {
               </dd>
             </div>
             <div>
-              <dt className="eyebrow text-muted-foreground">The studio</dt>
+              <dt className="eyebrow text-muted-foreground">Location</dt>
               <dd className="mt-2.5 text-base leading-relaxed">
                 {brand.address.line1}
                 <br />

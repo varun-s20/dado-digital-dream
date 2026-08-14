@@ -790,14 +790,14 @@
     background-color: var(--accent) !important;
   }
 
-  /* Navbar logo: no color change on hover (retains currentColor) */
+  /* Navbar logo: permanently orange, matches the footer mark */
   header .brand-logo {
-    background-color: currentColor;
+    background-color: var(--accent);
   }
   header .group:hover .brand-logo,
   header a:hover > .brand-logo,
   header .brand-logo:hover {
-    background-color: currentColor !important;
+    background-color: var(--accent) !important;
   }
 
   /* Footer logo (monogram in BrandMark): permanently orange, no hover color change */

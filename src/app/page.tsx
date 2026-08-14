@@ -1,24 +1,39 @@
 import Link from "next/link";
+import { CtaOutro } from "@/components/CtaOutro";
 import { MagneticLink } from "@/components/MagneticLink";
-import { MaskHeading } from "@/components/MaskHeading";
-import { GetInTouch } from "@/components/GetInTouch";
 import { Reveal } from "@/components/Reveal";
 import { SplitText } from "@/components/SplitText";
 import { WhatWeDo } from "@/components/WhatWeDo";
 import { WorkshopProcess } from "@/components/WorkshopProcess";
 import { brand } from "@/lib/brand";
-import { posts } from "@/lib/journal";
-import { galleryItems, projectSlug, type GallerySize } from "@/lib/gallery";
+import { getProject, projectSlug, type GallerySize } from "@/lib/gallery";
 
-const journalPosts = posts.slice(0, 3);
-
-// Recent work: a tight bento mosaic. Fixed size sequence chosen so the tiles
-// tile a perfect rectangle with zero gaps on both the 2-col and 4-col grids
-// (verified by hand — do not reorder without re-checking the packing).
+// Recent work: the original ten-tile bento mosaic, but every tile is one of
+// the four real projects — a different photo each, all captioned and linked
+// back to Earlwood / Campsie / Paddington / Avalon Beach.
+//
+// The size sequence tiles a perfect rectangle with zero gaps on both the
+// 2-col and 4-col grids (verified by hand — do not reorder without
+// re-checking the packing).
 const WORK_SIZES: GallerySize[] = [
   "sm", "tall", "lg", "wide", "tall", "sm", "tall", "lg", "lg", "wide",
 ];
-const work = galleryItems.slice(0, WORK_SIZES.length);
+const WORK_TILES: { slug: string; img: string; pos?: string }[] = [
+  { slug: "earlwood", img: "/images/earlwood-vid-framing-detail-square.webp" },
+  { slug: "campsie", img: "/images/campsie-2.webp" },
+  // ponytail: Paddington photos are placeholders — swap once the real shoot lands
+  { slug: "paddington", img: "/images/from-live-site/live-site-4-hero.webp" },
+  { slug: "avalon-beach", img: "/images/avalon-2.webp", pos: "center 60%" },
+  { slug: "earlwood", img: "/images/earlwood-planting-tall.webp" },
+  { slug: "campsie", img: "/images/campsie-1.webp" },
+  { slug: "avalon-beach", img: "/images/avalon-1.webp" },
+  { slug: "earlwood", img: "/images/earlwood-home-cover.webp" },
+  { slug: "campsie", img: "/images/campsie-4.webp" },
+  { slug: "paddington", img: "/images/from-live-site/live-site-16-cara-deck.webp" },
+];
+const work = WORK_TILES.map((tile) => ({ ...tile, project: getProject(tile.slug)! }));
+// Counts projects, not tiles — several tiles share a project.
+const workCount = new Set(WORK_TILES.map((t) => t.slug)).size;
 const SPAN: Record<GallerySize, string> = {
   sm: "col-span-1 row-span-1",
   wide: "col-span-2 row-span-1",
@@ -32,12 +47,14 @@ export default function HomePage() {
       {/* HERO */}
       <section className="relative min-h-[100dvh] w-full overflow-hidden">
         <video
-          src="https://xhhvokcsehxhjxabtvvw.supabase.co/storage/v1/object/public/dolobuck/17224715-uhd_3840_2160_30fps.mp4"
+          src="/videos/home-hero.mp4"
+          poster="/images/home-hero-poster.webp"
           autoPlay
           loop
           muted
           playsInline
-          aria-label="A modern timber-clad home rising behind landscaped greenery at golden hour"
+          preload="auto"
+          aria-label="A slow glide across a landscaped backyard — lawn and garden beds, stone walls, a pool and paved terrace"
           className="absolute inset-0 h-full w-full scale-105 object-cover"
         />
         <div className="hero-veil absolute inset-0" />
@@ -47,20 +64,20 @@ export default function HomePage() {
         >
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <p className="eyebrow opacity-80">{brand.tagline}</p>
-            <p className="eyebrow opacity-70">Design &amp; build · 30+ years experience</p>
+            <p className="eyebrow opacity-70">Delivering unique designs</p>
           </div>
 
           <div>
             <h1 className="hero-headline word-rise font-display text-[17vw] leading-[0.86] tracking-[-0.02em] md:text-[11.5vw]">
-              <span style={{ animationDelay: "1.9s" }}>Gardens</span>{" "}
-              <span style={{ animationDelay: "2.15s" }} className="italic font-[300]">that</span>
+              <span style={{ animationDelay: "1.9s" }}>Dream.</span>{" "}
+              <span style={{ animationDelay: "2.15s" }} className="italic font-[300]">Design.</span>
               <br />
-              <span style={{ animationDelay: "2.4s" }} className="pl-[14%] md:pl-[24%]">belong.</span>
+              <span style={{ animationDelay: "2.4s" }} className="pl-[14%] md:pl-[24%]">Deliver.</span>
             </h1>
             <div className="mt-10 grid items-end gap-8 md:grid-cols-12">
               <p className="max-w-md text-base leading-relaxed opacity-90 md:col-span-5 md:col-start-7">
-                Sydney-based construction company delivering high-quality carpentry,
-                landscaping, and outdoor construction services across residential and commercial projects.
+                Sydney-based landscape company focused on delivering high-quality carpentry
+                and landscaping services across residential and commercial projects.
               </p>
               <MagneticLink
                 href="/projects"
@@ -73,7 +90,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* INTRO */}
+      {/* INTRO — no direct "Studio" offering; disabled 2026-08, keep for later.
       <section className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-28">
         <div className="grid gap-12 md:grid-cols-12">
           <Reveal className="md:col-span-3">
@@ -110,48 +127,41 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      */}
 
       {/* WHAT WE DO — interactive showcase */}
       <WhatWeDo />
 
-      {/* FEATURED PROJECTS */}
+      {/* RECENT WORK — Earlwood, Campsie, Paddington, Avalon */}
       <section className="mx-auto max-w-[1600px] px-6 py-24 md:px-12 md:py-32">
-        <div className="grid gap-8 md:grid-cols-12 md:items-end">
-          <div className="md:col-span-8">
-            <p className="eyebrow text-muted-foreground">
-              <span className="text-accent">Selected</span> · {work.length}
-            </p>
-            <SplitText
-              as="h2"
-              className="mt-5 font-display text-[16vw] leading-[0.86] tracking-[-0.02em] sm:text-7xl md:text-[7.5rem]"
-            >
-              Recent work.
-            </SplitText>
-          </div>
-          <Reveal delay={200} className="md:col-span-4 md:pb-4">
-            <p className="max-w-xs leading-relaxed text-muted-foreground">
-              A close selection of recent carpentry and landscape builds across Sydney,
-              designed and built end to end by one crew.
-            </p>
-          </Reveal>
+        <div>
+          <p className="eyebrow text-muted-foreground">
+            <span className="text-accent">Selected</span> · {workCount}
+          </p>
+          <SplitText
+            as="h2"
+            className="mt-5 font-display text-[16vw] leading-[0.86] tracking-[-0.02em] sm:text-7xl md:text-[7.5rem]"
+          >
+            Recent work.
+          </SplitText>
         </div>
 
         <div className="mt-10 grid auto-rows-[8.5rem] grid-flow-dense grid-cols-2 gap-1.5 sm:auto-rows-[10rem] md:mt-16 md:auto-rows-[11rem] md:grid-cols-4 md:gap-2">
-          {work.map((item, i) => (
+          {work.map(({ project, img, pos }, i) => (
             <Link
-              key={item.id}
-              href={`/projects/${projectSlug(item)}`}
-              aria-label={`${item.title}, ${item.location}`}
+              key={`${project.id}-${i}`}
+              href={`/projects/${projectSlug(project)}`}
+              aria-label={`${project.title}, ${project.location}`}
               style={{ ["--d" as string]: `${Math.min(i, 12) * 45}ms` }}
               className={`gallery-tile gallery-enter group relative block overflow-hidden bg-muted ${SPAN[WORK_SIZES[i]]}`}
             >
               <img
-                src={item.img}
-                alt={item.title}
+                src={img}
+                alt={project.title}
                 loading={i < 4 ? "eager" : "lazy"}
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
-                style={{ objectPosition: item.pos }}
+                style={{ objectPosition: pos }}
               />
               <div className="gallery-scrim pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               <div
@@ -159,19 +169,15 @@ export default function HomePage() {
                 style={{ color: "var(--surface-deep-foreground)" }}
               >
                 <h3 className="font-display text-base font-[400] leading-[1.05] tracking-[-0.025em] md:text-lg">
-                  {item.title}
+                  {project.title}
                 </h3>
-                <p className="eyebrow mt-1 truncate opacity-80">{item.location}</p>
+                <p className="eyebrow mt-1 truncate opacity-80">{project.location}</p>
               </div>
             </Link>
           ))}
         </div>
 
-        {/* Closing note + CTA */}
-        <Reveal delay={120} className="mt-12 flex flex-col gap-6 border-t border-border pt-8 md:flex-row md:items-end md:justify-between">
-          <p className="max-w-xs leading-relaxed text-muted-foreground">
-            More decking, cladding, stairs and gardens in the full archive.
-          </p>
+        <Reveal delay={120} className="mt-12 flex justify-end border-t border-border pt-8">
           <MagneticLink
             href="/projects"
             className="arrow-link inline-flex items-center gap-3 font-display text-3xl md:text-4xl"
@@ -201,7 +207,7 @@ export default function HomePage() {
       {/* WORKSHOP — pinned horizontal build-sequence filmstrip, in-house crew */}
       <WorkshopProcess />
 
-      {/* JOURNAL */}
+      {/* JOURNAL — page disabled 2026-08, keep for later.
       <section className="mx-auto max-w-[1600px] px-6 pb-24 pt-24 md:px-12 md:pt-32">
         <Reveal>
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -233,9 +239,10 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+      */}
 
-      {/* GET IN TOUCH */}
-      <GetInTouch />
+      {/* GET IN TOUCH — matches the Services/About outro */}
+      <CtaOutro />
     </>
   );
 }

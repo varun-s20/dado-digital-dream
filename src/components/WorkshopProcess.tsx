@@ -49,12 +49,6 @@ const STAGES: Stage[] = [
   },
 ];
 
-const LEDGER = [
-  { v: "30+", l: "Years on the tools" },
-  { v: "100%", l: "In-house crew" },
-  { v: "1", l: "Point of contact" },
-] as const;
-
 const LIGHT = { color: "var(--surface-deep-foreground)" } as const;
 
 /**
@@ -226,7 +220,7 @@ export function WorkshopProcess() {
           }`}
           style={LIGHT}
         >
-          <p className="eyebrow opacity-55">The workshop</p>
+          <p className="eyebrow opacity-55">On the tools</p>
           {!native && (
             <p className="eyebrow tabular-nums opacity-75">
               <span ref={counterRef}>01</span>
@@ -334,21 +328,10 @@ export function WorkshopProcess() {
           >
             <p className="eyebrow opacity-55">Finished</p>
             <h2 className="mt-6 font-display text-[12vw] leading-[0.88] tracking-[-0.025em] md:text-[4.4vw]">
-              One garden,
+              One dream,
               <br />
               one crew.
             </h2>
-
-            <dl className="mt-10 grid max-w-lg grid-cols-3 gap-6 border-t border-current/15 pt-7">
-              {LEDGER.map((s) => (
-                <div key={s.l}>
-                  <dt className="font-display text-4xl leading-none tabular-nums tracking-[-0.02em] md:text-5xl">
-                    {s.v}
-                  </dt>
-                  <dd className="eyebrow mt-3 opacity-55">{s.l}</dd>
-                </div>
-              ))}
-            </dl>
 
             <MagneticLink
               href="/services"

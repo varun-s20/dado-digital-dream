@@ -6,7 +6,7 @@ const navLinks = [
   { href: "/services", label: "Services" },
   { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
-  { href: "/journal", label: "Journal" },
+  // { href: "/journal", label: "Journal" }, // journal disabled 2026-08, keep for later
   { href: "/contact", label: "Contact" },
 ];
 

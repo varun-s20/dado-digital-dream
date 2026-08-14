@@ -11,25 +11,25 @@ type Practice = {
 
 const practices: Practice[] = [
   {
-    label: "Landscape Architecture",
+    label: "Design",
     blurb:
-      "Site-led garden design from first sketch to mature planting, resolved around the light, slope and architecture already on the ground.",
+      "Site-led design from first sketch to finished plan, resolved around the light, slope and architecture already on the ground.",
     img: "/images/dsc09432_hdr.webp",
     alt: "Modern timber-clad home opening onto a designed lawn at dusk",
   },
   {
-    label: "Landscape Construction",
+    label: "Landscaping",
     blurb:
-      "Decks, retaining, paving and bespoke timber structures, built in-house by our own carpenters and stone-workers, not subcontracted out.",
+      "Retaining, paving, planting and hardscapes, built in-house by our own crew, not subcontracted out.",
     img: "/images/page_4_img_6.jpg",
     alt: "Sandstone retaining wall meeting handcrafted timber landscape stairs",
   },
   {
-    label: "Swimming Pools",
+    label: "Carpentry",
     blurb:
-      "Concrete pools detailed as still water: mineral-rendered, stone-coped and wrapped in carpentry that ties straight back into the garden.",
-    img: "/images/campsie-6.webp",
-    alt: "Concrete plunge pool wrapped in a hardwood deck beside the house",
+      "Structural and finish carpentry, decking and cladding, every junction resolved by hand and finished to last.",
+    img: "/images/earlwood-1.webp",
+    alt: "Hardwood deck and timber cladding under construction",
   },
   {
     label: "Garden Maintenance",
@@ -50,12 +50,22 @@ export function WhatWeDo() {
         <div className="flex flex-col justify-between gap-12 px-6 py-16 md:px-12 md:py-20 lg:px-16">
           <div>
             <p className="eyebrow opacity-60">What we do</p>
-            <p
-              key={active}
-              className="wwd-row mt-7 max-w-md text-lg leading-relaxed opacity-90 md:text-xl"
-            >
-              {practices[active].blurb}
-            </p>
+            {/* All four blurbs stacked in one grid cell: the box is always as
+                tall as the longest one, so switching practice can't reflow the
+                list below it and bounce the row out from under the cursor. */}
+            <div className="mt-7 grid max-w-md">
+              {practices.map((p, i) => (
+                <p
+                  key={p.label}
+                  aria-hidden={i !== active}
+                  className={`col-start-1 row-start-1 text-lg leading-relaxed md:text-xl ${
+                    i === active ? "wwd-row opacity-90" : "opacity-0"
+                  }`}
+                >
+                  {p.blurb}
+                </p>
+              ))}
+            </div>
           </div>
 
           <ul className="flex flex-col">

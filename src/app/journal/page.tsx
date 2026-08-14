@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { Reveal } from "@/components/Reveal";
 import { posts } from "@/lib/journal";
@@ -15,7 +16,10 @@ export const metadata: Metadata = {
 
 const [lead, ...rest] = posts;
 
+// Journal disabled 2026-08 — notFound() short-circuits before the markup
+// below runs; page kept intact so it's a one-line revert to bring back.
 export default function JournalPage() {
+  notFound();
   return (
     <>
       {/* HEADER — homepage type pattern: word-rise + italic accent dot */}

@@ -10,8 +10,10 @@ import { SplitText } from "@/components/SplitText";
 import { brand } from "@/lib/brand";
 import { getNextPost, getPost, headingId, posts } from "@/lib/journal";
 
+// Journal disabled 2026-08 — no static pages generated; restore the
+// `posts.map(...)` body below to bring the route back.
 export function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }));
+  return [];
 }
 
 export async function generateMetadata({
@@ -40,7 +42,15 @@ const imgAspect = {
   square: "aspect-square",
 } as const;
 
+// Journal disabled 2026-08 — the real page below is kept intact as
+// `ArticlePageContent`; the exported default just 404s. Swap the export
+// back to `ArticlePageContent` to bring the route back.
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+  await params;
+  notFound();
+}
+
+async function ArticlePageContent({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) notFound();
