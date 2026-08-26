@@ -256,8 +256,7 @@ export function WorkshopProcess() {
               in-house.
             </h2>
             <p className="mt-7 max-w-md leading-relaxed opacity-75">
-              One crew of designers, carpenters and landscapers. From the first sketch to the final
-              planting, no handoffs and no subcontracted gaps.
+              One company with all the skills needed to create your ideal space.
             </p>
             <p className="eyebrow mt-10 flex items-center gap-3 opacity-55">
               The Earlwood build, in five stages

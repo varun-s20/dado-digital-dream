@@ -21,25 +21,25 @@ const services = [
     n: "01",
     t: "Design",
     img: "/images/dsc09432_hdr.webp",
-    d: "The best gardens evolve over time, and it all starts with a considered concept. We design responsive landscapes that perform in our climate, lift the value of your property and, most of all, change how you live outdoors. Concept design, 3D modelling, CDC/DA/CC approvals and detailed documentation.",
+    d: "From your initial consultation through to the finished product, we guide you through all the steps needed to achieve your vision.",
   },
   {
     n: "02",
     t: "Landscaping",
-    img: "/images/page_4_img_6.jpg",
-    d: "With years on the tools as a team, we bring a deep working knowledge of materials, methods and detailing. Retaining, paving, planting and hardscapes, built by our own crew and trusted specialists, never handed off, so the garden survives everything exterior construction throws at it.",
+    img: "/images/avalon-3.webp",
+    d: "From retaining walls and paving to hardscapes and softscapes, we provide complete landscaping solutions tailored to your space.",
   },
   {
     n: "03",
     t: "Carpentry",
-    img: "/images/earlwood-1.webp",
-    d: "Structural and finish carpentry, decking, cladding and bespoke timber structures, built in-house by our own carpenters. Every junction resolved by hand: concealed fixings, clean returns, and hardwood finished to weather honestly.",
+    img: "/images/page_4_img_6.jpg",
+    d: "Structural and finish carpentry, decking and cladding, every aspect hand built by our own team.",
   },
   {
     n: "04",
     t: "Garden Maintenance",
     img: "/images/campsie-2.webp",
-    d: "Our horticulture team keeps the living parts of your landscape reading the way they were drawn. Tailored to each garden: pruning, planting, pest management, programmed feeding and the long-term planning that lets a place settle properly into itself.",
+    d: "Whether it's maintaining your garden after installation or giving an existing outdoor space the care it needs, our team can help keep your landscape looking its best all year round.",
   },
 ];
 

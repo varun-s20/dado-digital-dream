@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Hanken_Grotesk, Inter, Inter_Tight } from "next/font/google";
+import { Hanken_Grotesk } from "next/font/google";
 import { Cursor } from "@/components/Cursor";
 import { Loader } from "@/components/Loader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -15,19 +15,6 @@ const hanken = Hanken_Grotesk({
   variable: "--font-hanken",
   display: "swap",
 });
-const inter = Inter({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  variable: "--font-inter",
-  display: "swap",
-});
-const interTight = Inter_Tight({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  variable: "--font-inter-tight",
-  display: "swap",
-});
-
 const description =
   "BM Carpentry & Landscaping builds decking, pergolas, cladding, fencing, retaining walls and complete outdoor living spaces across Sydney. Licensed carpenters and landscapers delivering handcrafted timber and hardscape work.";
 
@@ -111,7 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${hanken.variable} ${inter.variable} ${interTight.variable}`}
+      className={hanken.variable}
     >
       <body>
         <script

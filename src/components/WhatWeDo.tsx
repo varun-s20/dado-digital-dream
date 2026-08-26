@@ -13,28 +13,28 @@ const practices: Practice[] = [
   {
     label: "Design",
     blurb:
-      "Site-led design from first sketch to finished plan, resolved around the light, slope and architecture already on the ground.",
+      "From your initial consultation through to the finished product, we guide you through all the steps needed to achieve your vision.",
     img: "/images/dsc09432_hdr.webp",
     alt: "Modern timber-clad home opening onto a designed lawn at dusk",
   },
   {
     label: "Landscaping",
     blurb:
-      "Retaining, paving, planting and hardscapes, built in-house by our own crew, not subcontracted out.",
-    img: "/images/page_4_img_6.jpg",
-    alt: "Sandstone retaining wall meeting handcrafted timber landscape stairs",
+      "From retaining walls and paving to hardscapes and softscapes, we provide complete landscaping solutions tailored to your space.",
+    img: "/images/avalon-3.webp",
+    alt: "Landscaped garden beds, paving and lawn at Avalon Beach",
   },
   {
     label: "Carpentry",
     blurb:
-      "Structural and finish carpentry, decking and cladding, every junction resolved by hand and finished to last.",
-    img: "/images/earlwood-1.webp",
-    alt: "Hardwood deck and timber cladding under construction",
+      "Structural and finish carpentry, decking and cladding, every aspect hand built by our own team.",
+    img: "/images/page_4_img_6.jpg",
+    alt: "Handcrafted timber landscape stairs meeting a sandstone retaining wall",
   },
   {
     label: "Garden Maintenance",
     blurb:
-      "Ongoing care that keeps a garden reading the way it was drawn, through pruning, planting and the slow work of letting a place settle in.",
+      "Whether it's maintaining your garden after installation or giving an existing outdoor space the care it needs, our team can help keep your landscape looking its best all year round.",
     img: "/images/campsie-2.webp",
     alt: "Established garden beds and lawn maturing along a rendered wall",
   },

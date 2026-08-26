@@ -5,8 +5,8 @@ import { MagneticLink } from "@/components/MagneticLink";
  * pages so the closing call-to-action reads identically everywhere.
  */
 export function CtaOutro({
-  heading = "Tell us about your project.",
-  body = "From the first conversation to the unveiling of your new design space, we'll guide you through every step.",
+  heading = "Get in touch with us.",
+  body = "Tell us about your project and your vision for the space. We take the time to understand your ideas, needs and style, then bring them together into a considered plan tailored to you.",
   ctaLabel = "Start a project",
   ctaHref = "/contact",
   bordered = true,

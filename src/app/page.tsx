@@ -32,8 +32,6 @@ const WORK_TILES: { slug: string; img: string; pos?: string }[] = [
   { slug: "paddington", img: "/images/from-live-site/live-site-16-cara-deck.webp" },
 ];
 const work = WORK_TILES.map((tile) => ({ ...tile, project: getProject(tile.slug)! }));
-// Counts projects, not tiles — several tiles share a project.
-const workCount = new Set(WORK_TILES.map((t) => t.slug)).size;
 const SPAN: Record<GallerySize, string> = {
   sm: "col-span-1 row-span-1",
   wide: "col-span-2 row-span-1",
@@ -46,31 +44,21 @@ export default function HomePage() {
     <>
       {/* HERO */}
       <section className="relative min-h-[100dvh] w-full overflow-hidden">
-        <video
-          src="/videos/home-hero.mp4"
-          poster="/images/home-hero-poster.webp"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          aria-label="A slow glide across a landscaped backyard — lawn and garden beds, stone walls, a pool and paved terrace"
+        <img
+          src="/images/earlwood-3.webp"
+          alt="A landscaped backyard in Earlwood — lawn and garden beds, timber deck and paved terrace"
+          fetchPriority="high"
           className="absolute inset-0 h-full w-full scale-105 object-cover"
         />
         <div className="hero-veil absolute inset-0" />
         <div
-          className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1600px] flex-col justify-between px-6 pb-14 pt-32 md:px-12 md:pb-20"
+          className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1600px] flex-col justify-end px-6 pb-14 pt-32 md:px-12 md:pb-20"
           style={{ color: "var(--surface-deep-foreground)" }}
         >
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <p className="eyebrow opacity-80">{brand.tagline}</p>
-            <p className="eyebrow opacity-70">Delivering unique designs</p>
-          </div>
-
           <div>
             <h1 className="hero-headline word-rise font-display text-[17vw] leading-[0.86] tracking-[-0.02em] md:text-[11.5vw]">
               <span style={{ animationDelay: "1.9s" }}>Dream.</span>{" "}
-              <span style={{ animationDelay: "2.15s" }} className="italic font-[300]">Design.</span>
+              <span style={{ animationDelay: "2.15s" }}>Design.</span>
               <br />
               <span style={{ animationDelay: "2.4s" }} className="pl-[14%] md:pl-[24%]">Deliver.</span>
             </h1>
@@ -132,19 +120,14 @@ export default function HomePage() {
       {/* WHAT WE DO — interactive showcase */}
       <WhatWeDo />
 
-      {/* RECENT WORK — Earlwood, Campsie, Paddington, Avalon */}
+      {/* FEATURED PROJECTS — Earlwood, Campsie, Paddington, Avalon */}
       <section className="mx-auto max-w-[1600px] px-6 py-24 md:px-12 md:py-32">
-        <div>
-          <p className="eyebrow text-muted-foreground">
-            <span className="text-accent">Selected</span> · {workCount}
-          </p>
-          <SplitText
-            as="h2"
-            className="mt-5 font-display text-[16vw] leading-[0.86] tracking-[-0.02em] sm:text-7xl md:text-[7.5rem]"
-          >
-            Recent work.
-          </SplitText>
-        </div>
+        <SplitText
+          as="h2"
+          className="font-display text-[16vw] leading-[0.86] tracking-[-0.02em] sm:text-7xl md:text-[7.5rem]"
+        >
+          Featured projects.
+        </SplitText>
 
         <div className="mt-10 grid auto-rows-[8.5rem] grid-flow-dense grid-cols-2 gap-1.5 sm:auto-rows-[10rem] md:mt-16 md:auto-rows-[11rem] md:grid-cols-4 md:gap-2">
           {work.map(({ project, img, pos }, i) => (

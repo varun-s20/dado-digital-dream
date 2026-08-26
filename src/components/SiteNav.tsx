@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BrandMark } from "@/components/BrandMark";
 import { brand } from "@/lib/brand";
 
 const menuItems = [
@@ -68,11 +67,34 @@ export function SiteNav() {
         }}
       >
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-12">
-          <Link href="/" className="group flex items-center gap-3">
-            <BrandMark size="md" />
-            <span className="eyebrow hidden opacity-60 transition-opacity duration-300 group-hover:opacity-100 sm:inline">
-              / {brand.tagline}
-            </span>
+          {/* Long wordmark lockup — white over a dark image hero, black once the
+              bar goes solid (and on light pages, which are never on a dark hero).
+              Both are stacked and crossfaded so the swap can't flash. */}
+          <Link
+            href="/"
+            aria-label={brand.fullName}
+            className="relative block h-10 w-[124px] shrink-0 md:h-12 md:w-[149px]"
+          >
+            {(
+              [
+                ["/logos/BMCL_LOGO_WHITE_ORANGE_LONG.png", onDarkHero],
+                ["/logos/BMCL_LOGO_BLACK_ORANGE_LONG.png", !onDarkHero],
+              ] as const
+            ).map(([src, on]) => (
+              <img
+                key={src}
+                src={src}
+                alt=""
+                aria-hidden
+                width={1500}
+                height={482}
+                className="absolute inset-0 h-full w-full object-contain object-left"
+                style={{
+                  opacity: on ? 1 : 0,
+                  transition: "opacity 0.5s var(--ease-out-expo)",
+                }}
+              />
+            ))}
           </Link>
 
           <button
@@ -121,7 +143,13 @@ export function SiteNav() {
         {/* LEFT sidebar panel */}
         <div className="menu-panel surface-deep absolute inset-y-0 left-0 flex w-full flex-col justify-between overflow-y-auto px-6 py-5 md:w-[420px] md:px-12">
           <div className="flex items-center justify-between">
-            <BrandMark size="md" withName />
+            <img
+              src="/logos/BMCL_LOGO_WHITE_ORANGE_LONG.png"
+              alt={brand.fullName}
+              width={1500}
+              height={482}
+              className="h-14 w-auto"
+            />
           </div>
 
           <nav className="flex flex-col py-8">
@@ -159,9 +187,11 @@ export function SiteNav() {
               <a href={`mailto:${brand.email}`} className="hover:opacity-100">
                 {brand.email}
               </a>
-              <a href={brand.phoneHref} className="hover:opacity-100">
-                {brand.phone}
-              </a>
+              {brand.phones.map((p) => (
+                <a key={p.href} href={p.href} className="w-fit hover:opacity-100">
+                  {p.name}: {p.number}
+                </a>
+              ))}
             </div>
             <div className="flex items-center gap-5">
               {brand.social.map((s) => (

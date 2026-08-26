@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { BrandMark } from "@/components/BrandMark";
 import { brand } from "@/lib/brand";
 
 const navLinks = [
@@ -54,11 +53,13 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-12 md:gap-10">
           {/* brand */}
           <div className="md:col-span-5">
-            <BrandMark size="lg" withName />
-            <p className="mt-6 max-w-sm text-base leading-relaxed opacity-65">
-              Carpentry &amp; landscape, built to weather. Gardens, decks and structures across
-              Sydney and the South Coast.
-            </p>
+            <img
+              src="/logos/BMCL_LOGO_WHITE_ORANGE_LONG.png"
+              alt={brand.fullName}
+              width={1500}
+              height={482}
+              className="h-14 w-auto"
+            />
             <p className="eyebrow mt-7 flex items-center gap-2.5 opacity-60">
               <span className="pulse-dot" aria-hidden />
               Available for new commissions
@@ -96,12 +97,18 @@ export function SiteFooter() {
             >
               {brand.email}
             </a>
-            <a
-              href={brand.phoneHref}
-              className="mt-1.5 block w-fit text-base opacity-60 transition-opacity hover:opacity-100"
-            >
-              {brand.phone}
-            </a>
+            <ul className="mt-1.5 flex flex-col gap-1">
+              {brand.phones.map((p) => (
+                <li key={p.href}>
+                  <a
+                    href={p.href}
+                    className="block w-fit text-base opacity-60 transition-opacity hover:opacity-100"
+                  >
+                    {p.name}: {p.number}
+                  </a>
+                </li>
+              ))}
+            </ul>
             <ul className="mt-5 flex gap-6 text-sm">
               {brand.social.map((s) => (
                 <li key={s.label}>
@@ -115,29 +122,14 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* coverage */}
-        <div className="mt-14 border-t border-current/10 pt-6">
-          <p className="eyebrow opacity-40">Working across</p>
-          <ul className="mt-3.5 flex flex-wrap gap-x-5 gap-y-1.5 text-sm opacity-70">
-            {brand.coverage.map((place) => (
-              <li key={place}>
-                <span className="coverage-tag">{place}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
         {/* legal */}
-        <div className="mt-10 flex flex-col gap-3 border-t border-current/10 pt-6 text-xs opacity-50 md:flex-row md:items-center md:justify-between">
+        <div className="mt-14 flex flex-col gap-3 border-t border-current/10 pt-6 text-xs opacity-50 md:flex-row md:items-center md:justify-between">
           <span>
             © {year} {brand.fullName}
           </span>
-          <span className="flex gap-6">
-            <span>Designed &amp; built in-house</span>
-            <Link href="/privacy" className="transition-opacity hover:opacity-100">
-              Privacy
-            </Link>
-          </span>
+          <Link href="/privacy" className="transition-opacity hover:opacity-100">
+            Privacy
+          </Link>
         </div>
       </div>
     </footer>

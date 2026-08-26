@@ -3,9 +3,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Fonts are self-hosted via next/font (see layout.tsx) — the family names
-   come through as CSS variables (--font-hanken / --font-inter / --font-inter-tight)
-   with automatic preload + swap, so there's no render-blocking @import. */
+/* Hanken Grotesk is self-hosted via next/font (see layout.tsx) — the family
+   name comes through as --font-hanken with automatic preload + swap, so
+   there's no render-blocking @import. */
 @theme inline {
   --font-display: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
@@ -142,15 +142,6 @@
     letter-spacing: -0.025em;
   }
   .font-sans {
-    font-family: var(--font-sans);
-  }
-  /* Projects routes follow formedgardens.com.au's exact type: Inter Tight
-     display + Inter body. Scoped via a wrapper so the rest of the site keeps
-     its Hanken Grotesk. Re-declaring the font vars cascades to every
-     descendant that reads them (headings, .font-display, .eyebrow). */
-  .font-formed {
-    --font-display: var(--font-inter-tight), var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
-    --font-sans: var(--font-inter), var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
     font-family: var(--font-sans);
   }
   .surface-deep {
