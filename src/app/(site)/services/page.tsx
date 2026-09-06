@@ -5,6 +5,7 @@ import { MagneticLink } from "@/components/MagneticLink";
 import { ParallaxImage } from "@/components/ParallaxImage";
 import { Reveal } from "@/components/Reveal";
 import { SplitText } from "@/components/SplitText";
+import { getDisciplines, getServicesHero } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -15,33 +16,6 @@ export const metadata: Metadata = {
     description: "Design, landscaping, carpentry and maintenance, resolved by one in-house team.",
   },
 };
-
-const services = [
-  {
-    n: "01",
-    t: "Design",
-    img: "/images/dsc09432_hdr.webp",
-    d: "From your initial consultation through to the finished product, we guide you through all the steps needed to achieve your vision.",
-  },
-  {
-    n: "02",
-    t: "Landscaping",
-    img: "/images/avalon-3.webp",
-    d: "From retaining walls and paving to hardscapes and softscapes, we provide complete landscaping solutions tailored to your space.",
-  },
-  {
-    n: "03",
-    t: "Carpentry",
-    img: "/images/page_4_img_6.jpg",
-    d: "Structural and finish carpentry, decking and cladding, every aspect hand built by our own team.",
-  },
-  {
-    n: "04",
-    t: "Garden Maintenance",
-    img: "/images/campsie-2.webp",
-    d: "Whether it's maintaining your garden after installation or giving an existing outdoor space the care it needs, our team can help keep your landscape looking its best all year round.",
-  },
-];
 
 const process = [
   {
@@ -66,7 +40,8 @@ const process = [
   },
 ];
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const [disciplines, servicesHero] = await Promise.all([getDisciplines(), getServicesHero()]);
   return (
     <>
       {/* HERO — two staggered images flanking a stacked header/subhead */}
@@ -75,14 +50,14 @@ export default function ServicesPage() {
           {/* image A — offset down, narrower, sits under the middle words */}
           <div className="img-zoom relative md:col-span-4 md:mt-28 ">
             <ParallaxImage
-              src="/images/earlwood-home-cover.webp"
-              alt="Timber-clad home and garden, Earlwood"
+              src={servicesHero.a.src}
+              alt={servicesHero.a.alt}
               className="w-full"
               strength={90}
               zoomFrom={1.08}
             />
             <div className="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/55 via-black/0 to-transparent">
-              <p className="eyebrow p-5 text-white/90">Earlwood</p>
+              <p className="eyebrow p-5 text-white/90">{servicesHero.a.caption}</p>
             </div>
           </div>
 
@@ -102,14 +77,14 @@ export default function ServicesPage() {
           <div className="md:col-span-5 md:col-start-8 px-6 md:px-0">
             <div className="img-zoom relative hidden md:block">
               <ParallaxImage
-                src="/images/from-live-site/live-site-16-cara-deck.webp"
-                alt="BM Carpentry and Landscaping"
+                src={servicesHero.b.src}
+                alt={servicesHero.b.alt}
                 className="aspect-square w-full"
                 strength={90}
                 zoomFrom={1.08}
               />
               <div className="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/55 via-black/0 to-transparent">
-                <p className="eyebrow p-5 text-white/90">Sydney</p>
+                <p className="eyebrow p-5 text-white/90">{servicesHero.b.caption}</p>
               </div>
             </div>
             <Reveal delay={180} className="md:mt-8">
@@ -140,8 +115,14 @@ export default function ServicesPage() {
           <p className="eyebrow text-muted-foreground">Designed &amp; built in-house</p>
         </div>
       </section>
-      {services.map((s) => (
-        <DisciplineCard key={s.n} n={s.n} t={s.t} img={s.img} d={s.d} />
+      {disciplines.items.map((s, i) => (
+        <DisciplineCard
+          key={s.label}
+          n={String(i + 1).padStart(2, "0")}
+          t={s.label}
+          img={s.img}
+          d={s.blurb}
+        />
       ))}
 
       {/* PROCESS — sticky left, scrolling right */}

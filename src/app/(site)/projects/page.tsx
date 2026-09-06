@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ProjectGallery } from "@/components/ProjectGallery";
-import { galleryItems } from "@/lib/gallery";
+import { getProjects } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const items = await getProjects();
   return (
     <>
       {/* HEADER — homepage type pattern: word-rise + italic accent */}
@@ -19,7 +20,7 @@ export default function ProjectsPage() {
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
           <p className="eyebrow text-muted-foreground">Selected work</p>
           <p className="eyebrow text-muted-foreground">
-            {String(galleryItems.length).padStart(2, "0")} — Sydney &amp; South Coast
+            {String(items.length).padStart(2, "0")} — Sydney &amp; South Coast
           </p>
         </div>
         <h1 className="word-rise mt-8 font-display text-6xl leading-[0.86] tracking-[-0.03em] md:mt-10 md:text-[8rem]">
@@ -31,7 +32,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* FILTERABLE MASONRY GALLERY */}
-      <ProjectGallery />
+      <ProjectGallery items={items} />
     </>
   );
 }
