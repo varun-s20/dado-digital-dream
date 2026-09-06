@@ -17,18 +17,18 @@ export const metadata: Metadata = {
 const valueItems: ValueItem[] = [
   {
     icon: "leaf",
-    title: "Design & construct responsibly.",
-    desc: "Every decision weighed for how it ages, what it costs the site, and what it leaves behind.",
+    title: "Sustainability",
+    desc: "We aim for responsible material choices and implementation of the most efficient work practices.",
   },
   {
-    icon: "pin",
-    title: "Source close to home.",
-    desc: "Timber, stone and plants chosen for the climate, the footprint, and the community they come from.",
+    icon: "chair",
+    title: "Usability",
+    desc: "Our ultimate goal is to enhance the usability of every space, creating functional and considered outdoor environments tailored to each client’s needs.",
   },
   {
-    icon: "recycle",
-    title: "Give good material a second life.",
-    desc: "Salvaged hardwood and stone carry a patina new material can’t fake — and keep good material in use.",
+    icon: "hourglass",
+    title: "Longevity",
+    desc: "We always consider not only how a project will look upon completion, but how it will evolve, mature and perform for years to come.",
   },
 ];
 
@@ -37,18 +37,18 @@ const valueItems: ValueItem[] = [
 const timeline = [
   {
     marker: "20 yrs",
-    t: "Landscaping.",
-    d: "It started on the tools in Sydney gardens: retaining, paving, planting and hardscapes, and two decades of learning what actually survives the weather here.",
+    t: "Landscaping and horticulture.",
+    d: "Starting as a horticulturalist maintaining gardens across Sydney, the business has evolved to offer a complete landscaping service, specialising in both hard and soft landscaping.",
   },
   {
     marker: "10 yrs",
     t: "Carpentry.",
-    d: "Structural and finish carpentry grew alongside it — decking, cladding, stairs and bespoke timber structures, built to the same standard as the garden around them.",
+    d: "Structural and finish carpentry grew alongside it - decking, cladding, stairs and bespoke timber structures, built to stand the test of time.",
   },
   {
     marker: "Today",
     t: "One team, both trades.",
-    d: "Rather than run them apart, we brought the two together. One crew draws it, builds it and plants it, so nothing is handed off at the point where most outdoor projects come undone.",
+    d: "After consolidating on multiple projects we saw the gap in the market to join forces and provide landscaping and carpentry solutions all under the one roof.",
   },
 ];
 
@@ -66,21 +66,18 @@ export default function AboutPage() {
         />
 
         <div className="mx-auto flex max-w-[1180px] flex-col items-center px-6 py-14 md:py-14 text-center md:px-12">
-          <p className="eyebrow text-muted-foreground">Who we are</p>
-
+          {/* The "Spaces that belong" statement was removed at the client's
+              request. The page still needs exactly one h1, so the section's
+              own name carries it rather than leaving the About page headless
+              for search engines and screen readers. */}
           <MaskHeading
             as="h1"
-            lines={[
-              <span key="l1">
-                Spaces that <span className="italic font-[300] text-accent">belong</span>,
-              </span>,
-              <span key="l2">built by the people who design them.</span>,
-            ]}
-            className="mt-8 font-display leading-[1.02] tracking-[-0.03em] text-[clamp(2.4rem,6.2vw,4.6rem)]"
+            lines={["Who we are"]}
+            className="font-display font-light leading-[1.06] tracking-[-0.03em] text-[clamp(2rem,4.4vw,3.2rem)]"
             stagger={90}
           />
 
-          <Reveal delay={220} className="mt-10 max-w-4xl">
+          <Reveal delay={160} className="mt-8 max-w-4xl">
             <p className="text-base leading-relaxed tracking-[-0.01em] text-muted-foreground">
               A small, in-house team of carpenters and landscapers building across Sydney for
               more than twenty years, and still answering the phone ourselves.
@@ -151,8 +148,7 @@ export default function AboutPage() {
       <section className="border-t border-border">
         <div className="mx-auto max-w-[1600px] px-6 py-20 md:px-12 md:py-28">
           <div className="mx-auto max-w-xl text-center">
-            <p className="eyebrow text-muted-foreground">Sustainability</p>
-            <h2 className="mt-4 font-display font-light leading-[1.06] tracking-[-0.03em] text-[clamp(2rem,4.4vw,3.2rem)]">
+            <h2 className="font-display font-light leading-[1.06] tracking-[-0.03em] text-[clamp(2rem,4.4vw,3.2rem)]">
               Our values.
             </h2>
           </div>

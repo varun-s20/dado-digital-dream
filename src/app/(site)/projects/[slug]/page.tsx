@@ -6,10 +6,9 @@ import { ProjectBanner } from "@/components/ProjectBanner";
 import { Reveal } from "@/components/Reveal";
 import { RevealImage } from "@/components/RevealImage";
 import { SplitText } from "@/components/SplitText";
+import { getProject, getProjects } from "@/lib/content";
 import {
-  galleryItems,
   getMoreProjects,
-  getProject,
   projectDescription,
   projectFeature,
   projectImages,
@@ -18,8 +17,11 @@ import {
   projectYear,
 } from "@/lib/gallery";
 
-export function generateStaticParams() {
-  return galleryItems.map((item) => ({ slug: projectSlug(item) }));
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const items = await getProjects();
+  return items.map((item) => ({ slug: projectSlug(item) }));
 }
 
 export async function generateMetadata({
@@ -28,7 +30,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProject(slug);
+  const project = await getProject(slug);
   if (!project) return { title: "Project not found" };
   const [intro] = projectDescription(project);
   return {
@@ -44,7 +46,7 @@ export default async function ProjectPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = getProject(slug);
+  const project = await getProject(slug);
   if (!project) notFound();
 
   const description = projectDescription(project);
@@ -52,7 +54,7 @@ export default async function ProjectPage({
   const year = projectYear(project);
   const feature = projectFeature(project);
   const shots = projectImages(project);
-  const more = getMoreProjects(slug, 3);
+  const more = getMoreProjects(await getProjects(), slug, 3);
 
   return (
     <>

@@ -6,7 +6,15 @@ import { SplitText } from "@/components/SplitText";
 import { WhatWeDo } from "@/components/WhatWeDo";
 import { WorkshopProcess } from "@/components/WorkshopProcess";
 import { brand } from "@/lib/brand";
-import { getProject, projectSlug, type GallerySize } from "@/lib/gallery";
+import {
+  getDisciplines,
+  getHero,
+  getMosaic,
+  getProjects,
+  getWorkshop,
+  resolveMosaic,
+} from "@/lib/content";
+import type { GallerySize } from "@/lib/gallery";
 
 // Recent work: the original ten-tile bento mosaic, but every tile is one of
 // the four real projects — a different photo each, all captioned and linked
@@ -18,20 +26,6 @@ import { getProject, projectSlug, type GallerySize } from "@/lib/gallery";
 const WORK_SIZES: GallerySize[] = [
   "sm", "tall", "lg", "wide", "tall", "sm", "tall", "lg", "lg", "wide",
 ];
-const WORK_TILES: { slug: string; img: string; pos?: string }[] = [
-  { slug: "earlwood", img: "/images/earlwood-vid-framing-detail-square.webp" },
-  { slug: "campsie", img: "/images/campsie-2.webp" },
-  // ponytail: Paddington photos are placeholders — swap once the real shoot lands
-  { slug: "paddington", img: "/images/from-live-site/live-site-4-hero.webp" },
-  { slug: "avalon-beach", img: "/images/avalon-2.webp", pos: "center 60%" },
-  { slug: "earlwood", img: "/images/earlwood-planting-tall.webp" },
-  { slug: "campsie", img: "/images/campsie-1.webp" },
-  { slug: "avalon-beach", img: "/images/avalon-1.webp" },
-  { slug: "earlwood", img: "/images/earlwood-home-cover.webp" },
-  { slug: "campsie", img: "/images/campsie-4.webp" },
-  { slug: "paddington", img: "/images/from-live-site/live-site-16-cara-deck.webp" },
-];
-const work = WORK_TILES.map((tile) => ({ ...tile, project: getProject(tile.slug)! }));
 const SPAN: Record<GallerySize, string> = {
   sm: "col-span-1 row-span-1",
   wide: "col-span-2 row-span-1",
@@ -39,17 +33,39 @@ const SPAN: Record<GallerySize, string> = {
   lg: "col-span-2 row-span-2",
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [hero, mosaic, projects, disciplines, workshop] = await Promise.all([
+    getHero(),
+    getMosaic(),
+    getProjects(),
+    getDisciplines(),
+    getWorkshop(),
+  ]);
+  const work = resolveMosaic(mosaic.tiles, projects);
+
   return (
     <>
       {/* HERO */}
       <section className="relative min-h-[100dvh] w-full overflow-hidden">
-        <img
-          src="/images/earlwood-3.webp"
-          alt="A landscaped backyard in Earlwood — lawn and garden beds, timber deck and paved terrace"
-          fetchPriority="high"
-          className="absolute inset-0 h-full w-full scale-105 object-cover"
-        />
+        {hero.kind === "video" ? (
+          <video
+            src={hero.src}
+            poster={hero.poster}
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-label={hero.alt}
+            className="absolute inset-0 h-full w-full scale-105 object-cover"
+          />
+        ) : (
+          <img
+            src={hero.src}
+            alt={hero.alt}
+            fetchPriority="high"
+            className="absolute inset-0 h-full w-full scale-105 object-cover"
+          />
+        )}
         <div className="hero-veil absolute inset-0" />
         <div
           className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[1600px] flex-col justify-end px-6 pb-14 pt-32 md:px-12 md:pb-20"
@@ -118,7 +134,7 @@ export default function HomePage() {
       */}
 
       {/* WHAT WE DO — interactive showcase */}
-      <WhatWeDo />
+      <WhatWeDo items={disciplines.items} />
 
       {/* FEATURED PROJECTS — Earlwood, Campsie, Paddington, Avalon */}
       <section className="mx-auto max-w-[1600px] px-6 py-24 md:px-12 md:py-32">
@@ -130,21 +146,21 @@ export default function HomePage() {
         </SplitText>
 
         <div className="mt-10 grid auto-rows-[8.5rem] grid-flow-dense grid-cols-2 gap-1.5 sm:auto-rows-[10rem] md:mt-16 md:auto-rows-[11rem] md:grid-cols-4 md:gap-2">
-          {work.map(({ project, img, pos }, i) => (
+          {work.map((tile, i) => (
             <Link
-              key={`${project.id}-${i}`}
-              href={`/projects/${projectSlug(project)}`}
-              aria-label={`${project.title}, ${project.location}`}
+              key={`${tile.href}-${i}`}
+              href={tile.href}
+              aria-label={tile.location ? `${tile.title}, ${tile.location}` : tile.title}
               style={{ ["--d" as string]: `${Math.min(i, 12) * 45}ms` }}
               className={`gallery-tile gallery-enter group relative block overflow-hidden bg-muted ${SPAN[WORK_SIZES[i]]}`}
             >
               <img
-                src={img}
-                alt={project.title}
+                src={tile.img}
+                alt={tile.title}
                 loading={i < 4 ? "eager" : "lazy"}
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
-                style={{ objectPosition: pos }}
+                style={{ objectPosition: tile.pos }}
               />
               <div className="gallery-scrim pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               <div
@@ -152,9 +168,9 @@ export default function HomePage() {
                 style={{ color: "var(--surface-deep-foreground)" }}
               >
                 <h3 className="font-display text-base font-[400] leading-[1.05] tracking-[-0.025em] md:text-lg">
-                  {project.title}
+                  {tile.title}
                 </h3>
-                <p className="eyebrow mt-1 truncate opacity-80">{project.location}</p>
+                <p className="eyebrow mt-1 truncate opacity-80">{tile.location}</p>
               </div>
             </Link>
           ))}
@@ -188,7 +204,9 @@ export default function HomePage() {
       </section>
 
       {/* WORKSHOP — pinned horizontal build-sequence filmstrip, in-house crew */}
-      <WorkshopProcess />
+      <WorkshopProcess
+        stages={workshop.stages.map((s, i) => ({ ...s, n: String(i + 1).padStart(2, "0") }))}
+      />
 
       {/* JOURNAL — page disabled 2026-08, keep for later.
       <section className="mx-auto max-w-[1600px] px-6 pb-24 pt-24 md:px-12 md:pt-32">
