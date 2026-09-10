@@ -13,6 +13,7 @@ import {
   projectDescription,
   projectFeature,
   projectImages,
+  projectScope,
   projectYear,
 } from "../src/lib/gallery.ts";
 import { toGalleryItem } from "../src/lib/content.ts";
@@ -102,6 +103,14 @@ test("ProjectData requires a known category and a real year", () => {
   assert.ok(ProjectData.safeParse({ ...base, year: undefined }).success);
   const { year: _omitted, ...noYear } = base;
   assert.ok(ProjectData.safeParse(noYear).success);
+
+  // scope: up to 6 lines, none blank.
+  assert.ok(ProjectData.safeParse({ ...base, scope: ["Design", "Construction"] }).success);
+  assert.equal(
+    ProjectData.safeParse({ ...base, scope: Array(7).fill("Item") }).success,
+    false,
+  );
+  assert.equal(ProjectData.safeParse({ ...base, scope: [""] }).success, false);
 });
 
 test("optional project fields stay optional — absent now means absent, nothing is generated", () => {
@@ -129,6 +138,15 @@ test("optional project fields stay optional — absent now means absent, nothing
   assert.equal(
     projectYear(toGalleryItem({ slug: "t", position: 0, published: true, data: noYear })),
     undefined,
+  );
+
+  // scope is the one field that keeps its category-derived fallback on
+  // purpose — the client chose to keep it, editability just sits on top.
+  assert.deepEqual(projectScope(item), ["Landscape design", "Construction", "Planting"]);
+  const authored = { ...parsed, scope: ["Custom joinery", "On-site milling"] };
+  assert.deepEqual(
+    projectScope(toGalleryItem({ slug: "t", position: 0, published: true, data: authored })),
+    ["Custom joinery", "On-site milling"],
   );
 });
 

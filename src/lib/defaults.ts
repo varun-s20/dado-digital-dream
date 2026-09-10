@@ -155,6 +155,7 @@ export function toProjectData(item: GalleryItem): ProjectData {
     cover: item.img,
     ...(item.featureImg ? { feature: item.featureImg } : {}),
     gallery: item.images ?? [],
+    ...(item.scope ? { scope: [...item.scope] } : {}),
   };
 }
 

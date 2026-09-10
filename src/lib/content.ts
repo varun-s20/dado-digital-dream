@@ -117,6 +117,7 @@ export function toGalleryItem(rec: ProjectRecord): GalleryItem {
     ...(d.summary ? { summary: d.summary } : {}),
     ...(d.feature ? { featureImg: d.feature } : {}),
     ...(d.gallery.length > 0 ? { images: d.gallery } : {}),
+    ...(d.scope && d.scope.length > 0 ? { scope: [...d.scope] } : {}),
   };
 }
 

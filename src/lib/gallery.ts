@@ -20,6 +20,8 @@ export type GalleryItem = {
   images?: string[];
   /** Optional custom feature image for the editorial spread. */
   featureImg?: string;
+  /** Optional hand-written scope-of-work lines; otherwise derived from category. */
+  scope?: string[];
 };
 
 /** Filter chips, in display order. "All" is prepended in the UI. */
@@ -224,7 +226,9 @@ const SCOPE: Record<string, string[]> = {
 };
 
 export const projectScope = (item: GalleryItem) =>
-  SCOPE[item.categories[0] ?? "Gardens"] ?? ["Design", "Construction"];
+  item.scope && item.scope.length > 0
+    ? item.scope
+    : (SCOPE[item.categories[0] ?? "Gardens"] ?? ["Design", "Construction"]);
 
 /**
  * The project's description, exactly as written in the admin — split into

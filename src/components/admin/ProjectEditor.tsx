@@ -46,6 +46,11 @@ export function ProjectEditor({ project }: { project: ProjectRow }) {
   const router = useRouter();
   const [slug, setSlug] = useState(project.slug);
   const [confirmSlug, setConfirmSlug] = useState(false);
+  // Scope is stored as string[], but edited as free text (one line per item).
+  // Kept as its own state rather than driven off form.watch("scope").join("\n")
+  // — deriving the textarea's value from the cleaned array would eat the blank
+  // line the instant Enter is pressed, fighting the cursor mid-line.
+  const [scopeText, setScopeText] = useState((project.data.scope ?? []).join("\n"));
 
   const form = useForm<ProjectData>({
     resolver: zodResolver(ProjectData),
@@ -60,6 +65,7 @@ export function ProjectEditor({ project }: { project: ProjectRow }) {
     if (!res.ok) return toast.error(res.error, { duration: 10000 });
     toast.success("Saved.");
     form.reset(values);
+    setScopeText((values.scope ?? []).join("\n")); // drop any stray blank lines now it's persisted
     if (res.data.slug !== project.slug) router.replace(`/admin/projects/${project.id}`);
     router.refresh();
   }
@@ -180,6 +186,35 @@ export function ProjectEditor({ project }: { project: ProjectRow }) {
               written for you. {form.watch("summary")?.length ?? 0} / 1500
             </p>
           </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="scope">Scope of work (optional)</Label>
+            <Textarea
+              id="scope"
+              rows={4}
+              placeholder={"Design\nConstruction\nPlanting"}
+              value={scopeText}
+              onChange={(e) => {
+                setScopeText(e.target.value);
+                const lines = e.target.value
+                  .split("\n")
+                  .map((s) => s.trim())
+                  .filter(Boolean);
+                form.setValue("scope", lines.length ? lines : undefined, {
+                  shouldDirty: true,
+                  shouldValidate: true,
+                });
+              }}
+            />
+            <p className="text-xs text-muted-foreground">
+              One line per item, shown in the details table exactly as written. Leave empty and the
+              site falls back to a short list based on the project&rsquo;s first category, as it does
+              now.
+            </p>
+            {errors.scope && (
+              <p className="text-sm text-destructive">Six lines at most, none empty.</p>
+            )}
+          </div>
         </div>
 
         <div className="space-y-6">
@@ -220,6 +255,7 @@ export function ProjectEditor({ project }: { project: ProjectRow }) {
         onDiscard={() => {
           form.reset(project.data);
           setSlug(project.slug);
+          setScopeText((project.data.scope ?? []).join("\n"));
         }}
       />
 

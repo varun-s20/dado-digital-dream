@@ -115,6 +115,11 @@ export const ProjectData = z.object({
   cover: z.string().min(1),
   feature: z.string().optional(),
   gallery: z.array(z.string()).max(24),
+  // Each string is one line in the details table (e.g. "Steel fabrication").
+  // Unset falls back to a short list derived from the first category
+  // (SCOPE in gallery.ts) — unlike summary/feature/gallery, this fallback is
+  // deliberately kept, not a stand-in to be phased out.
+  scope: z.array(z.string().min(1).max(60)).max(6).optional(),
 });
 export type ProjectData = z.infer<typeof ProjectData>;
 
