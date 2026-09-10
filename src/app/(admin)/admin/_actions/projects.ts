@@ -58,7 +58,31 @@ export async function getProjectRow(id: string): Promise<ActionResult<ProjectRow
       .eq("id", id)
       .single();
     if (error || !data) return { ok: false, error: "That project no longer exists." };
-    return { ok: true, data: data as ProjectRow };
+
+    // Same "must stay openable, not just listable" guarantee as listProjects
+    // above, for the same reason: ProjectEditor unconditionally dereferences
+    // `categories.includes(...)` and `gallery.length` on whatever this returns
+    // (React Hook Form defaultValues, not a runtime-checked read), so a row
+    // that predates a schema field, or was hand-edited in the Supabase table
+    // editor, would otherwise crash this exact page on load — the one screen
+    // that could fix it — every time. Saving still requires a full valid
+    // ProjectData via updateProject's own safeParse; this only makes a broken
+    // row reachable to fix rather than permanently stuck.
+    const parsed = ProjectData.safeParse(data.data);
+    const safeData = parsed.success
+      ? parsed.data
+      : ({
+          ...(data.data as object),
+          title: `${(data.data as { title?: string } | null)?.title || data.slug} (incomplete)`,
+          categories: Array.isArray((data.data as { categories?: unknown })?.categories)
+            ? (data.data as { categories: unknown[] }).categories
+            : [],
+          gallery: Array.isArray((data.data as { gallery?: unknown })?.gallery)
+            ? (data.data as { gallery: unknown[] }).gallery
+            : [],
+        } as ProjectData);
+
+    return { ok: true, data: { ...data, data: safeData } as ProjectRow };
   } catch {
     return { ok: false, error: "Not signed in." };
   }

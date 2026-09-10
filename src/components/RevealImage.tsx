@@ -19,7 +19,11 @@ type Props = {
  * hover zoom finishes it. CSS-only motion: transform / opacity. (emil.)
  */
 export function RevealImage({ src, alt, className = "", loading = "lazy", style }: Props) {
-  const isVideo = src.endsWith(".mp4");
+  // ponytail: `src` falling through as undefined (e.g. a fixed-length gallery
+  // reading past a shorter admin-curated array) must not crash the whole page
+  // render — hence the `?.` here rather than upstream in the caller only. The
+  // real fix is the caller not doing that; see projectImages() in gallery.ts.
+  const isVideo = src?.endsWith(".mp4") ?? false;
   const imgRef = useRef<HTMLImageElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [loaded, setLoaded] = useState(false);

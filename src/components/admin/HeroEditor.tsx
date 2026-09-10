@@ -77,6 +77,7 @@ export function HeroEditor({ initial }: { initial: Hero }) {
           value={poster ?? ""}
           aspect="16 / 9"
           onChange={(url) => form.setValue("poster", url, { shouldDirty: true })}
+          onClear={() => form.setValue("poster", undefined, { shouldDirty: true })}
         />
       )}
 

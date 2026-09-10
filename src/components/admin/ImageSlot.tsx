@@ -12,6 +12,13 @@ type Props = {
   alt?: string;
   onChange: (url: string, row: MediaRow) => void;
   onAltChange?: (alt: string) => void;
+  /**
+   * Only pass this for a field the schema actually allows to be absent (e.g.
+   * Hero's `poster`, a project's `feature`) — omit it for a required slot
+   * (cover, every mosaic/discipline/workshop image), which has nothing valid
+   * to fall back to once cleared.
+   */
+  onClear?: () => void;
   /** Show the crop at the ratio the slot really renders at — see spec §9. */
   aspect?: string;
   kind?: "image" | "video" | "both";
@@ -34,6 +41,7 @@ export function ImageSlot({
   alt,
   onChange,
   onAltChange,
+  onClear,
   aspect = "16 / 9",
   kind = "image",
 }: Props) {
@@ -61,13 +69,24 @@ export function ImageSlot({
         )}
       </div>
 
-      <button
-        type="button"
-        onClick={() => setPicking(true)}
-        className="mt-2.5 text-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current"
-      >
-        {value ? "Change photo" : "Choose a photo"}
-      </button>
+      <div className="mt-2.5 flex items-center gap-4">
+        <button
+          type="button"
+          onClick={() => setPicking(true)}
+          className="text-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current"
+        >
+          {value ? "Change photo" : "Choose a photo"}
+        </button>
+        {value && onClear && (
+          <button
+            type="button"
+            onClick={onClear}
+            className="text-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-destructive hover:decoration-current"
+          >
+            Remove photo
+          </button>
+        )}
+      </div>
 
       {onAltChange && (
         <div className="mt-5">

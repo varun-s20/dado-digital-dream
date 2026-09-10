@@ -35,12 +35,33 @@ import {
 const URL_BASE = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+/**
+ * Seconds before a cached read is considered stale.
+ *
+ * `next: { tags }` WITHOUT a revalidate is cached indefinitely — Next stamps it
+ * `revalidate: 31536000` (one year) in `.next/cache/fetch-cache`. That cache is
+ * a build artifact: Netlify restores it between deploys ("Next.js cache
+ * restored" in the build log), so the next build re-bakes every statically
+ * prerendered page from year-old rows. updateTag() only purges the RUNTIME
+ * cache, which does nothing for a build reading off the restored one.
+ *
+ * That is not hypothetical: it silently shipped a homepage whose mosaic still
+ * linked to /projects/campsie after the project had been renamed to
+ * campsie-deck, i.e. a 404 on the busiest page of the site.
+ *
+ * So keep the tags (they still drive instant purge-on-save) and bound the
+ * staleness. This also doubles as the safety net if updateTag() turns out not
+ * to purge at all on the current host — worst case the site is 60s behind
+ * instead of a year.
+ */
+const REVALIDATE_SECONDS = 60;
+
 async function rest<T>(path: string, tags: string[]): Promise<T[] | null> {
   if (!URL_BASE || !ANON) return null; // not configured — defaults are correct
   try {
     const res = await fetch(`${URL_BASE}/rest/v1/${path}`, {
       headers: { apikey: ANON, Authorization: `Bearer ${ANON}` },
-      next: { tags },
+      next: { tags, revalidate: REVALIDATE_SECONDS },
     });
     if (!res.ok) {
       console.error(`[content] ${path} -> HTTP ${res.status}`);

@@ -345,8 +345,15 @@ export const projectFeature = (item: GalleryItem): string =>
  * from both the banner hero and the feature image above.
  */
 export function projectImages(item: GalleryItem, count = 5): string[] {
+  // The detail page's gallery section is a fixed `count`-slot layout — it reads
+  // shots[0]..shots[count-1] unconditionally, so this must always return exactly
+  // `count` items. The admin's GalleryEditor allows any length from 0 to 24, so a
+  // curated list short of `count` is wrapped (repeats its own photos rather than
+  // reaching into the generated pool — an admin-picked set should only ever show
+  // admin-picked photos) and a longer one is truncated.
   if (item.images && item.images.length > 0) {
-    return item.images;
+    const photos = item.images;
+    return Array.from({ length: count }, (_, k) => photos[k % photos.length]);
   }
   const photos = categoryPhotos(item, [projectFeature(item)]);
   const start = num(item) % photos.length;

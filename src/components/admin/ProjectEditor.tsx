@@ -194,6 +194,7 @@ export function ProjectEditor({ project }: { project: ProjectRow }) {
             aspect="3 / 4"
             value={form.watch("feature") ?? ""}
             onChange={(url) => form.setValue("feature", url, { shouldDirty: true })}
+            onClear={() => form.setValue("feature", undefined, { shouldDirty: true })}
           />
         </div>
       </div>

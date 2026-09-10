@@ -57,10 +57,24 @@ export function GalleryEditor({
             </div>
             <div className="flex items-center gap-1">
               <span className="flex-1 text-xs text-muted-foreground">{i + 1}</span>
-              <Button type="button" variant="ghost" size="sm" aria-label="Move left" onClick={() => move(i, i - 1)}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                aria-label="Move left"
+                disabled={i === 0}
+                onClick={() => move(i, i - 1)}
+              >
                 ←
               </Button>
-              <Button type="button" variant="ghost" size="sm" aria-label="Move right" onClick={() => move(i, i + 1)}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                aria-label="Move right"
+                disabled={i === value.length - 1}
+                onClick={() => move(i, i + 1)}
+              >
                 →
               </Button>
               <Button
