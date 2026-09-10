@@ -21,9 +21,12 @@ import {
   createProject,
   deleteProject,
   moveProject,
+  reorderProjects,
   setPublished,
   type ProjectRow,
 } from "@/app/(admin)/admin/_actions/projects";
+import { DragList } from "./DragList";
+import { moveItem } from "@/lib/reorder";
 
 export function ProjectList({ initial }: { initial: ProjectRow[] }) {
   const router = useRouter();
@@ -31,15 +34,33 @@ export function ProjectList({ initial }: { initial: ProjectRow[] }) {
   const [pending, setPending] = useState<ProjectRow | null>(null);
   const [busy, startTransition] = useTransition();
 
+  /*
+   * Local override of the server's order, so a drag lands instantly instead of
+   * waiting a round trip. Null means "no drag since the last refresh — trust
+   * the server". Cleared once the save comes back, which is also what lets a
+   * newly added or deleted project show up.
+   */
+  const [order, setOrder] = useState<string[] | null>(null);
+  const rows = order
+    ? order.map((id) => initial.find((p) => p.id === id)).filter((p): p is ProjectRow => !!p)
+    : initial;
+
   const run = (fn: () => Promise<{ ok: boolean; error?: string }>, success?: string) =>
     startTransition(async () => {
       const res = await fn();
       if (!res.ok) toast.error(res.error ?? "That did not work.", { duration: 10000 });
       else {
         if (success) toast.success(success);
+        setOrder(null);
         router.refresh();
       }
     });
+
+  const dragReorder = (from: number, to: number) => {
+    const next = moveItem(rows.map((p) => p.id), from, to);
+    setOrder(next); // optimistic
+    run(() => reorderProjects(next));
+  };
 
   return (
     <>
@@ -71,16 +92,27 @@ export function ProjectList({ initial }: { initial: ProjectRow[] }) {
         </Button>
       </div>
 
-      <ul className="border-t border-border">
-        {initial.map((p, i) => (
-          <li
-            key={p.id}
-            className="flex flex-wrap items-center gap-4 border-b border-border py-4 sm:flex-nowrap sm:gap-5"
-          >
+      <DragList
+        items={rows}
+        itemKey={(p) => p.id}
+        onReorder={dragReorder}
+        className="border-t border-border"
+        itemClassName="flex flex-wrap items-center gap-4 border-b border-border py-4 sm:flex-nowrap sm:gap-5"
+        renderItem={(p, i, handle) => (
+          <>
+            <span
+              {...handle}
+              aria-hidden
+              title="Drag to reorder"
+              className="select-none px-1 text-lg leading-none text-muted-foreground/60 transition-colors hover:text-foreground"
+            >
+              ⠿
+            </span>
+
             {/* The cover at 4:3 — the ratio it renders at on the projects
                 index — so the list previews the real crop, not a letterbox. */}
             <div className="admin-plate w-24 shrink-0" style={{ aspectRatio: "4 / 3" }}>
-              {p.data.cover ? <img src={p.data.cover} alt="" /> : null}
+              {p.data.cover ? <img src={p.data.cover} alt="" draggable={false} /> : null}
             </div>
 
             <div className="min-w-0 flex-1">
@@ -91,7 +123,8 @@ export function ProjectList({ initial }: { initial: ProjectRow[] }) {
                 {p.data.title}
               </Link>
               <p className="mt-0.5 truncate text-sm text-muted-foreground">
-                {p.data.location} · {p.data.year} · /{p.slug}
+                {/* year is optional now — no empty " · · " when it is unset */}
+                {[p.data.location, p.data.year, `/${p.slug}`].filter(Boolean).join(" · ")}
               </p>
             </div>
 
@@ -123,7 +156,7 @@ export function ProjectList({ initial }: { initial: ProjectRow[] }) {
                   size="icon"
                   className="h-10 w-10"
                   aria-label="Move down"
-                  disabled={i === initial.length - 1 || busy}
+                  disabled={i === rows.length - 1 || busy}
                   onClick={() => run(() => moveProject(p.id, "down"))}
                 >
                   ↓
@@ -133,9 +166,9 @@ export function ProjectList({ initial }: { initial: ProjectRow[] }) {
                 </Button>
               </div>
             </div>
-          </li>
-        ))}
-      </ul>
+          </>
+        )}
+      />
 
       <AlertDialog open={pending !== null} onOpenChange={(o) => !o && setPending(null)}>
         <AlertDialogContent>

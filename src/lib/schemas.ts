@@ -93,20 +93,25 @@ export const ServicesHero = z.object({
 export type ServicesHero = z.infer<typeof ServicesHero>;
 
 /**
- * A project. summary / feature / gallery stay optional on purpose: when they are
- * absent the existing generators in gallery.ts (projectDescription, projectFeature,
- * projectImages) supply the value, exactly as they do today. That is why seeding
- * cannot regress the site.
+ * A project. summary / feature / gallery stay optional on purpose, but absent
+ * now means absent: an empty gallery hides the Selected views section outright
+ * and no feature photo leaves that column empty. Only `summary` still generates
+ * a stand-in (projectDescription in gallery.ts) — photos are never invented
+ * from other projects, because a borrowed photo reads as a claim about this one.
  */
 export const ProjectData = z.object({
   id: z.string().min(1), // stable; seeds keep g01..g17 so generated copy is unchanged
   title: z.string().min(1).max(48),
   location: z.string().min(1).max(48),
-  year: z.number().int().min(2000).max(2100),
+  // Optional: a project whose completion year is not known shows no Completed
+  // row at all, rather than a plausible-looking guess.
+  year: z.number().int().min(2000).max(2100).optional(),
   categories: z.array(z.enum(CATEGORIES)).min(1),
   size: z.enum(["sm", "wide", "tall", "lg"]),
   pos: z.string().max(24).optional(),
-  summary: z.string().max(400).optional(),
+  // The ONLY description on a project page — nothing is generated to stand in
+  // for it. Blank lines separate paragraphs.
+  summary: z.string().max(1500).optional(),
   cover: z.string().min(1),
   feature: z.string().optional(),
   gallery: z.array(z.string()).max(24),

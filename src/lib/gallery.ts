@@ -195,7 +195,10 @@ const num = (item: GalleryItem) => parseInt(item.id.replace(/\D/g, ""), 10) || 1
 
 export const projectSlug = (item: GalleryItem) => item.slug ?? kebab(item.title);
 
-export const projectYear = (item: GalleryItem) => item.year ?? 2018 + (num(item) % 8);
+/** The authored completion year, or undefined. Never derived — a made-up year
+ *  on a real job is a false claim, and it is indistinguishable from a true one
+ *  once stored. */
+export const projectYear = (item: GalleryItem): number | undefined => item.year;
 
 export function getProject(slug: string): GalleryItem | undefined {
   return galleryItems.find((g) => projectSlug(g) === slug);
@@ -223,139 +226,35 @@ const SCOPE: Record<string, string[]> = {
 export const projectScope = (item: GalleryItem) =>
   SCOPE[item.categories[0] ?? "Gardens"] ?? ["Design", "Construction"];
 
-const CONTEXT = [
-  (loc: string) =>
-    `In ${loc}, the work began with the ground itself: its fall, its light, and the way the weather moves across it.`,
-  (loc: string) =>
-    `${loc} gave us a site with real character, and a client who wanted it handled with a light touch.`,
-  (loc: string) =>
-    `The project sits in ${loc}, where established trees and the outlook did much of the early design work for us.`,
-  (loc: string) =>
-    `Set in ${loc}, the brief asked for something that would feel settled and at home from the first season.`,
-];
-
-const APPROACH: Record<string, string[]> = {
-  Pools: [
-    "The pool is set low and quiet, its edge detailed to disappear so the water reads as part of the garden rather than an object placed in it.",
-    "We wrapped the water in timber and stone chosen to weather gracefully, so the pool settles into the planting instead of standing apart from it.",
-  ],
-  Gardens: [
-    "Planting was layered for year-round structure, dense enough to bind the soil in a single season, with room left to grow into.",
-    "Existing canopy was protected to the millimetre, and new planting threaded around it so the garden feels established from the outset.",
-  ],
-  Carpentry: [
-    "Every junction was resolved by hand: concealed fixings, clean returns, and hardwood left to silver in the open air.",
-    "The timber was rough-sawn, sanded and finished in oil rather than coated, so it ages honestly with the weather.",
-  ],
-  Courtyards: [
-    "Paving, planting and shade were worked as a single move, so a small footprint reads as generous and calm.",
-    "Level changes carve out room without walls, keeping the space open while quietly giving it edges.",
-  ],
-  Coastal: [
-    "Materials were chosen for the salt and the wind, detailed to take the exposure and look the better for it over time.",
-    "The layout holds a path to the water and shelter from the southerly, without ever closing off the view.",
-  ],
-};
-
-/** Two short paragraphs: a hand-written or generated intro, then approach. */
+/**
+ * The project's description, exactly as written in the admin — split into
+ * paragraphs on blank lines. Empty when nothing was written: the page then
+ * shows no description rather than prose generated from the location and
+ * category, which reads as a claim about a real job that nobody made.
+ */
 export function projectDescription(item: GalleryItem): string[] {
-  const cat = item.categories[0] ?? "Gardens";
-  const intro = item.summary ?? CONTEXT[num(item) % CONTEXT.length](item.location);
-  const approach =
-    (APPROACH[cat] ?? APPROACH.Gardens)[num(item) % 2] ?? "Every detail resolved by hand.";
-  return [intro, approach];
+  return (item.summary ?? "")
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
 }
-
-const ALL = [
-  "/images/earlwood-1.webp",
-  "/images/earlwood-2.webp",
-  "/images/earlwood-3.webp",
-  "/images/campsie-1.webp",
-  "/images/campsie-2.webp",
-  "/images/campsie-3.webp",
-  "/images/campsie-4.webp",
-  "/images/campsie-5.webp",
-  "/images/campsie-6.webp",
-  "/images/avalon-1.webp",
-  "/images/avalon-2.webp",
-  "/images/avalon-3.webp",
-  "/images/avalon-4.webp",
-  "/images/avalon-5.webp",
-  "/images/avalon-6.webp",
-  "/images/avalon-7.webp",
-  "/images/avalon-8.webp",
-  "/images/avalon-9.webp",
-  "/images/avalon-10.webp",
-  "/images/about-hero.webp",
-  "/images/studio-1.webp",
-  "/images/studio-2.webp",
-  "/images/studio-3.webp",
-];
-
-const CATEGORY_POOL: Record<string, string[]> = {
-  Pools: [
-    "/images/earlwood-2.webp",
-    "/images/campsie-4.webp",
-    "/images/campsie-3.webp",
-    "/images/earlwood-3.webp",
-  ],
-  Gardens: [
-    "/images/avalon-2.webp",
-    "/images/avalon-3.webp",
-    "/images/avalon-4.webp",
-    "/images/earlwood-3.webp",
-    "/images/avalon-6.webp",
-    "/images/avalon-1.webp",
-  ],
-  Carpentry: [
-    "/images/earlwood-1.webp",
-    "/images/campsie-2.webp",
-    "/images/campsie-1.webp",
-    "/images/studio-1.webp",
-    "/images/studio-2.webp",
-  ],
-  Courtyards: [
-    "/images/campsie-1.webp",
-    "/images/avalon-3.webp",
-    "/images/campsie-4.webp",
-    "/images/avalon-4.webp",
-  ],
-  Coastal: [
-    "/images/avalon-1.webp",
-    "/images/earlwood-2.webp",
-    "/images/campsie-3.webp",
-    "/images/avalon-2.webp",
-  ],
-};
-
-/** Category-matched photos for a project, excluding its hero (and any extras). */
-function categoryPhotos(item: GalleryItem, exclude: string[] = []): string[] {
-  const pool = CATEGORY_POOL[item.categories[0] ?? "Gardens"] ?? CATEGORY_POOL.Gardens;
-  const skip = new Set([item.img, ...exclude]);
-  const matched = Array.from(new Set([...pool, ...ALL])).filter((p) => !skip.has(p));
-  return matched.length ? matched : Array.from(new Set(pool));
-}
-
-/** A single feature image for the info spread (distinct from the banner hero). */
-export const projectFeature = (item: GalleryItem): string =>
-  item.featureImg ?? categoryPhotos(item)[0] ?? item.img;
 
 /**
- * Five category-matched views for the project's curated gallery — distinct
- * from both the banner hero and the feature image above.
+ * The project's feature image, or undefined when none was chosen.
+ *
+ * Not filled in from a shared pool: an absent feature photo renders as an
+ * absent feature photo, so what the admin picked is what the site shows.
  */
-export function projectImages(item: GalleryItem, count = 5): string[] {
-  // The detail page's gallery section is a fixed `count`-slot layout — it reads
-  // shots[0]..shots[count-1] unconditionally, so this must always return exactly
-  // `count` items. The admin's GalleryEditor allows any length from 0 to 24, so a
-  // curated list short of `count` is wrapped (repeats its own photos rather than
-  // reaching into the generated pool — an admin-picked set should only ever show
-  // admin-picked photos) and a longer one is truncated.
-  if (item.images && item.images.length > 0) {
-    const photos = item.images;
-    return Array.from({ length: count }, (_, k) => photos[k % photos.length]);
-  }
-  const photos = categoryPhotos(item, [projectFeature(item)]);
-  const start = num(item) % photos.length;
-  return Array.from({ length: count }, (_, k) => photos[(start + k) % photos.length] ?? item.img);
+export const projectFeature = (item: GalleryItem): string | undefined => item.featureImg;
+
+/**
+ * The project's gallery, exactly as chosen in the admin — no generated fill.
+ *
+ * An empty array is a valid, meaningful state: it means "this project has no
+ * selected views yet", and the detail page omits the whole section rather than
+ * inventing photos from other projects. Callers must handle 0..n, not assume a
+ * fixed count.
+ */
+export function projectImages(item: GalleryItem): string[] {
+  return item.images ?? [];
 }

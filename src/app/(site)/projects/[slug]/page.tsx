@@ -32,11 +32,15 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = await getProject(slug);
   if (!project) return { title: "Project not found" };
+  // No authored summary: fall back to the plain facts rather than leaving the
+  // meta description empty, which is what search results would show.
   const [intro] = projectDescription(project);
+  const description =
+    intro ?? `${project.title} — ${project.categories.join(", ")} in ${project.location}.`;
   return {
     title: project.title,
-    description: intro,
-    openGraph: { title: project.title, description: intro, images: [project.img] },
+    description,
+    openGraph: { title: project.title, description, images: [project.img] },
   };
 }
 
@@ -63,7 +67,9 @@ export default async function ProjectPage({
         src={project.img}
         alt={project.title}
         pos={project.pos}
-        eyebrow={`${project.categories[0]} | ${year} · ${project.location}`}
+        eyebrow={[project.categories[0], year, project.location]
+          .filter(Boolean)
+          .join(" · ")}
       />
 
       {/* INFO — editorial spread mirroring the reference: title + copy + details · feature image */}
@@ -86,81 +92,79 @@ export default async function ProjectPage({
               {project.title}
             </SplitText>
 
-            <div className="mt-7 max-w-[46ch] space-y-4 text-[0.95rem] leading-[1.6] tracking-[-0.006em] text-muted-foreground">
-              {description.map((p, i) => (
-                <Reveal key={i} delay={i * 90}>
-                  <p>{p}</p>
-                </Reveal>
-              ))}
-            </div>
+            {description.length > 0 && (
+              <div className="mt-7 max-w-[46ch] space-y-4 text-[0.95rem] leading-[1.6] tracking-[-0.006em] text-muted-foreground">
+                {description.map((p, i) => (
+                  <Reveal key={i} delay={i * 90}>
+                    <p>{p}</p>
+                  </Reveal>
+                ))}
+              </div>
+            )}
 
             <dl className="mt-14 md:mt-20">
               <Detail label="Location" value={project.location} />
-              <Detail label="Completed" value={String(year)} />
+              {/* No authored year means no row — not a guess dressed as a fact. */}
+              {year !== undefined && <Detail label="Completed" value={String(year)} />}
               <Detail label="Scope of work" value={scope} />
             </dl>
           </div>
 
-          {/* Right — feature image at a fixed aspect, identical on every project */}
+          {/* Right — feature image at a fixed aspect, identical on every project.
+              No feature photo chosen means an empty column, not a stand-in
+              borrowed from another project. */}
           <div className="md:pt-1">
+            {feature && (
+              <RevealImage
+                src={feature}
+                alt={`${project.title} — feature`}
+                loading="eager"
+                className="aspect-[4/3] w-full bg-muted"
+              />
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* GALLERY — exactly the photos chosen in the admin, however many.
+          Column masonry (the same device as /projects): equal column widths,
+          each photo keeping its own height, so 1 and 24 both read as composed
+          and a part-full last row is impossible. Omitted entirely when the
+          project has no selected views. */}
+      {shots.length > 0 && (
+        <section className="mx-auto max-w-[1400px] px-6 pb-24 md:px-12 md:pb-32">
+          <div className="mb-8 flex items-end justify-between gap-6 border-t border-border pt-8 md:mb-12 md:pt-10">
+            <h2 className="font-display text-2xl leading-[0.98] tracking-[-0.035em] md:text-[2rem]">
+              Selected views
+            </h2>
+            <span className="eyebrow text-muted-foreground">
+              {String(shots.length).padStart(2, "0")} — {project.location}
+            </span>
+          </div>
+
+          {/* A lone photo has no column rhythm to join, so it runs full width. */}
+          {shots.length === 1 ? (
             <RevealImage
-              src={feature}
-              alt={`${project.title} — feature`}
+              src={shots[0]}
+              alt={`${project.title} — view 1`}
               loading="eager"
-              className="aspect-[4/3] w-full bg-muted"
+              className="reveal-shot--flow w-full bg-muted"
             />
-          </div>
-        </div>
-      </section>
-
-      {/* GALLERY — curated, asymmetric editorial composition, category-matched */}
-      <section className="mx-auto max-w-[1400px] px-6 pb-24 md:px-12 md:pb-32">
-        <div className="mb-8 flex items-end justify-between gap-6 border-t border-border pt-8 md:mb-12 md:pt-10">
-          <h2 className="font-display text-2xl leading-[0.98] tracking-[-0.035em] md:text-[2rem]">
-            Selected views
-          </h2>
-          <span className="eyebrow text-muted-foreground">
-            {String(shots.length).padStart(2, "0")} — {project.location}
-          </span>
-        </div>
-
-        <div className="space-y-3 md:space-y-4">
-          {/* establishing wide shot */}
-          <RevealImage
-            src={shots[0]}
-            alt={`${project.title} — view 1`}
-            className="aspect-[16/9] w-full bg-muted"
-          />
-
-          {/* asymmetric two-up */}
-          <div className="grid gap-3 md:grid-cols-12 md:gap-4">
-            <RevealImage
-              src={shots[1]}
-              alt={`${project.title} — view 2`}
-              className="aspect-[4/3] w-full bg-muted md:col-span-7"
-            />
-            <RevealImage
-              src={shots[2]}
-              alt={`${project.title} — view 3`}
-              className="aspect-[4/5] w-full bg-muted md:col-span-5"
-            />
-          </div>
-
-          {/* offset pair — reversed weighting, dropped tile for rhythm */}
-          <div className="grid gap-3 md:grid-cols-12 md:items-start md:gap-4">
-            <RevealImage
-              src={shots[3]}
-              alt={`${project.title} — view 4`}
-              className="aspect-[5/6] w-full bg-muted md:col-span-5 md:mt-16"
-            />
-            <RevealImage
-              src={shots[4]}
-              alt={`${project.title} — view 5`}
-              className="aspect-[3/2] w-full bg-muted md:col-span-7"
-            />
-          </div>
-        </div>
-      </section>
+          ) : (
+            <div className="columns-1 gap-3 sm:columns-2 md:gap-4 lg:columns-3">
+              {shots.map((src, i) => (
+                <RevealImage
+                  key={`${src}-${i}`}
+                  src={src}
+                  alt={`${project.title} — view ${i + 1}`}
+                  loading={i < 3 ? "eager" : "lazy"}
+                  className="reveal-shot--flow mb-3 w-full break-inside-avoid bg-muted md:mb-4"
+                />
+              ))}
+            </div>
+          )}
+        </section>
+      )}
 
       {/* MORE PROJECTS */}
       <section className="border-t border-border">

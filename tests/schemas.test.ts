@@ -9,6 +9,13 @@ import {
   ProjectData,
   CONTENT_SCHEMAS,
 } from "../src/lib/schemas.ts";
+import {
+  projectDescription,
+  projectFeature,
+  projectImages,
+  projectYear,
+} from "../src/lib/gallery.ts";
+import { toGalleryItem } from "../src/lib/content.ts";
 
 const discipline = { label: "Design", blurb: "Short.", img: "/a.webp", alt: "" };
 const tile = { slug: "earlwood", img: "/a.webp" };
@@ -89,9 +96,15 @@ test("ProjectData requires a known category and a real year", () => {
   assert.equal(ProjectData.safeParse({ ...base, categories: [] }).success, false);
   assert.equal(ProjectData.safeParse({ ...base, year: 1999 }).success, false);
   assert.equal(ProjectData.safeParse({ ...base, gallery: Array(25).fill("/a.webp") }).success, false);
+
+  // Blank is allowed and means "unknown" — the page hides the Completed row
+  // rather than showing a derived year, which would be a false claim.
+  assert.ok(ProjectData.safeParse({ ...base, year: undefined }).success);
+  const { year: _omitted, ...noYear } = base;
+  assert.ok(ProjectData.safeParse(noYear).success);
 });
 
-test("optional project fields stay optional — the gallery.ts generators are the fallback", () => {
+test("optional project fields stay optional — absent now means absent, nothing is generated", () => {
   const parsed = ProjectData.parse({
     id: "g01",
     title: "T",
@@ -104,6 +117,19 @@ test("optional project fields stay optional — the gallery.ts generators are th
   });
   assert.equal(parsed.summary, undefined);
   assert.equal(parsed.feature, undefined);
+
+  // The renderers must return nothing for these, not invent a stand-in.
+  const item = toGalleryItem({ slug: "t", position: 0, published: true, data: parsed });
+  assert.deepEqual(projectDescription(item), []);
+  assert.equal(projectFeature(item), undefined);
+  assert.deepEqual(projectImages(item), []);
+  // An authored year is passed straight through; only an absent one is absent.
+  assert.equal(projectYear(item), 2024);
+  const { year: _omitted, ...noYear } = parsed;
+  assert.equal(
+    projectYear(toGalleryItem({ slug: "t", position: 0, published: true, data: noYear })),
+    undefined,
+  );
 });
 
 test("CONTENT_SCHEMAS covers exactly the five singleton keys", () => {

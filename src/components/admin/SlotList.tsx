@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { DragList } from "./DragList";
 
 type Props<T extends { id: string }> = {
   items: T[];
@@ -10,10 +11,10 @@ type Props<T extends { id: string }> = {
 };
 
 /**
- * A fixed-length list with arrow reordering.
+ * A fixed-length list, reordered by dragging the handle in each row's header.
  *
- * No drag-and-drop library: ten items with ↑/↓ buttons is enough, works on
- * touch without a gesture layer, and is reachable from a keyboard for free.
+ * The ↑/↓ buttons stay: they are the keyboard-reachable path, which a pointer
+ * gesture cannot replace.
  *
  * Keyed by `item.id`, not index: renderItem's inputs are often uncontrolled
  * (`form.register(...)`), so on move() an index key lets React reuse the same
@@ -25,10 +26,23 @@ type Props<T extends { id: string }> = {
  */
 export function SlotList<T extends { id: string }>({ items, renderItem, onReorder, label }: Props<T>) {
   return (
-    <ol className="space-y-6">
-      {items.map((item, i) => (
-        <li key={item.id} className="rounded border border-border p-4">
+    <DragList
+      items={items}
+      itemKey={(item) => item.id}
+      onReorder={onReorder}
+      className="space-y-6"
+      itemClassName="rounded border border-border p-4"
+      renderItem={(item, i, handle) => (
+        <>
           <div className="mb-3 flex items-center gap-2">
+            <span
+              {...handle}
+              aria-hidden
+              title="Drag to reorder"
+              className="select-none text-muted-foreground/70 transition-colors hover:text-foreground"
+            >
+              ⠿
+            </span>
             <span className="eyebrow flex-1 text-muted-foreground">{label(i)}</span>
             <Button
               type="button"
@@ -52,8 +66,8 @@ export function SlotList<T extends { id: string }>({ items, renderItem, onReorde
             </Button>
           </div>
           {renderItem(item, i)}
-        </li>
-      ))}
-    </ol>
+        </>
+      )}
+    />
   );
 }

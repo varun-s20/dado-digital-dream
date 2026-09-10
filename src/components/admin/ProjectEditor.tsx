@@ -106,13 +106,19 @@ export function ProjectEditor({ project }: { project: ProjectRow }) {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="year">Year completed</Label>
+              <Label htmlFor="year">Year completed (optional)</Label>
               <Input
                 id="year"
                 type="number"
                 min={2000}
                 max={2100}
-                {...form.register("year", { valueAsNumber: true })}
+                placeholder="Leave blank if unknown"
+                // valueAsNumber turns an empty input into NaN, which fails the
+                // schema and blocks saving. Map empty to undefined so a blank
+                // year is savable — the site then hides the Completed row.
+                {...form.register("year", {
+                  setValueAs: (v) => (v === "" || v === null ? undefined : Number(v)),
+                })}
               />
               {errors.year && <p className="text-sm text-destructive">{errors.year.message}</p>}
             </div>
@@ -166,11 +172,12 @@ export function ProjectEditor({ project }: { project: ProjectRow }) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="summary">Intro paragraph (optional)</Label>
-            <Textarea id="summary" rows={4} maxLength={400} {...form.register("summary")} />
+            <Label htmlFor="summary">Description (optional)</Label>
+            <Textarea id="summary" rows={8} maxLength={1500} {...form.register("summary")} />
             <p className="text-xs text-muted-foreground">
-              Leave empty and the site writes an opening line from the location and category, as it
-              does now. {form.watch("summary")?.length ?? 0} / 400
+              The only description shown on this project&rsquo;s page. Leave one blank line between
+              paragraphs. Leave it empty and the page shows no description at all — nothing is
+              written for you. {form.watch("summary")?.length ?? 0} / 1500
             </p>
           </div>
         </div>

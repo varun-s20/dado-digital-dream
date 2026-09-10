@@ -263,6 +263,50 @@ export async function moveProject(id: string, direction: "up" | "down"): Promise
   }
 }
 
+/**
+ * Rewrite every project's position from a fully ordered list of ids.
+ *
+ * This is what dragging needs — a drag moves one row an arbitrary distance,
+ * which `moveProject`'s adjacent swap cannot express. It also removes that
+ * function's read-then-write race: positions here are a dense 0..n-1 rewrite
+ * derived from one snapshot, so two overlapping reorders cannot leave two rows
+ * sharing a position.
+ *
+ * The submitted ids must be exactly the ids on record — same members, no
+ * repeats, none missing. A partial list would renumber some rows and silently
+ * strand the rest at their old positions.
+ */
+export async function reorderProjects(orderedIds: string[]): Promise<ActionResult> {
+  try {
+    const { supabase } = await requireSession();
+    const current = await listProjects();
+    if (!current.ok) return current;
+
+    const known = new Set(current.data.map((p) => p.id));
+    const seen = new Set(orderedIds);
+    if (
+      orderedIds.length !== current.data.length ||
+      seen.size !== orderedIds.length ||
+      orderedIds.some((id) => !known.has(id))
+    ) {
+      return { ok: false, error: "The list changed while you were dragging. Reload and try again." };
+    }
+
+    const results = await Promise.all(
+      orderedIds.map((id, position) =>
+        supabase.from("projects").update({ position }).eq("id", id),
+      ),
+    );
+    const failed = results.find((r) => r.error);
+    if (failed?.error) return { ok: false, error: failed.error.message };
+
+    updateTag("projects");
+    return { ok: true, data: undefined };
+  } catch {
+    return { ok: false, error: "Not signed in." };
+  }
+}
+
 /** Refused while a mosaic tile still points at it. */
 export async function deleteProject(id: string): Promise<ActionResult> {
   try {

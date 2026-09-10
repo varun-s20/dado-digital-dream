@@ -239,6 +239,16 @@
     opacity: 1;
     transform: scale(1);
   }
+  /*
+   * Masonry variant: the figure takes the photo's own height instead of a
+   * fixed aspect box. Used by the project gallery, where the admin picks any
+   * number of photos of any shape — cropping them all to one ratio would show
+   * something other than what was chosen.
+   */
+  .reveal-shot--flow img {
+    position: static;
+    height: auto;
+  }
   @media (hover: hover) and (pointer: fine) {
     .reveal-shot[data-loaded="true"]:hover img {
       transform: scale(1.05);
