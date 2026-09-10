@@ -1,0 +1,11 @@
+[build.environment]
+  # Both are NEXT_PUBLIC_* — Next inlines them into the client bundle and the
+  # edge middleware by design, so the secrets scanner always finds them. The
+  # anon key is safe to ship: RLS (supabase/migrations/0001_init.sql) grants
+  # anon SELECT only, on content and published projects. Verified — anon INSERT
+  # on all three tables is rejected with 42501.
+  #
+  # Scoped to these two keys on purpose. Do NOT swap this for
+  # SECRETS_SCAN_ENABLED=false, which would also stop catching
+  # SUPABASE_SERVICE_ROLE_KEY if it ever leaks into a build.
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY"
